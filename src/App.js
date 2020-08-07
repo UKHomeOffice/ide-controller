@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { logger } from 'react-native-logs';
- 
-var log = logger.createLogger();
+
+const log = logger.createLogger();
 
 function App() {
   const [ documents, setDocument ] = useState([]);
