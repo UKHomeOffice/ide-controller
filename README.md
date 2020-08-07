@@ -8,6 +8,14 @@ https://nodejs.org/en/download/
 
 https://yarnpkg.com/getting-started/install
 
+### Install Chocolatey and Node.js on Windows
+
+Install Chocolatey
+https://chocolatey.org/
+
+Open Command Prompt - Run as Administrator
+choco install nodejs
+
 ## Getting started
 
 In the project directory, you can run:
