@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import { logger } from 'react-native-logs';
 
 const log = logger.createLogger();
