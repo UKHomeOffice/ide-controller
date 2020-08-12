@@ -3,7 +3,7 @@ import React from 'react';
 function Photo(props) {
     return (
         <div className="govuk-grid-column-one-third">
-            <p>govuk-grid-column-one-third</p>
+            <p>-- {props.event}</p>
         </div>
     );
 }
@@ -11,7 +11,7 @@ function Photo(props) {
 export default function PhotoPanel(props) {
     return (
         <div className="govuk-grid-row">
-            <Photo/>
+            <Photo event={props.event}/>
             <Photo/>
             <Photo/>
         </div>);
