@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import { logger } from 'react-native-logs';
+import Header from "./Components/Header";
+import PhotoPanel from "./Components/PhotoPanel";
 
 const log = logger.createLogger();
 
