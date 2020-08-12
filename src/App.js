@@ -25,29 +25,15 @@ class App extends React.Component {
         log.info("Event : " + this.state.event);
         this.state.dataType = data.dataType;
         log.info("DataType : " + this.state.dataType);
+        this.state.dataLength = data.dataLength;
+        log.info("Data Length : " + this.state.dataLength)
     }
-  // const [ documents, setDocument ] = useState([]);
-  // const [ listening, setListening ] = useState(false);
-  //
-  // useEffect( () => {
-  //   if (!listening) {
-  //     const events = new EventSource('http://localhost:8080/reader/data');
-  //     events.onmessage = (event) => {
-  //       log.info('EventSource status', events.readyState);
-  //       const parsedData = JSON.parse(event.data);
-  //       log.info('Data type: ' + parsedData.dataType + " Data length " + parsedData.dataLength);
-  //       setDocument((documents) => documents.concat(parsedData));
-  //     };
-  //
-  //     setListening(true);
-  //   }
-  // }, [listening, documents]);
 
     render() {
       return (
           <React.StrictMode>
               <Header />
-              <PhotoPanel event={this.state.event} />
+              <PhotoPanel event={this.state.event} text={"hello rich"}/>
           </React.StrictMode>
       );
     }
