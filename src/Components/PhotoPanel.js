@@ -6,8 +6,9 @@ const log = logger.createLogger();
 function Photo(props) {
     return (
         <div className="govuk-grid-column-one-third">
-            <p>Hello {props.text}</p>
-            <p>-- {props.event}</p>
+            <p>Type {props.type}</p>
+            <p>Event {props.event}</p>
+            <p>Length {props.length}</p>
         </div>
     );
 }
@@ -15,9 +16,8 @@ function Photo(props) {
 export default function PhotoPanel(props) {
     return (
         <div className="govuk-grid-row">
-            <p>Test {props.text}</p>
-            <Photo event={props.event} text={"Hello Rich!"}/>
-            <Photo/>
+            <Photo type={props.state.dataType} event={props.state.event} length={props.state.dataLength}/>
+            <Photo length={props.state.dataLength}/>
             <Photo/>
         </div>);
 }

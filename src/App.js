@@ -33,7 +33,7 @@ class App extends React.Component {
       return (
           <React.StrictMode>
               <Header />
-              <PhotoPanel event={this.state.event} text={"hello rich"}/>
+              <PhotoPanel state={this.state}/>
           </React.StrictMode>
       );
     }
