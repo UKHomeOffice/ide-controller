@@ -1,7 +1,4 @@
 import React from 'react';
-import {logger} from "react-native-logs";
-
-const log = logger.createLogger();
 
 function Photo(props) {
     return (

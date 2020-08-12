@@ -22,12 +22,12 @@ class App extends React.Component {
 
     fullpageDocument(data) {
         this.setState(data);
-        this.state.event = data.event;
-        log.info("Event : " + this.state.event);
-        this.state.dataType = data.dataType;
-        log.info("DataType : " + this.state.dataType);
-        this.state.dataLength = data.dataLength;
-        log.info("Data Length : " + this.state.dataLength)
+        //this.state.event = data.event;
+        //log.info("Event : " + this.state.event);
+        //this.state.dataType = data.dataType;
+        //log.info("DataType : " + this.state.dataType);
+        //this.state.dataLength = data.dataLength;
+        //log.info("Data Length : " + this.state.dataLength)
     }
 
     render() {
