@@ -18,13 +18,13 @@ class App extends React.Component {
 
     componentDidMount() {
         this.eventSource.onmessage = e => {
-            log.info("New Event" + e.data);
             this.fullpageDocument(JSON.parse(e.data));
         }
     }
 
     fullpageDocument(data) {
-        log.info("JSON : " + data.event);
+        log.info("Event : " + data.event);
+        log.info("DataType : " + data.dataType);
     }
   // const [ documents, setDocument ] = useState([]);
   // const [ listening, setListening ] = useState(false);
