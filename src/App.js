@@ -10,9 +10,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            data: "mytest"
-        };
+        this.state = {};
         this.eventSource = new EventSource('http://localhost:8080/reader/data');
     }
 
@@ -23,8 +21,10 @@ class App extends React.Component {
     }
 
     fullpageDocument(data) {
-        log.info("Event : " + data.event);
-        log.info("DataType : " + data.dataType);
+        this.state.event = data.event;
+        log.info("Event : " + this.state.event);
+        this.state.dataType = data.dataType;
+        log.info("DataType : " + this.state.dataType);
     }
   // const [ documents, setDocument ] = useState([]);
   // const [ listening, setListening ] = useState(false);
