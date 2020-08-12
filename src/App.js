@@ -18,7 +18,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.eventSource.onmessage = e => {
-            log.info("New Event");
+            log.info("New Event" + e.data);
             this.fullpageDocument(JSON.parse(e.data));
         }
     }
