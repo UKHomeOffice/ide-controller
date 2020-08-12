@@ -10,8 +10,6 @@ import {initAll} from 'govuk-frontend'
 initAll()
 ReactDOM.render(
   <React.StrictMode>
-      <Header value={'IDE'}/>
-      <PhotoPanel />
       <App/>
   </React.StrictMode>,
   document.getElementById('root')
