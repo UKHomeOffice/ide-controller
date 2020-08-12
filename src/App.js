@@ -21,6 +21,7 @@ class App extends React.Component {
     }
 
     fullpageDocument(data) {
+        this.setState(data);
         this.state.event = data.event;
         log.info("Event : " + this.state.event);
         this.state.dataType = data.dataType;
