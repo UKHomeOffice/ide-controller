@@ -7,9 +7,10 @@ import PhotoPanel from "./Components/PhotoPanel";
 const log = logger.createLogger();
 
 function App() {
-  const [ documents, setDocument ] = useState([]);
+  const [ document, setDocument ] = useState([]);
   const [ listening, setListening ] = useState(false);
 
+  //Doc reader
   useEffect( () => {
     if (!listening) {
       const events = new EventSource('http://localhost:8080/reader/data');
@@ -17,34 +18,28 @@ function App() {
         log.info('EventSource status', events.readyState);
         const parsedData = JSON.parse(event.data);
         log.info('Data type: ' + parsedData.dataType + " Data length " + parsedData.dataLength);
-        setDocument((documents) => documents.concat(parsedData));
+        //setDocument((document) => document.concat(parsedData));
+        setDocument(parsedData);
       };
-
       setListening(true);
     }
-  }, [listening, documents]);
+  }, [listening, document]);
+
+  //Webcam
+  useEffect( () => {
+
+  })
+
+    const commonProps = {event: 'richy', length: '1251'};
+    //setDocument(commonProps);
 
   return (
-      <table className="stats-table">
-        <thead>
-        <tr>
-          <th>Data type</th>
-          <th>Data length</th>
-          <th>Code</th>
-        </tr>
-        </thead>
-        <tbody>
-        {
-          documents.map((document, i) =>
-              <tr key={i}>
-                <td>{document.dataType}</td>
-                <td>{document.dataLength}</td>
-                <td>{}</td>
-              </tr>
-          )
-        }
-        </tbody>
-      </table>
+      <React.StrictMode>
+          <Header />
+          {/*<PhotoPanel name={"Rich"} {...document}/>*/}
+          <PhotoPanel {...commonProps}/>
+          {/*<PhotoPanel {...document}/>*/}
+      </React.StrictMode>
   );
 }
 
