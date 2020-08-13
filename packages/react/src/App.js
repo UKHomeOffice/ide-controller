@@ -3,24 +3,42 @@ import './App.scss';
 import { logger } from 'react-native-logs';
 import Header from "./Components/Header";
 import PhotoPanel from "./Components/PhotoPanel";
+import DocumentData from "./Types/DocumentData"
 
 const log = logger.createLogger();
 
 function App() {
-  const [ document, setDocument ] = useState([]);
+  const datamap = new Map();
+  const [ document, setDocument ] = useState();
   const [ listening, setListening ] = useState(false);
-
+ 
   //Doc reader
   useEffect( () => {
     if (!listening) {
       const events = new EventSource('http://localhost:8080/reader/data');
-      events.onmessage = (event) => {
-        log.info('EventSource status', events.readyState);
-        const parsedData = JSON.parse(event.data);
-        log.info('Data type: ' + parsedData.dataType + " Data length " + parsedData.dataLength);
-        //setDocument((document) => document.concat(parsedData));
-        setDocument(parsedData);
-      };
+
+      events.addEventListener("data", e => {
+        const messageData = JSON.parse(e.data);
+        let datatype = messageData.dataType;
+        let datadata = new DocumentData(messageData.data, messageData.codelineData, messageData.image);
+        datamap.set(datatype, datadata);
+        });
+
+      events.addEventListener("event", e => {
+        const messageData = JSON.parse(e.data);
+        log.info("EVENT " + messageData.dataType + " Event " + messageData.event);
+        if(messageData.event === "START_OF_DOCUMENT_DATA") {
+          log.info("START OF DOCUMENT")
+          datamap.clear();
+          setDocument([]);
+        }
+        if(messageData.event === "END_OF_DOCUMENT_DATA") {
+          log.info("END OF DOCUMENT");
+          setListening(false);
+          setDocument(datamap);
+        }
+        });
+
       setListening(true);
     }
   }, [listening, document]);
@@ -30,14 +48,11 @@ function App() {
 
   })
 
-    const commonProps = {event: 'richy', length: '1251'};
-    //setDocument(commonProps);
-
   return (
       <React.StrictMode>
           <Header />
-          {/*<PhotoPanel name={"Rich"} {...document}/>*/}
-          <PhotoPanel {...commonProps}/>
+          <PhotoPanel data={document}/>
+          {/* <PhotoPanel {...commonProps}/> */}
           {/*<PhotoPanel {...document}/>*/}
       </React.StrictMode>
   );
