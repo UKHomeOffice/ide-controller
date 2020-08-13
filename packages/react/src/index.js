@@ -2,12 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Header from './Components/Header';
-import PhotoPanel from "./Components/PhotoPanel";
 import * as serviceWorker from './serviceWorker';
 import {initAll} from 'govuk-frontend'
 
 initAll()
+
 ReactDOM.render(
   <React.StrictMode>
       <App/>
