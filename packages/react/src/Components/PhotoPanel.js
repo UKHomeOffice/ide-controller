@@ -24,7 +24,6 @@ export default function PhotoPanel(props) {
     log.info("Properties data " + props.data);
     if (datamap.has("CD_IMAGEPHOTO")) {
         let docdata = datamap.get("CD_IMAGEPHOTO");
-        log.info("PHOTO" + docdata.image);
         cd_photo = docdata.image;
     }
 
