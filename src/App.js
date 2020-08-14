@@ -7,9 +7,8 @@ import DocumentData from "./Types/DocumentData"
 
 const log = logger.createLogger();
 
-function App() {
-  const datamap = new Map();
-  const [ document, setDocument ] = useState();
+export default function App() {
+  const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
  
   //Doc reader
@@ -21,7 +20,7 @@ function App() {
         const messageData = JSON.parse(e.data);
         let datatype = messageData.dataType;
         let datadata = new DocumentData(messageData.data, messageData.codelineData, messageData.image);
-        datamap.set(datatype, datadata);
+        fullpage.set(datatype, datadata);
         });
 
       events.addEventListener("event", e => {
@@ -29,19 +28,18 @@ function App() {
         log.info("EVENT " + messageData.dataType + " Event " + messageData.event);
         if(messageData.event === "START_OF_DOCUMENT_DATA") {
           log.info("START OF DOCUMENT")
-          datamap.clear();
-          setDocument([]);
+          setFullpage(fullpage.clear());
         }
+
         if(messageData.event === "END_OF_DOCUMENT_DATA") {
           log.info("END OF DOCUMENT");
-          setListening(false);
-          setDocument(datamap);
+          setFullpage(fullpage);
         }
         });
 
       setListening(true);
     }
-  }, [listening, document]);
+  }, [listening, fullpage]);
 
   //Webcam
   useEffect( () => {
@@ -51,11 +49,8 @@ function App() {
   return (
       <React.StrictMode>
           <Header />
-          <PhotoPanel data={document}/>
-          {/* <PhotoPanel {...commonProps}/> */}
-          {/*<PhotoPanel {...document}/>*/}
+          <PhotoPanel data={fullpage}/>
       </React.StrictMode>
   );
 }
 
-export default App;
