@@ -5,6 +5,7 @@ import Header from "./Components/Header";
 import Footer from './Components/Footer';
 import DocumentData from "./Types/DocumentData"
 import PhotoPanel from "./Components/PhotoPanel";
+import PageBody from './Components/PageBody';
 
 const log = logger.createLogger();
 
@@ -50,9 +51,11 @@ export default function App() {
   return (
       <React.StrictMode>
           <Header />
-          <PhotoPanel data={fullpage}/>
+          <PageBody />
           <Footer />
       </React.StrictMode>
   );
 }
+
+{/* <PhotoPanel data={fullpage}/> */}
 

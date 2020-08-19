@@ -7,8 +7,8 @@ export default function Header(props) {
                   {/*<span className="govuk-header__logotype-text">*/}
                   {/*  {props.value}*/}
                   {/*</span>*/}
-                <div class="govuk-header__content">
-                    <a href="/" class="govuk-header__link govuk-header__link--service-name">
+                <div className="govuk-header__content">
+                    <a href="/" className="govuk-header__link govuk-header__link--service-name">
                         Imposter detection equipment
                     </a>
                 </div>

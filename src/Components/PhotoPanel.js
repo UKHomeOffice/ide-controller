@@ -7,31 +7,38 @@ const log = logger.createLogger();
 var cd_photo;
 
 function Photo(props) {
-     const data = props.data;
-     const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} />
+  const data = props.data;
+  const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} />
 
-     return (
-         <div className="govuk-grid-column-one-third">
-             <Example data={data} />
-         </div>
-     );
+  if (data != null) {
+    return (
+    <div className="govuk-grid-column-one-third">
+      <Example data={data} />
+    </div>
+    );
+  } else {
+    return (<img src={ require('./images/defaultImage.svg') } resizeMode="contain" />);
+  }
 }
 
 export default function PhotoPanel(props) {
-    const documentData = props.data;
-    const datamap = new Map(props.data);
-    
-    log.info("Properties data " + props.data);
-    if (datamap.has("CD_IMAGEPHOTO")) {
-        let docdata = datamap.get("CD_IMAGEPHOTO");
-        cd_photo = docdata.image;
-    }
+  const DocumentData = props.data;
+  const datamap = new Map(props.data);
 
-    return (
-        <div className="govuk-grid-row">
-            {/* <h1>Hello {} </h1> */}
-            <Photo data={cd_photo} />
-            <Photo/>
-            <Photo/>
-        </div>);
+  log.info("Properties data " + props.data);
+  if (datamap.has("CD_IMAGEPHOTO")) {
+    let docdata = datamap.get("CD_IMAGEPHOTO");
+    cd_photo = docdata.image;
+  }
+
+  return (
+    <div class="photoContianer--frame">
+      <span class="shadow">
+        <div class="photoContainer--photo medium at6">
+          <Photo data={cd_photo} />
+        </div>
+      </span>
+    </div>);
 }
+
+
