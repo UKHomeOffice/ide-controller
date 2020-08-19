@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.scss';
 import { logger } from 'react-native-logs';
 import Header from "./Components/Header";
-import PhotoPanel from "./Components/PhotoPanel";
+import Footer from './Components/Footer';
 import DocumentData from "./Types/DocumentData"
+import PhotoPanel from "./Components/PhotoPanel";
 
 const log = logger.createLogger();
 
@@ -50,6 +51,7 @@ export default function App() {
       <React.StrictMode>
           <Header />
           <PhotoPanel data={fullpage}/>
+          <Footer />
       </React.StrictMode>
   );
 }
