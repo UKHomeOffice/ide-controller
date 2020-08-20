@@ -8,9 +8,8 @@ import InfoTable from './InfoTable'
 class PageBody extends Component {
   render() {
     return (
-      <div className="gov-width-container">
-        <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <div className="govuk-grid-row"></div>
+      <div className="govuk-width-container">
+        <main className="govuk-main-wrapper" id="main-content" role="main">
           <MatchValue />
           <PhotoHeaders />
           <PhotoColumn />

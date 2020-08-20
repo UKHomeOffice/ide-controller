@@ -1,4 +1,5 @@
 import React from 'react';
+import './Controller.css';
 import { logger } from 'react-native-logs';
 import DocumentData from '../Types/DocumentData'
 
@@ -8,16 +9,18 @@ var cd_photo;
 
 function Photo(props) {
   const data = props.data;
-  const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} />
+  const Picture = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} alt="Doc Scan" className="responsive" />
 
-  if (data != null) {
-    return (
-    <div className="govuk-grid-column-one-third">
-      <Example data={data} />
-    </div>
-    );
+  console.log(data)
+
+  if (data === undefined) {
+    return (<img src={ require('./images/defaultImage.svg') } className="responsive" />);
   } else {
-    return (<img src={ require('./images/defaultImage.svg') } resizeMode="contain" />);
+    return (
+      <div className="govuk-grid-column-one-third">
+        <Picture data={data} />
+      </div>
+    );
   }
 }
 
@@ -32,13 +35,12 @@ export default function PhotoPanel(props) {
   }
 
   return (
-    <div class="photoContianer--frame">
-      <span class="shadow">
-        <div class="photoContainer--photo medium at6">
-          <Photo data={cd_photo} />
-        </div>
-      </span>
-    </div>);
+    <div className="govuk-grid-column-one-third">
+      <div className="photoContainer--photo medium at6">
+        <Photo data={cd_photo} />
+      </div>
+    </div>
+);
 }
 
 

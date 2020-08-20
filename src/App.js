@@ -4,7 +4,7 @@ import { logger } from 'react-native-logs';
 import Header from "./Components/Header";
 import Footer from './Components/Footer';
 import DocumentData from "./Types/DocumentData"
-import PhotoPanel from "./Components/PhotoPanel";
+// import PhotoPanel from "./Components/PhotoPanel";
 import PageBody from './Components/PageBody';
 
 const log = logger.createLogger();
@@ -56,6 +56,4 @@ export default function App() {
       </React.StrictMode>
   );
 }
-
-{/* <PhotoPanel data={fullpage}/> */}
 

@@ -5,21 +5,9 @@ class PhotoColumn extends Component {
   render() {
     return (
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-one-third">
-          <div class="photoContainer">
-            <PhotoPanel />
-          </div>
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <div class="photoContainer">
-            <PhotoPanel />
-          </div>
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <div class="photoContainer">
-            <PhotoPanel />
-          </div>
-        </div>
+          <PhotoPanel />
+          <PhotoPanel />
+          <PhotoPanel />
       </div>
     )
   }
