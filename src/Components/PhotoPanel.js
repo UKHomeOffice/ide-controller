@@ -1,6 +1,7 @@
 import React from 'react';
 import './Controller.css';
 import { logger } from 'react-native-logs';
+import ImageImport from './ImageImport'
 import DocumentData from '../Types/DocumentData'
 
 const log = logger.createLogger();
@@ -8,26 +9,28 @@ const log = logger.createLogger();
 var cd_photo;
 
 function Photo(props) {
-    const data = props.data;
-    const Example = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} alt="Doc Scan" className="responsive" />
+  const testPhoto = ImageImport()
+  const testData = testPhoto.data;
+  const data = props.data;
+  const Example = ({ testData }) => <img src={`data:image/jpeg;base64,${testData}`} alt="Doc Scan" className="responsive" />
 
-    console.log(data)
+  console.log(data)
 
-//    return (
-//    <div className="govuk-grid-column-one-third">
-//      <Example data={data} />
-//    </div>
-//  );
-    if (data === undefined) {
-      console.log("Hit")
-      return (<img src={ require('./images/defaultImage.svg') } className="responsive" />);
-    } else {
-      return (
-        <div className="govuk-grid-column-one-third">
-          <Example data={data} />
-        </div>
-      );
-    }
+  return (
+  <div className="govuk-grid-column-one-third">
+    <Example data={data} />
+  </div>
+  );
+    // if (data === undefined) {
+    //   console.log("Hit")
+    //   return (<img src={ require('./images/defaultImage.svg') } className="responsive" />);
+    // } else {
+    //   return (
+    //     <div className="govuk-grid-column-one-third">
+    //       <Example data={data} />
+    //     </div>
+    //   );
+    // }
 }
 
 export default function PhotoPanel(props) {
@@ -43,7 +46,7 @@ export default function PhotoPanel(props) {
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-              <Photo data={cd_photo} />
+        <Photo data={cd_photo} />
       </div>
     </div>
 );
