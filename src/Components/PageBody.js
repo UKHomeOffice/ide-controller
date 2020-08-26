@@ -12,7 +12,7 @@ class PageBody extends Component {
         <main className="govuk-main-wrapper" id="main-content" role="main">
           <MatchValue />
           <PhotoHeaders />
-                <PhotoColumn />
+          <PhotoColumn />
           <InfoTable />
         </main>
       </div>

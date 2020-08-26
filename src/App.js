@@ -5,6 +5,7 @@ import Header from "./Components/Header";
 import Footer from './Components/Footer';
 import DocumentData from "./Types/DocumentData"
 import PageBody from './Components/PageBody';
+import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
 
@@ -36,23 +37,20 @@ export default function App() {
           log.info("END OF DOCUMENT");
           setFullpage(fullpage);
         }
-        });
+      });
 
       setListening(true);
     }
   }, [listening, fullpage]);
 
-  //Webcam
-  useEffect( () => {
-
-  })
-
   return (
-      <React.StrictMode>
-          <Header />
-          <PageBody />
-          <Footer />
-      </React.StrictMode>
+    <React.StrictMode>
+      <Header />
+      <ImageProvider value={ fullpage }>
+        <PageBody />
+      </ImageProvider>
+      <Footer />
+    </React.StrictMode>
   );
 }
 
