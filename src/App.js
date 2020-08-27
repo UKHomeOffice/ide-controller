@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss';
 import { logger } from 'react-native-logs';
-import Header from "./Components/Header";
+
+// Local  imports
+import './App.scss';
 import Footer from './Components/Footer';
+import Header from "./Components/Header";
 import PageBody from './Components/PageBody';
 import DocumentData from './Types/DocumentData'
 import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
 
-export default function App() {
+const App = () => {
   const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
  
-  //Doc reader
+  // Doc reader
   useEffect( () => {
     if (!listening) {
       const events = new EventSource('http://localhost:8080/reader/data');
@@ -44,13 +46,14 @@ export default function App() {
   }, [listening, fullpage]);
 
   return (
-    <React.StrictMode>
+    <div>
       <Header />
       <ImageProvider value={ fullpage }>
         <PageBody />
       </ImageProvider>
       <Footer />
-    </React.StrictMode>
+    </div>
   );
 }
 
+export default App

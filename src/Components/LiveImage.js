@@ -1,15 +1,17 @@
 import React from 'react'
+
+// Local imports
 import './Controller.css';
+import Config from './Config'
 
-var cd_photo;
-
-export default function LiveImage(props) {
-
+const LiveImage = () => {
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        <img src={ require('./images/defaultImage.svg') } alt="Document scan" className="responsive" />
+        <img src={ Config.blankAvatar } alt="Live scan" className="responsive" />
       </div>
     </div>
   );
 }
+
+export default LiveImage
