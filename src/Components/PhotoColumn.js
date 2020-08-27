@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import PhotoPanel from './PhotoPanel'
+import ScanImage from './ScanImage'
+import ChipImage from './ChipImage'
+import LiveImage from './LiveImage'
 
 class PhotoColumn extends Component {
   render() {
     return (
       <div className="govuk-grid-row">
-            <PhotoPanel />
-            <PhotoPanel />
-            <PhotoPanel />
+            <ChipImage />
+            <ScanImage />
+            <LiveImage />
       </div>
     )
   }
