@@ -4,13 +4,12 @@ import { logger } from 'react-native-logs';
 import Header from "./Components/Header";
 import Footer from './Components/Footer';
 import PageBody from './Components/PageBody';
+import DocumentData from './Types/DocumentData'
 import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
 
 export default function App() {
-<<<<<<< HEAD
-=======
   const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
  
@@ -43,7 +42,6 @@ export default function App() {
       setListening(true);
     }
   }, [listening, fullpage]);
->>>>>>> 00f284a429e2e62ebcb1231ed824bc33bb5f38ad
 
   return (
     <React.StrictMode>

@@ -1,8 +1,6 @@
 import React from 'react'
 import './Controller.css';
 
-var cd_photo;
-
 export default function LiveImage(props) {
 
   return (

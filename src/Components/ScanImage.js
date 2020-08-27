@@ -2,8 +2,6 @@ import React from 'react'
 import { ImageConsumer } from './ImageContext'
 import './Controller.css';
 
-var cd_photo;
-
 export default function PhotoPanel(props) {
 
   return (
@@ -15,16 +13,15 @@ export default function PhotoPanel(props) {
           const Picture = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} alt="Place holder" className="responsive" />
 
           if (datamap.has("CD_IMAGEPHOTO")) {
-            let docdata = datamap.get("CD_IMAGEPHOTO");
-            cd_photo = docdata.image;
+            var docdata = datamap.get("CD_IMAGEPHOTO");
           }
 
           console.log(fullPage)
 
-          if (!cd_photo) {
+          if (!docdata) {
             return (<img src={ require('./images/defaultImage.svg') } alt="Document scan" className="responsive" />);
           } else {
-            return (<Picture data={cd_photo}/>);}
+            return (<Picture data={docdata.image}/>);}
           }
         }
         </ImageConsumer>
