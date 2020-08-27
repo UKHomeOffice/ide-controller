@@ -13,7 +13,7 @@ export default function App() {
   const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
  
-  //Doc reader
+  // Doc reader
   useEffect( () => {
     if (!listening) {
       const events = new EventSource('http://localhost:8080/reader/data');
