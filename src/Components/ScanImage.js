@@ -1,30 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 // Local imports
-import { ImageConsumer } from './ImageContext'
-import './Controller.css'
+import { DocumentContext } from '../App'
 import Config from './Config'
+import './Controller.css'
 
-const PhotoPanel = () => {
+const ScanImage = () => {
+
+  const fullPage = useContext(DocumentContext)
+  const defaultImage = <img src={ Config.blankAvatar1 } alt="Place holder" className="responsive" />
+
+  const Picture = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} alt="Chip" className="responsive" />
+
+  const outImage = fullPage.CD_IMAGEPHOTO ? <Picture data={fullPage.CD_IMAGEPHOTO}/> : defaultImage;
+
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        <ImageConsumer >{ fullPage => {
-
-          const datamap = new Map(fullPage);
-          const Picture = ({ data }) => <img src={`data:image/jpeg;base64,${data}`} alt="Scan" className="responsive" />
-
-          if (datamap.has("CD_IMAGEPHOTO")) {
-            let docdata = datamap.get("CD_IMAGEPHOTO");
-            return (<Picture data={docdata.image}/>);
-          } else {
-            return (<img src={ Config.blankAvatar } alt="Place holder" className="responsive" />);
-          }
-        }}
-        </ImageConsumer>
+        {outImage}
       </div>
     </div>
   );
 }
 
-export default PhotoPanel
+export default ScanImage
