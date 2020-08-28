@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss';
 import { logger } from 'react-native-logs';
+
+// Local  imports
+import './App.scss';
+import Footer from './Components/Footer';
 import Header from "./Components/Header";
-import PhotoPanel from "./Components/PhotoPanel";
-import DocumentData from "./Types/DocumentData"
+import PageBody from './Components/PageBody';
+import DocumentData from './Types/DocumentData'
+import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
 
-export default function App() {
+const App = () => {
   const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
  
-  //Doc reader
+  // Doc reader
   useEffect( () => {
     if (!listening) {
       const events = new EventSource('http://localhost:8080/reader/data');
@@ -35,22 +39,21 @@ export default function App() {
           log.info("END OF DOCUMENT");
           setFullpage(fullpage);
         }
-        });
+      });
 
       setListening(true);
     }
   }, [listening, fullpage]);
 
-  //Webcam
-  useEffect( () => {
-
-  })
-
   return (
-      <React.StrictMode>
-          <Header />
-          <PhotoPanel data={fullpage}/>
-      </React.StrictMode>
+    <div>
+      <Header />
+      <ImageProvider value={ fullpage }>
+        <PageBody />
+      </ImageProvider>
+      <Footer />
+    </div>
   );
 }
 
+export default App
