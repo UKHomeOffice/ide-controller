@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { logger } from 'react-native-logs';
 
 // Local  imports
@@ -10,6 +10,7 @@ import DocumentData from './Types/DocumentData'
 import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
+const DocumentContext = React.createContext()
 
 const App = () => {
   const [ fullpage, setFullpage] = useState(new Map());
@@ -48,9 +49,9 @@ const App = () => {
   return (
     <div>
       <Header />
-      <ImageProvider value={ fullpage }>
+      <DocumentContext value={ fullpage }>
         <PageBody />
-      </ImageProvider>
+      </DocumentContext>
       <Footer />
     </div>
   );
