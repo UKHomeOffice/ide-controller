@@ -6,6 +6,4 @@ export default class DocumentData {
         this.codelineData = codelineData;
         this.image = image;
     }
-
-
 }
