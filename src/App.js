@@ -7,14 +7,21 @@ import Footer from './Components/Footer';
 import Header from "./Components/Header";
 import PageBody from './Components/PageBody';
 import DocumentData from './Types/DocumentData'
-import { ImageProvider } from './Components/ImageContext'
 
 const log = logger.createLogger();
+
+const colors = {
+  blue: "#03619c",
+  yellow: "#8c8f03",
+  red: "#9c0312"
+};
+export const ColorContext = React.createContext(colors.blue);
 
 const App = () => {
   const [ fullpage, setFullpage] = useState(new Map());
   const [ listening, setListening ] = useState(false);
- 
+  const FullpageContext = React.createContext(fullpage)
+
   // Doc reader
   useEffect( () => {
     if (!listening) {
@@ -48,9 +55,11 @@ const App = () => {
   return (
     <div>
       <Header />
-      <ImageProvider value={ fullpage }>
+      <ColorContext.Provider value={colors}>
+      <FullpageContext.Provider value={ fullpage }>
         <PageBody />
-      </ImageProvider>
+      </FullpageContext.Provider>
+      </ColorContext.Provider>
       <Footer />
     </div>
   );

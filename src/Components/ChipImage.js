@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useContext } from "react";
+import {ColorContext} from "../App";
 
 // Local imports
 import { ImageConsumer } from './ImageContext'
 import './Controller.css'
 import Config from './Config'
+import App from "../App";
 
 const ChipImage = () => {
+    console.log('Hi');
+    const colors = useContext(ColorContext);
   return (
     <div className="govuk-grid-column-one-third">
+        <h2>{colors.blue}</h2>
       <div className="photoContainer--photo medium at6">
         <ImageConsumer >{ fullPage => {
           
