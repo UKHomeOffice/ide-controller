@@ -1,5 +1,7 @@
-const Images = {
-  blankAvatar: require('./images/avatar-blank.svg')
-}
+import blankAvatar from './images/avatar-blank.svg';
 
-export default Images
+const Images = {
+  blankAvatar,
+};
+
+export default Images;

@@ -1,11 +1,11 @@
-import React from 'react'
+// Global imports
+import React from 'react';
 
-// Local imports 
-import InfoTable from './InfoTable'
-import MatchValue from './MatchValue'
-import PhotoColumn from './PhotoColumn'
-import PhotoHeaders from './PhotoHeaders'
-
+// Local imports
+import InfoTable from './InfoTable';
+import MatchValue from './MatchValue';
+import PhotoColumn from './PhotoColumn';
+import PhotoHeaders from './PhotoHeaders';
 
 const PageBody = () => {
   return (
@@ -17,7 +17,7 @@ const PageBody = () => {
         <InfoTable />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default PageBody
+export default PageBody;
