@@ -1,3 +1,4 @@
+// @todo add vs code format on save wiki/ readme on github
 module.exports = {
   env: {
     browser: true,
