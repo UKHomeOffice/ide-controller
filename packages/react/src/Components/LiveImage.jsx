@@ -2,14 +2,14 @@
 import React from 'react';
 
 // Local imports
-import Config from './Config';
+import Video from './Video';
 import './Controller.css';
 
 const LiveImage = () => {
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        <img src={Config.blankAvatar} alt="Live scan" className="responsive" />
+        <Video />
       </div>
     </div>
   );
