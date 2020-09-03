@@ -1,8 +1,9 @@
+// Global imports
 import React from 'react';
 
 // Local imports
-import './Controller.css';
 import Config from './Config';
+import './Controller.css';
 
 const LiveImage = () => {
   return (

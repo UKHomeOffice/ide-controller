@@ -1,9 +1,10 @@
+// Global imports
 import React from 'react';
 
 // Local imports
 import { ImageConsumer } from './ImageContext';
-import './Controller.css';
 import Config from './Config';
+import './Controller.css';
 
 const PhotoPanel = () => {
   return (
