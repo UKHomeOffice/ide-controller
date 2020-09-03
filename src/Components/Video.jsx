@@ -1,4 +1,8 @@
+// Global imports
 import React, { useState, useRef } from 'react';
+
+// Local imports
+import Config from './Config';
 
 const CAPTURE_OPTIONS = {
   audio: false,
@@ -21,7 +25,7 @@ const Video = () => {
     }
   });
 
-  return (
+  return mediaStream ? (
     <video
       style={{ borderRadius: '10px' }}
       ref={videoRef}
@@ -30,6 +34,8 @@ const Video = () => {
       playsInline
       muted
     />
+  ) : (
+    <img src={Config.blankAvatar} alt="Live scan" className="responsive" />
   );
 };
 
