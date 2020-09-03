@@ -1,3 +1,4 @@
+// Global imports
 import React, { useState, useEffect } from 'react';
 import { logger } from 'react-native-logs';
 

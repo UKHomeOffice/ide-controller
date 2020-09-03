@@ -1,3 +1,4 @@
+// Global imports
 import React from 'react';
 
 function Footer() {
