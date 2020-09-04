@@ -38,7 +38,7 @@ const LiveImage = () => {
           ref={canvasRef}
           width={CAPTURE_OPTIONS.video.width}
           height={CAPTURE_OPTIONS.video.height}
-          style={{ borderRadius: '10px' }}
+          style={{ borderRadius: '10px 10px 0 0' }}
         />
       </div>
     </div>
