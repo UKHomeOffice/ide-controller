@@ -6,7 +6,6 @@
     "electron",
     "app"
   ],
-  "author": "Ali <contact@alibaker.dev>",
   "homepage": "",
   "license": "ISC",
   "main": "main.js",
