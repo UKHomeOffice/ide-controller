@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "build": "electron-builder -mw zip"
   },
   "devDependencies": {
     "electron": "^10.1.1",
