@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "start": "electron .",
-    "watch": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron ."
   },
   "devDependencies": {
     "electron": "^10.1.1",
