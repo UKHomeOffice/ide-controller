@@ -1,6 +1,9 @@
 {
-  "name": "root",
+  "name": "ide-controller",
   "private": true,
+  "scripts": {
+    "install": "lerna bootstrap"
+  },
   "devDependencies": {
     "lerna": "^3.22.1"
   }
