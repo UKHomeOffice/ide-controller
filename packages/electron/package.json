@@ -14,9 +14,14 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "start": "electron .",
+    "watch": "nodemon --exec electron ."
+  },
+  "devDependencies": {
+    "electron": "^10.1.1",
+    "nodemon": "^2.0.4"
   }
 }
