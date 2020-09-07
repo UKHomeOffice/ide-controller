@@ -1,42 +1,42 @@
 // Global imports
-import React, { useState, useRef } from 'react';
+import React, { useState, forwardRef } from 'react';
 
 // Local imports
 import Config from './Config';
 
-const CAPTURE_OPTIONS = {
-  audio: false,
-  video: {
-    width: 300,
-    height: 350,
-    frameRate: 30,
-    acingMode: 'user',
-  },
-};
-
-const Video = () => {
-  const videoRef = useRef();
+const Video = forwardRef(({ updateRef, style, captureOptions }, videoRef) => {
   const [mediaStream, setMediaStream] = useState(null);
-  navigator.mediaDevices.getUserMedia(CAPTURE_OPTIONS).then((stream) => {
+  navigator.mediaDevices.getUserMedia(captureOptions).then((stream) => {
     setMediaStream(stream);
 
     if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
-      videoRef.current.srcObject = mediaStream;
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+      videoRef.current.addEventListener(
+        'canplay',
+        () => {
+          videoRef.current.width = videoRef.current.videoWidth;
+          videoRef.current.height = videoRef.current.videoHeight;
+          updateRef({ ...videoRef });
+        },
+        false
+      );
     }
   });
 
   return mediaStream ? (
     <video
-      style={{ borderRadius: '10px' }}
+      width={captureOptions.video.width}
+      height={captureOptions.video.height}
       ref={videoRef}
-      onCanPlay={videoRef.current && videoRef.current.play}
       autoPlay
       playsInline
       muted
+      style={style}
     />
   ) : (
     <img src={Config.blankAvatar} alt="Live scan" className="responsive" />
   );
-};
+});
 
 export default Video;
