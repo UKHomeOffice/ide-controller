@@ -1,0 +1,17 @@
+pipeline:
+  install:
+    image: quay.io/ukhomeofficedigital/node-10
+    commands:
+      - node -v
+      - npm -v
+      - npm ci --silent
+    when:
+      event: push
+
+  unit_tests:
+    image: quay.io/ukhomeofficedigital/node-10
+    commands:
+      - npm run lint
+      - npm run test
+    when:
+      event: push
