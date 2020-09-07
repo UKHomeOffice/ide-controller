@@ -9,17 +9,13 @@
   "homepage": "",
   "license": "ISC",
   "main": "main.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
     "dist"
   ],
   "scripts": {
     "start": "electron .",
     "dev": "nodemon --exec electron .",
-    "build": "electron-builder -mw zip"
+    "build": "electron-builder -mw"
   },
   "devDependencies": {
     "electron": "^10.1.1",
