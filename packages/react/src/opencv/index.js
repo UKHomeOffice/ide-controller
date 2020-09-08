@@ -1,5 +1,7 @@
 import cv from './opencv';
 
+let faceDetectedFrameCounter = 0;
+
 const createFileFromUrl = (path, callback) => {
   const request = new XMLHttpRequest();
   request.open('GET', path, true);
@@ -15,8 +17,6 @@ const createFileFromUrl = (path, callback) => {
   };
   request.send();
 };
-
-const faceDetectedFrameCounter = 0;
 
 cv.init = (video, canvas, videoOptions) => {
   createFileFromUrl('haarcascade_frontalface_default.xml', () => {
@@ -37,7 +37,7 @@ cv.init = (video, canvas, videoOptions) => {
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
         classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
         let face;
-        for (let i = 0; i < faces.size(); ++i) {
+        for (let i = 0; i < faces.size(); i += 1) {
           face = faces.get(i);
           const point1 = new cv.Point(face.x, face.y);
           const point2 = new cv.Point(
@@ -45,9 +45,11 @@ cv.init = (video, canvas, videoOptions) => {
             face.y + face.height
           );
           if (video.width / 3 < face.width) {
-            cv.rectangle(dst, point1, point2, [0, 200, 0, 100], 3);
+            cv.rectangle(dst, point1, point2, [0, 200, 0, 100], 2);
+            faceDetectedFrameCounter += 1;
           } else {
-            cv.rectangle(dst, point1, point2, [255, 0, 0, 100], 3);
+            cv.rectangle(dst, point1, point2, [255, 0, 0, 100], 2);
+            faceDetectedFrameCounter = 0;
           }
         }
 
