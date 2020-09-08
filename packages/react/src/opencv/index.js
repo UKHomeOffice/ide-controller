@@ -16,7 +16,9 @@ const createFileFromUrl = (path, callback) => {
   request.send();
 };
 
-cv.init = (video, canvas) => {
+const faceDetectedFrameCounter = 0;
+
+cv.init = (video, canvas, videoOptions) => {
   createFileFromUrl('haarcascade_frontalface_default.xml', () => {
     const src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     const dst = new cv.Mat(video.height, video.width, cv.CV_8UC4);
@@ -26,7 +28,7 @@ cv.init = (video, canvas) => {
     const classifier = new cv.CascadeClassifier();
     classifier.load('models.xml');
 
-    const FPS = 30;
+    const FPS = 60;
     const processVideo = () => {
       try {
         const begin = Date.now();
@@ -34,8 +36,9 @@ cv.init = (video, canvas) => {
         src.copyTo(dst);
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
         classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
+        let face;
         for (let i = 0; i < faces.size(); ++i) {
-          const face = faces.get(i);
+          face = faces.get(i);
           const point1 = new cv.Point(face.x, face.y);
           const point2 = new cv.Point(
             face.x + face.width,
@@ -47,9 +50,30 @@ cv.init = (video, canvas) => {
             cv.rectangle(dst, point1, point2, [255, 0, 0, 100], 3);
           }
         }
-        cv.imshow(canvas, dst);
-        const delay = 1000 / FPS - (Date.now() - begin);
-        setTimeout(processVideo, delay);
+
+        if (faceDetectedFrameCounter > 30) {
+          const ctx = canvas.getContext('2d');
+          const ratio = videoOptions.height / videoOptions.width;
+          const height = face.height * ratio;
+          const { width } = face;
+          const margin = 10;
+          const heightMargin = margin * ratio;
+          ctx.drawImage(
+            video,
+            face.x - margin,
+            face.y - heightMargin,
+            width + margin,
+            height + heightMargin,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+        } else {
+          cv.imshow(canvas, dst);
+          const delay = 1000 / FPS - (Date.now() - begin);
+          setTimeout(processVideo, delay);
+        }
       } catch (err) {
         console.log('error ', err);
       }

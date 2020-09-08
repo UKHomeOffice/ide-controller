@@ -22,7 +22,7 @@ const LiveImage = () => {
 
   useEffect(() => {
     if (!videoRef.current) return;
-    cv.init(videoRef.current, canvasRef.current);
+    cv.init(videoRef.current, canvasRef.current, CAPTURE_OPTIONS.video);
   });
 
   return (
