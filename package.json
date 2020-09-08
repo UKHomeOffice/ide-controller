@@ -2,7 +2,7 @@
   "name": "ide-controller",
   "private": true,
   "scripts": {
-    "install": "lerna exec npm install && lerna bootstrap",
+    "install": "lerna bootstrap",
     "ci": "lerna exec npm ci && lerna bootstrap",
     "lint": "lerna run lint",
     "test": "lerna run test",
