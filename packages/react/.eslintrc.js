@@ -18,6 +18,7 @@ module.exports = {
   ignorePatterns: ['/src/opencv'],
   rules: {
     quotes: ['error', 'single'],
+    eqeqeq: 'error',
     'prettier/prettier': [
       'error',
       {
