@@ -15,7 +15,8 @@ function createWindow () {
     height: 1200,
     resizable: false,
     titleBarStyle: 'hidden',
-    webPreferences: { nodeIntegration: true }
+    backgroundColor: '#fff',
+    webPreferences: { nodeIntegration: true },
   })
 
 
