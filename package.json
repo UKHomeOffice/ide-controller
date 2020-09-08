@@ -2,7 +2,8 @@
   "name": "ide-controller",
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap"
+    "install": "lerna bootstrap",
+    "dev": "lerna bootstrap && lerna run dev --stream"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

@@ -1,0 +1,7 @@
+appId: com.homeoffice.ide-controller
+copyright: 'Copyright Home Office'
+mac:
+  category: public.app-category.utilities
+  target: dmg
+win:
+  target: zip
