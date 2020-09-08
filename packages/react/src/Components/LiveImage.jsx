@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 // Local imports
-import cv from '../opencv'; // can we make this separate npm package
+import cv from '@ide-controller/opencv'; // can we make this separate npm package
 import Video from './Video';
 import './Controller.css';
 

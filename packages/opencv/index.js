@@ -77,7 +77,9 @@ cv.init = (video, canvas, videoOptions) => {
           const delay = 1000 / FPS - (Date.now() - begin);
           setTimeout(processVideo, delay);
         }
-      } catch(console.error)
+      } catch(error) {
+        console.error(error);
+      }
     };
     setTimeout(processVideo, 0);
   });
