@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 
 // Local  imports
 import './App.scss';
-import Footer from './Components/Footer';
 import Header from './Components/Header';
 import PageBody from './Components/PageBody';
 import DocumentData from './Types/DocumentData';
@@ -50,7 +49,6 @@ const App = () => {
       <ImageProvider value={fullpage}>
         <PageBody />
       </ImageProvider>
-      <Footer />
     </div>
   );
 };
