@@ -19,6 +19,8 @@ function createWindow () {
     webPreferences: { nodeIntegration: true },
   })
 
+  if (process.platform === 'darwin') app.dock.setIcon('./build/icon.png')
+
 
   // Load index.html into the new BrowserWindow
   if (process.env.NODE_ENV === 'production') {
