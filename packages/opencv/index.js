@@ -54,7 +54,6 @@ cv.init = (video, canvas, videoOptions) => {
         }
 
         if (faceDetectedFrameCounter > 30) {
-          // @Ali-Baker to improve this 👇 function when face is in the corner
           const ctx = canvas.getContext('2d');
           const ratio = videoOptions.height / videoOptions.width;
           const height = face.height * ratio;
