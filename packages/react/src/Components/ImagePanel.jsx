@@ -11,18 +11,22 @@ import PhotoHeaders from './PhotoHeaders'
 const ImagePanel = () => {
   return (
     <div 
-      class="govuk-tabs__panel"
-      role="tab" 
+      className="govuk-tabs__panel"
+      role="tabpanel" 
       aria-labelledby="image-data" 
-      id="image-data"
+      // id="image-data"
     >
-      <h2 class="govuk-heading-l">
-        Images to compare
-      </h2>
-      <div class="govuk-grid-row">
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-full">
+          <h2 className="govuk-heading-l">
+            Images to compare
+          </h2>
+        </div>
+      </div>
+      <div className="govuk-grid-row">
         <PhotoHeaders />
       </div>
-      <div class="govuk-grid-row">
+      <div className="govuk-grid-row">
         <ChipImage />
         <ScanImage />
         <ScanImage />

@@ -23,11 +23,12 @@ const InfoTabs = () => {
             Images to compare
           </a>
         </li>
-        <li class="govuk-tabs__list-item">
+        <li class="govuk-tabs__list-item" role="presentation">
           <a 
             class="govuk-tabs__tab" 
             href="#mrz-data"
             id="tab_mrz-data"
+            role="tab"
             aria-controls="mrz-data"
             aria-selected="false"
             tabindex="-1"

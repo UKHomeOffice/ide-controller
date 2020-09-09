@@ -12,12 +12,12 @@ const PageBody = () => {
   return (
     <div className="govuk-width-container">
       <main className="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <div class='govuk-grid-row'>
-          <div class="govuk-grid-column-one-quarter">
+        <div className='govuk-grid-row'>
+          <div className="govuk-grid-column-one-quarter">
             <MatchValue />
             <InfoTable />
           </div>
-          <div class="govuk-grid-column-three-quarters">
+          <div className="govuk-grid-column-three-quarters">
             <InfoTabs />
           </div>
         </div>
