@@ -21,7 +21,11 @@ function createWindow () {
 
 
   // Load index.html into the new BrowserWindow
-  mainWindow.loadURL('http://localhost:3000')
+  if (process.env.NODE_ENV === 'production') {
+    mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
+  } else {
+    mainWindow.loadURL('http://localhost:3000');
+  }
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
@@ -36,9 +40,7 @@ function createWindow () {
 app.on('ready', createWindow)
 
 // Quit when all windows are closed - (Not macOS - Darwin)
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
+app.on('window-all-closed', app.quit)
 
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 app.on('activate', () => {
