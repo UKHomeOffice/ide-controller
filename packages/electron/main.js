@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, screen} = require('electron')
+const {app, BrowserWindow, nativeImage, systemPreferences} = require('electron')
 const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -19,14 +19,16 @@ function createWindow () {
     webPreferences: { nodeIntegration: true },
   })
 
-  if (process.platform === 'darwin') app.dock.setIcon('./build/icon.png')
-
+  if (process.platform === 'darwin') { 
+    const image = nativeImage.createFromPath(path.resolve(__dirname, 'build/icon.png'))
+    app.dock.setIcon(image) 
+  }
 
   // Load index.html into the new BrowserWindow
-  if (process.env.NODE_ENV === 'production') {
-    mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
-  } else {
+  if (process.env.ENV === 'development') {
     mainWindow.loadURL('http://localhost:3000');
+  } else {
+    mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
   }
 
   // Open DevTools - Remove for PRODUCTION!
