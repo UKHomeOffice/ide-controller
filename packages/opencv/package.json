@@ -2,7 +2,6 @@
   "name": "@ide-controller/opencv",
   "version": "1.0.0",
   "description": "Face detection video component",
-  "author": "Ali Ali <alialbaker2007@gmail.com>",
   "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
   "license": "ISC",
   "main": "index.js",
