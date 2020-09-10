@@ -12,10 +12,12 @@ const MRZPanel = () => {
         aria-labelledby="mrz-data" 
         id="mrz-data"
       >
-      <div className="govuk-grid-column-full">
-        <h2 className="govuk-heading-l">
-            Data read from chip and MRZ
-          </h2>
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-full">
+            <h2 className="govuk-heading-l">
+              Data read from chip and MRZ
+            </h2>
+          </div>
         </div>
         <MRZTable />
       </div>

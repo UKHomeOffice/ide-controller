@@ -14,7 +14,7 @@ const ImagePanel = () => {
       className="govuk-tabs__panel"
       role="tabpanel" 
       aria-labelledby="image-data" 
-      // id="image-data"
+      id="image-data"
     >
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
@@ -23,9 +23,7 @@ const ImagePanel = () => {
           </h2>
         </div>
       </div>
-      <div className="govuk-grid-row">
-        <PhotoHeaders />
-      </div>
+      <PhotoHeaders />
       <div className="govuk-grid-row">
         <ChipImage />
         <ScanImage />
