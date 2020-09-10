@@ -4,7 +4,7 @@
   "scripts": {
     "install": "lerna bootstrap",
     "ci": "lerna exec npm ci && lerna bootstrap",
-    "lint": "lerna run lint",
+    "lint": "lerna run lint --stream",
     "test": "lerna run test",
     "dev": "lerna bootstrap && lerna run dev --stream"
   },
