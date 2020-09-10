@@ -1,8 +1,9 @@
 // Global imports
 import React, { useRef, useEffect, useState } from 'react';
+import * as tf from '@tensorflow/tfjs'; // eslint-disable-line
+import * as posenet from '@tensorflow-models/posenet';
 
 // Local imports
-import cv from '@ide-controller/opencv'; // can we make this separate npm package
 import Video from './Video';
 import './Controller.css';
 
@@ -16,13 +17,37 @@ const CAPTURE_OPTIONS = {
   },
 };
 
+const estimateSinglePose = async (video, threshold = 0.99) => {
+  const net = await posenet.load({
+    architecture: 'ResNet50',
+    outputStride: 16,
+    inputResolution: {
+      width: CAPTURE_OPTIONS.video.width,
+      height: CAPTURE_OPTIONS.video.height,
+    },
+    quantBytes: 2,
+  });
+
+  // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
+  const pose = await net.estimateSinglePose(video, 0.5, false, 16);
+  const isBelowThreshold = !!pose.keypoints
+    .slice(0, 5)
+    .find((poseItem) => poseItem.score < threshold);
+  if (isBelowThreshold) {
+    setTimeout(() => estimateSinglePose(video), 100);
+  } else {
+    video.pause();
+    video.currentTime = 0;
+  }
+};
+
 const LiveImage = () => {
-  const canvasRef = useRef();
+  // const canvasRef = useRef();
   const [videoRef, setVideoRef] = useState(useRef());
 
   useEffect(() => {
     if (!videoRef.current) return;
-    cv.init(videoRef.current, canvasRef.current, CAPTURE_OPTIONS.video);
+    estimateSinglePose(videoRef.current);
   });
 
   return (
@@ -31,15 +56,16 @@ const LiveImage = () => {
         <Video
           ref={videoRef}
           updateRef={setVideoRef}
-          style={{ display: 'none' }}
+          style={{ borderRadius: '10px 10px 0 0' }}
           captureOptions={CAPTURE_OPTIONS}
         />
-        <canvas
+        {/* <canvas
+          hidden
           ref={canvasRef}
           width={CAPTURE_OPTIONS.video.width}
           height={CAPTURE_OPTIONS.video.height}
           style={{ borderRadius: '10px 10px 0 0' }}
-        />
+        /> */}
       </div>
     </div>
   );

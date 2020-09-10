@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ide-controller/opencv": "^1.0.0",
+    "@tensorflow-models/posenet": "^2.2.1",
+    "@tensorflow/tfjs": "^2.3.0",
     "govuk-frontend": "^3.8.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.3",
-    "styled-components": "^5.2.0",
-    "@ide-controller/opencv": "^1.0.0"
+    "styled-components": "^5.2.0"
   },
   "scripts": {
     "dev": "BROWSER=none CI=true react-scripts start",
