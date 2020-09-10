@@ -33,8 +33,8 @@ const estimateSinglePose = async (video, threshold = 0.99) => {
   const isBelowThreshold = !!pose.keypoints
     .slice(0, 5)
     .find((poseItem) => poseItem.score < threshold);
-  if (isBelowThreshold) {
-    setTimeout(() => estimateSinglePose(video), 100);
+  if (isBelowThreshold && !video.paused) {
+    setTimeout(() => estimateSinglePose(video), 200);
   } else {
     video.pause();
     video.currentTime = 0;
@@ -44,28 +44,35 @@ const estimateSinglePose = async (video, threshold = 0.99) => {
 const LiveImage = () => {
   // const canvasRef = useRef();
   const [videoRef, setVideoRef] = useState(useRef());
+  // const [pose, setPose] = useState(null);
 
   useEffect(() => {
     if (!videoRef.current) return;
-    estimateSinglePose(videoRef.current);
+    videoRef.current.addEventListener('canplay', () =>
+      estimateSinglePose(videoRef.current)
+    );
   });
 
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        <Video
-          ref={videoRef}
-          updateRef={setVideoRef}
-          style={{ borderRadius: '10px 10px 0 0' }}
-          captureOptions={CAPTURE_OPTIONS}
-        />
-        {/* <canvas
+        {pose ? (
+          <Video
+            ref={videoRef}
+            setVideoRef={setVideoRef}
+            captureOptions={CAPTURE_OPTIONS}
+          />
+        ) : (
+          {
+            /* <canvas
           hidden
           ref={canvasRef}
           width={CAPTURE_OPTIONS.video.width}
           height={CAPTURE_OPTIONS.video.height}
           style={{ borderRadius: '10px 10px 0 0' }}
-        /> */}
+        /> */
+          }
+        )}
       </div>
     </div>
   );
