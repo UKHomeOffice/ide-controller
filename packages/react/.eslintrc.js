@@ -15,7 +15,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'prettier'],
-  ignorePatterns: ['/node_modules', '/src/__tests__/__snapshots__'],
+  ignorePatterns: ['/node_modules', '/src/__tests__/__snapshots__', '/build'],
   rules: {
     quotes: ['error', 'single'],
     eqeqeq: 'error',
