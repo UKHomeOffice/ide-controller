@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ide-controller/opencv": "^1.0.0",
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^2.3.0",
     "govuk-frontend": "^3.8.0",
