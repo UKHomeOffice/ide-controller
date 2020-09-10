@@ -11,6 +11,7 @@
     "react-scripts": "^3.4.3",
     "styled-components": "^5.2.0"
   },
+  "homepage": "./",
   "scripts": {
     "dev": "BROWSER=none CI=true react-scripts start",
     "build": "react-scripts build",
