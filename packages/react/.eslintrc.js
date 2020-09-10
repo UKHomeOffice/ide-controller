@@ -15,7 +15,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'prettier'],
-  ignorePatterns: ['/src/opencv/opencv.js'],
+  ignorePatterns: ['/node_modules', '/src/__tests__/__snapshots__'],
   rules: {
     quotes: ['error', 'single'],
     eqeqeq: 'error',
