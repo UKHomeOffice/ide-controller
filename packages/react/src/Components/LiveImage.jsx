@@ -15,16 +15,41 @@ const CAPTURE_OPTIONS = {
     acingMode: 'user',
   },
 };
-const THRESHOLD = 0.99;
+const THRESHOLD = 0.8;
+const ZOOM_FACTOR = 1.5;
 
 const LiveImage = () => {
   const canvasRef = useRef();
   const [videoRef, setVideoRef] = useState(useRef());
-  const [pose, setPose] = useState(null);
+  const [pose, setPose] = useState();
 
-  const updateCanvas = () => {
+  const updateCanvas = ({ keypoints }) => {
+    const nose = keypoints[0].position;
+    const leftEye = keypoints[1].position;
+    const rightEye = keypoints[2].position;
+    let margin = (nose.y - leftEye.y + (nose.y - rightEye.y)) / 2;
+    margin *= ZOOM_FACTOR;
+
+    const xStart = Math.floor(keypoints[4].position.x);
+    const xEnd = Math.ceil(keypoints[3].position.x);
+    const sWidth = xEnd - xStart;
+    const sHeight =
+      sWidth * (CAPTURE_OPTIONS.video.height / CAPTURE_OPTIONS.video.width);
+    const yNose = Math.floor(keypoints[4].position.y);
+    const yStart = yNose - sHeight / 2;
+
     const ctx = canvasRef.current.getContext('2d');
-    ctx.drawImage(videoRef.current, 0, 0);
+    ctx.drawImage(
+      videoRef.current,
+      xStart - margin,
+      yStart - margin,
+      sWidth + margin * 2,
+      sHeight + margin * 2,
+      0,
+      0,
+      CAPTURE_OPTIONS.video.width,
+      CAPTURE_OPTIONS.video.height
+    );
     videoRef.current.style.display = 'none';
   };
   const estimateSinglePose = async () => {
@@ -42,9 +67,9 @@ const LiveImage = () => {
     if (isBelowThreshold) {
       estimateSinglePose();
     } else {
-      updateCanvas();
       video.pause();
       setPose(singlePose);
+      updateCanvas(singlePose);
     }
   };
 

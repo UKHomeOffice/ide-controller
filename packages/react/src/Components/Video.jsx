@@ -16,7 +16,13 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
     })
     .catch(console.error);
 
-  return <video ref={videoRef} />;
+  return (
+    <video
+      ref={videoRef}
+      width={captureOptions.video.width}
+      height={captureOptions.video.height}
+    />
+  );
 });
 
 export default Video;
