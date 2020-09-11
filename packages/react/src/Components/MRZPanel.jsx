@@ -4,10 +4,13 @@ import React from 'react';
 // Local imports
 import MRZTable from './MRZTable';
 
-const MRZPanel = () => {
+const MRZPanel = ({ isActive }) => {
+
+  let displayTab = isActive ? "govuk-tabs__panel" : "govuk-tabs__panel govuk-tabs__panel--hidden";
+
   return (
     <div 
-        class="govuk-tabs__panel govuk-tabs__panel--hidden" 
+        className={ displayTab }
         role="tabpanel" 
         aria-labelledby="mrz-data" 
         id="mrz-data"

@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 
 // Local  imports
-import './App.scss';
 import Header from './Components/Header';
 import PageBody from './Components/PageBody';
 import DocumentData from './Types/DocumentData';
 import { ImageProvider } from './Components/ImageContext';
 
 const App = () => {
+
   const [fullpage, setFullpage] = useState(new Map());
   const [listening, setListening] = useState(false);
 

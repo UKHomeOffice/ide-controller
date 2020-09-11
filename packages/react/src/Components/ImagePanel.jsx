@@ -8,10 +8,13 @@ import ScanImage from './ScanImage';
 import PhotoHeaders from './PhotoHeaders'
 
 
-const ImagePanel = () => {
+const ImagePanel = ({ isActive }) => {
+
+  let displayTab = isActive ? "govuk-tabs__panel" : "govuk-tabs__panel govuk-tabs__panel--hidden";
+
   return (
     <div 
-      className="govuk-tabs__panel"
+      className={ displayTab }
       role="tabpanel" 
       aria-labelledby="image-data" 
       id="image-data"
