@@ -2,8 +2,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 // Local imports
-import cv from '@ide-controller/opencv'; // can we make this separate npm package
 import Video from './Video';
+import { ResPosenet } from '../helpers';
 import './Controller.css';
 
 const CAPTURE_OPTIONS = {
@@ -15,14 +15,42 @@ const CAPTURE_OPTIONS = {
     acingMode: 'user',
   },
 };
+const THRESHOLD = 0.99;
 
 const LiveImage = () => {
   const canvasRef = useRef();
   const [videoRef, setVideoRef] = useState(useRef());
+  const [pose, setPose] = useState(null);
+
+  const updateCanvas = () => {
+    const ctx = canvasRef.current.getContext('2d');
+    ctx.drawImage(videoRef.current, 0, 0);
+    videoRef.current.style.display = 'none';
+  };
+  const estimateSinglePose = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const net = await ResPosenet(
+      CAPTURE_OPTIONS.video.width,
+      CAPTURE_OPTIONS.video.height
+    );
+    // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
+    const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
+    const isBelowThreshold = !!singlePose.keypoints
+      .slice(0, 5)
+      .find((poseItem) => poseItem.score < THRESHOLD);
+    if (isBelowThreshold) {
+      estimateSinglePose();
+    } else {
+      updateCanvas();
+      video.pause();
+      setPose(singlePose);
+    }
+  };
 
   useEffect(() => {
     if (!videoRef.current) return;
-    cv.init(videoRef.current, canvasRef.current, CAPTURE_OPTIONS.video);
+    videoRef.current.addEventListener('canplay', estimateSinglePose);
   });
 
   return (
@@ -30,15 +58,14 @@ const LiveImage = () => {
       <div className="photoContainer--photo medium at6">
         <Video
           ref={videoRef}
-          updateRef={setVideoRef}
-          style={{ display: 'none' }}
+          setVideoRef={setVideoRef}
           captureOptions={CAPTURE_OPTIONS}
         />
         <canvas
+          hidden={!pose}
           ref={canvasRef}
           width={CAPTURE_OPTIONS.video.width}
           height={CAPTURE_OPTIONS.video.height}
-          style={{ borderRadius: '10px 10px 0 0' }}
         />
       </div>
     </div>

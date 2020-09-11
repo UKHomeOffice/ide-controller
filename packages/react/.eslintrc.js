@@ -17,6 +17,7 @@ module.exports = {
   plugins: ['react', 'prettier'],
   ignorePatterns: ['/node_modules', '/src/__tests__/__snapshots__', '/build'],
   rules: {
+    "jsx-a11y/media-has-caption": "off",
     quotes: ['error', 'single'],
     eqeqeq: 'error',
     'prettier/prettier': [
