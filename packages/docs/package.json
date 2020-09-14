@@ -1,0 +1,15 @@
+{
+  "name": "@ide-controller/docs",
+  "version": "1.0.0",
+  "description": "Documentation for IDE-Controller",
+  "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/ide-controller/issues"
+  }
+}
