@@ -13,17 +13,16 @@ const PhotoPanel = () => {
         <ImageConsumer>
           {(fullPage) => {
             const datamap = new Map(fullPage);
-            const Picture = ({ data }) => (
-              <img
-                src={`data:image/jpeg;base64,${data}`}
-                alt="Document scan"
-                className="responsive"
-              />
-            );
 
             if (datamap.has('CD_IMAGEPHOTO')) {
               const docdata = datamap.get('CD_IMAGEPHOTO');
-              return <Picture data={docdata.image} />;
+              return (
+                <img
+                  src={`data:image/jpeg;base64,${docdata.image}`}
+                  alt="Document scan"
+                  className="responsive"
+                />
+              );
             }
             return (
               <img

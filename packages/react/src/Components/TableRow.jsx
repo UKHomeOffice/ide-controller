@@ -1,5 +1,6 @@
 // Global imports
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const TableRow = ({ rowLabel, status }) => {
   return (
@@ -17,6 +18,11 @@ const TableRow = ({ rowLabel, status }) => {
       </td>
     </tr>
   );
+};
+
+TableRow.propTypes = {
+  rowLabel: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default TableRow;

@@ -2,15 +2,6 @@
   "name": "@ide-controller/react-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@tensorflow-models/posenet": "^2.2.1",
-    "@tensorflow/tfjs": "^2.3.0",
-    "govuk-frontend": "^3.8.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.3",
-    "styled-components": "^5.2.0"
-  },
   "homepage": "./",
   "scripts": {
     "dev": "BROWSER=none CI=true react-scripts start",
@@ -32,6 +23,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@tensorflow-models/posenet": "^2.2.1",
+    "@tensorflow/tfjs": "^2.3.0",
+    "govuk-frontend": "^3.8.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.3",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
