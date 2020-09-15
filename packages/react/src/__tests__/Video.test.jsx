@@ -19,7 +19,12 @@ describe('<Video />', () => {
         height: 100,
       },
     };
-    const { asFragment } = render(<Video captureOptions={captureOptions} />);
+    const ref = jest.fn(() => ({
+      current: {},
+    }));
+    const { asFragment } = render(
+      <Video ref={ref} captureOptions={captureOptions} />
+    );
 
     expect(asFragment).toMatchSnapshot();
     await act(() => promise);
