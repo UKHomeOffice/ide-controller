@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'IDE Controller',
   url: 'https://pages.github.com/UKHomeOffice/ide-controller',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
