@@ -6,7 +6,6 @@ import InfoTable from './InfoTable';
 import InfoTabs from './InfoTabs';
 import MatchValue from './MatchValue';
 
-
 const PageBody = () => {
   return (
     <div className="govuk-width-container">

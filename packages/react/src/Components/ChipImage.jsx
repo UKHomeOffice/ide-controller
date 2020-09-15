@@ -13,17 +13,15 @@ const ChipImage = () => {
         <ImageConsumer>
           {(fullPage) => {
             const datamap = new Map(fullPage);
-            const Picture = ({ data }) => (
-              <img
-                src={`data:image/jpeg;base64,${data}`}
-                alt="Chip"
-                className="responsive"
-              />
-            );
-
             if (datamap.has('CD_IMAGEVIS')) {
               const docdata = datamap.get('CD_IMAGEVIS');
-              return <Picture data={docdata.image} />;
+              return (
+                <img
+                  src={`data:image/jpeg;base64,${docdata.image}`}
+                  alt="Chip"
+                  className="responsive"
+                />
+              );
             }
             return (
               <img

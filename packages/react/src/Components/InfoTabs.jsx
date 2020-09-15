@@ -6,7 +6,6 @@ import ImagePanel from './ImagePanel';
 import MRZPanel from './MRZPanel';
 
 const InfoTabs = () => {
-
   const [active, setActive] = useState({
     imagePanel: true,
     MRZPanel: false,
@@ -18,16 +17,13 @@ const InfoTabs = () => {
         <li
           className={`
             govuk-tabs__list-item
-            ${active.imagePanel ? ' govuk-tabs__list-item--selected' : ''}`} 
+            ${active.imagePanel ? ' govuk-tabs__list-item--selected' : ''}`}
           role="presentation"
         >
           <a
             className="govuk-tabs__tab"
             href="#image-tab"
-            onClick={() => setActive({
-              imagePanel: true,
-              MRZPanel: false,
-            })}
+            onClick={() => setActive({ imagePanel: true, MRZPanel: false })}
           >
             Images to compare
           </a>
@@ -41,10 +37,7 @@ const InfoTabs = () => {
           <a
             className="govuk-tabs__tab"
             href="#image-tab"
-            onClick={() => setActive({
-              imagePanel: false,
-              MRZPanel: true,
-            })}
+            onClick={() => setActive({ imagePanel: false, MRZPanel: true })}
           >
             Data read from chip and MRZ
           </a>

@@ -8,7 +8,9 @@ import 'govuk-frontend/govuk/all.scss';
 import './index.css';
 import App from './App';
 
-document.body.className = document.body.className ? `${document.body.className} js-enabled` : 'js-enabled';
+document.body.className = document.body.className
+  ? `${document.body.className} js-enabled`
+  : 'js-enabled';
 
 initAll();
 

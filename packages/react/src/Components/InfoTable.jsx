@@ -12,7 +12,6 @@ const InfoTable = () => {
         <table className="govuk-table">
           <thead className="govuk-table__head">
             <tr className="gov-table__row">
-              <th className="govuk-table__header" scope="col" width="180px" />
               <th className="govuk-table__header" scope="col" width="auto">
                 Automated checks
               </th>
