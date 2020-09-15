@@ -6,7 +6,7 @@
     "ci": "lerna exec npm ci && lerna bootstrap",
     "lint": "lerna run lint --stream",
     "test": "lerna run test",
-    "dev": "lerna bootstrap && lerna run dev --stream",
+    "dev": "lerna bootstrap && lerna run dev --stream --parallel",
     "build": "lerna run build --stream"
   },
   "devDependencies": {
