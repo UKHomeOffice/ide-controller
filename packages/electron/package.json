@@ -1,12 +1,13 @@
 {
-  "name": "@ide-controller/electron-app",
+  "name": "IDE",
   "version": "0.0.0",
   "description": "electron app",
   "keywords": [
     "electron",
     "app"
   ],
-  "homepage": "",
+  "homepage": "https://github.com/UKHomeOffice/ide-controller",
+  "author": "Viable Data",
   "license": "ISC",
   "main": "main.js",
   "files": [
@@ -14,8 +15,8 @@
   ],
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron .",
-    "build:app": "electron-builder -mw"
+    "dev": "ENV=development nodemon --exec electron .",
+    "build": "rm -rf dist && ENV=production electron-builder -m"
   },
   "devDependencies": {
     "electron": "^10.1.1",
