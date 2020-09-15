@@ -12,7 +12,14 @@ describe('<Video />', () => {
     global.navigator.mediaDevices = {
       getUserMedia: jest.fn(() => promise),
     };
-    const { asFragment } = render(<Video />);
+
+    const captureOptions = {
+      video: {
+        width: 100,
+        height: 100,
+      },
+    };
+    const { asFragment } = render(<Video captureOptions={captureOptions} />);
 
     expect(asFragment).toMatchSnapshot();
     await act(() => promise);
