@@ -4,19 +4,15 @@ import React from 'react';
 // Local imports 
 import ChipImage from './ChipImage';
 import LiveImage from './LiveImage';
+import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
-import PhotoHeaders from './PhotoHeaders'
 
 
 const ImagePanel = ({ isActive }) => {
 
-  console.log(isActive)
-
   return (
     <div 
-      className={`
-          govuk-tabs__panel
-          ${isActive ? '' : 'govuk-tabs__panel--hidden'}`}
+      className={`govuk-tabs__panel ${isActive ? '' : 'govuk-tabs__panel--hidden'}`}
       role="tabpanel" 
       aria-labelledby="image-data" 
     >

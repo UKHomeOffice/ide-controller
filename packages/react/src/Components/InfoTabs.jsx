@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 
 // Local imports
-import MRZPanel from './MRZPanel';
 import ImagePanel from './ImagePanel';
+import MRZPanel from './MRZPanel';
 
 const InfoTabs = () => {
 

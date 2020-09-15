@@ -3,8 +3,9 @@ import React from 'react';
 
 // Local imports
 import InfoTable from './InfoTable';
-import MatchValue from './MatchValue';
 import InfoTabs from './InfoTabs';
+import MatchValue from './MatchValue';
+
 
 const PageBody = () => {
   return (
