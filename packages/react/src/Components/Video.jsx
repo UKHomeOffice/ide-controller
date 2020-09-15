@@ -1,5 +1,6 @@
 // Global imports
 import React, { forwardRef } from 'react';
+import PropTypes from 'prop-types';
 
 const Video = forwardRef(({ captureOptions }, videoRef) => {
   navigator.mediaDevices
@@ -24,5 +25,9 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
     />
   );
 });
+
+Video.propTypes = {
+  captureOptions: PropTypes.object,
+};
 
 export default Video;
