@@ -16,7 +16,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "ENV=development nodemon --exec electron .",
-    "build": "rm -rf dist && ENV=production electron-builder -mw"
+    "build": "rm -rf dist && ENV=production electron-builder -m"
   },
   "devDependencies": {
     "electron": "^10.1.1",

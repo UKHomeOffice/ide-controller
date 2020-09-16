@@ -11,7 +11,13 @@ module.exports = {
   ],
   mac: {
     category: 'public.app-category.utilities',
-    target: 'dmg'
+    target: 'dmg',
+    hardenedRuntime: true,
+    // gatekeeperAssess: true,
+    entitlements: 'build/entitlements.mac.plist',
+    extendInfo: {
+      NSCameraUsageDescription: 'This app requires camera access to record video.',
+    }
   },
   win: {
     target: 'zip'

@@ -7,7 +7,7 @@ const path = require('path');
 let mainWindow
 
 // Create a new BrowserWindow when `app` is ready
-function createWindow () {
+async function createWindow () {
 
   mainWindow = new BrowserWindow({
     // frame: false,
@@ -22,6 +22,12 @@ function createWindow () {
   if (process.platform === 'darwin') { 
     const image = nativeImage.createFromPath(path.resolve(__dirname, 'build/icon.png'))
     app.dock.setIcon(image) 
+    await systemPreferences.askForMediaAccess('camera');
+  } else {
+    const status = await systemPreferences.getMediaAccessStatus('camera');
+    if(status === 'granted') {
+      alert('App does not have access to the camera');
+    }
   }
 
   // Load index.html into the new BrowserWindow
@@ -30,6 +36,8 @@ function createWindow () {
   } else {
     mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
   }
+
+
 
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
