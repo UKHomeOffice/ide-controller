@@ -5,8 +5,8 @@ module.exports = {
   baseUrl: '/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'UKHomeOffice',
+  projectName: 'ide-controller', 
   themeConfig: {
     navbar: {
       title: 'IDE Controller',
