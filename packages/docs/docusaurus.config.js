@@ -1,8 +1,8 @@
 module.exports = {
   title: 'IDE Controller Documentation',
   tagline: 'IDE Controller',
-  url: 'https://pages.github.com/UKHomeOffice/ide-controller',
-  baseUrl: '/',
+  url: 'https://ukhomeoffice.github.io/ide-controller',
+  baseUrl: '/ide-controller/',
   onBrokenLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'UKHomeOffice',
