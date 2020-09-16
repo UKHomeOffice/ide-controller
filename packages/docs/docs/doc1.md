@@ -1,4 +1,4 @@
----
+<!-- ---
 id: doc1
 title: Style Guide
 sidebar_label: Style Guide
@@ -200,4 +200,4 @@ This is a caution
 
 This is a warning
 
-:::
+::: -->
