@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, nativeImage, systemPreferences} = require('electron')
+const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain} = require('electron')
 const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -49,4 +49,8 @@ app.on('window-all-closed', app.quit)
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 app.on('activate', () => {
   if (mainWindow === null) createWindow()
+})
+
+ipcMain.on('webCamDevices', (event, data) => {
+  console.log(data)
 })

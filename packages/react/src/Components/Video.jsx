@@ -2,17 +2,23 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
 const Video = forwardRef(({ captureOptions }, videoRef) => {
   navigator.mediaDevices
     .enumerateDevices()
-    .then((devices) =>
-      devices
-        .filter((device) => device.kind === 'videoinput')
-        .find((device) =>
-          device.label.includes(captureOptions.video.sourceModel)
-        )
-    )
-    .then((webCam) => {
+    .then((devices) => devices.filter((device) => device.kind === 'videoinput'))
+    .then((cameraDevices) => {
+      const webCam = cameraDevices.find((device) =>
+        device.label.includes(captureOptions.video.sourceModel)
+      );
+      cameraDevices.forEach((device) => {
+        ipcRenderer.send('webCamDevices', {
+          label: device.label,
+          deviceId: device.deviceId,
+        });
+      });
       const videoOptions = {
         ...captureOptions,
         video: {
