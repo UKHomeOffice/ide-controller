@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 
 // Local  imports
-import Header from './Components/Header';
-import PageBody from './Components/PageBody';
 import DocumentData from './Types/DocumentData';
+import PageBody from './Components/PageBody';
 import { ImageProvider } from './Components/ImageContext';
 
 const App = () => {
@@ -43,12 +42,9 @@ const App = () => {
   }, [listening, fullpage]);
 
   return (
-    <div>
-      <Header />
       <ImageProvider value={fullpage}>
         <PageBody />
       </ImageProvider>
-    </div>
   );
 };
 

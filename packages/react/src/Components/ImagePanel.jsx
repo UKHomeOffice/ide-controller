@@ -10,10 +10,7 @@ import ScanImage from './ScanImage';
 
 const ImagePanel = ({ isActive }) => {
   return (
-    <div
-      className={`govuk-tabs__panel ${
-        isActive ? '' : 'govuk-tabs__panel--hidden'
-      }`}
+    <div className={`govuk-tabs__panel ${isActive ? '' : 'govuk-tabs__panel--hidden'}`}
       role="tabpanel"
       aria-labelledby="image-data"
     >
@@ -28,12 +25,21 @@ const ImagePanel = ({ isActive }) => {
         <ScanImage />
         <LiveImage />
       </div>
+
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-two-thirds"><p/></div>
+        <div className="govuk-grid-column-one-third">
+          <button 
+            class="govuk-button govuk-button--secondary" 
+            data-module="govuk-button"
+            style={{"margin":"1em 0 0 0"}}
+          >
+            Retake photo
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-ImagePanel.propTypes = {
-  isActive: PropTypes.bool.isRequired,
 };
 
 export default ImagePanel;

@@ -2,37 +2,27 @@
 import React from 'react';
 
 // Local imports
-import { ImageConsumer } from './ImageContext';
-import Config from './Config';
 import './Controller.css';
+import Config from './Config';
+import { ImageConsumer } from './ImageContext';
 
 const ChipImage = () => {
   return (
     <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
-        <ImageConsumer>
-          {(fullPage) => {
-            const datamap = new Map(fullPage);
-            if (datamap.has('CD_IMAGEVIS')) {
-              const docdata = datamap.get('CD_IMAGEVIS');
-              return (
-                <img
-                  src={`data:image/jpeg;base64,${docdata.image}`}
-                  alt="Chip"
-                  className="responsive"
-                />
-              );
-            }
-            return (
-              <img
-                src={Config.blankAvatar}
-                alt="Place holder"
-                className="responsive"
-              />
-            );
-          }}
-        </ImageConsumer>
-      </div>
+      <ImageConsumer>
+        {(fullPage) => {
+          const datamap = new Map(fullPage);
+          const image = datamap.has('CD_IMAGEPHOTO') ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}` : Config.blankAvatar;
+
+          return (
+            <img 
+              src={image}
+              alt="Chip image"
+              className="picture-box"
+            />
+          );
+        }}
+      </ImageConsumer>
     </div>
   );
 };

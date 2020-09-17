@@ -1,20 +1,17 @@
 // Global imports
 import React from 'react';
-import style from 'styled-components';
-
-const StyledHeader = style.header`
-  -webkit-app-region: drag;
-  padding-top: 10px;
-`;
 
 export default function Header() {
   return (
-    <StyledHeader
-      className="govuk-header "
+    <div 
+      className="govuk-header"
       role="banner"
       data-module="govuk-header"
     >
-      <div className="govuk-header__container govuk-width-container">
+      <div 
+        className="govuk-header__container"
+        style={{"max-width": "95%"}}
+      >
         <div className="govuk-header__content">
           <a
             href="/"
@@ -24,6 +21,6 @@ export default function Header() {
           </a>
         </div>
       </div>
-    </StyledHeader>
+    </div>
   );
 }
