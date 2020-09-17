@@ -2,15 +2,16 @@
 import React from 'react';
 import { render, cleanup, act } from '@testing-library/react';
 
-// Local imports
-import Video from '../Components/Video';
-
 describe('<Video />', () => {
   afterEach(cleanup);
   it('renders and matches the snapshot', async () => {
+    window.require = jest.fn(() => ({ ipcRenderer: jest.fn() }));
+
+    const Video = (await import('../Components/Video.jsx')).default;
     const promise = Promise.resolve();
     global.navigator.mediaDevices = {
       getUserMedia: jest.fn(() => promise),
+      enumerateDevices: jest.fn(() => Promise.resolve([])),
     };
 
     const captureOptions = {
