@@ -11,7 +11,7 @@ const PageBody = () => {
   return (
     <body className="govuk-template__body">
       <Header />
-      <div className="govuk-width-container">
+      <div className="govuk-width-container body-width">
         <main className="govuk-main-wrapper" role="main">
           <div className="govuk-grid-column-one-quarter-from-desktop">
             <MatchValue />

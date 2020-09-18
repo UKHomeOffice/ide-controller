@@ -28,3 +28,7 @@
 .header-text {
   padding-left: 0px;
 }
+
+.body-width {
+  max-width: 95%;
+}
