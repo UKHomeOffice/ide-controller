@@ -19,6 +19,11 @@ const CAPTURE_OPTIONS = {
 const THRESHOLD = 0.8;
 const ZOOM_FACTOR = 1.5;
 
+const isBelowThreshold = (singlePose) =>
+  !!singlePose.keypoints
+    .slice(0, 5)
+    .find((poseItem) => poseItem.score < THRESHOLD);
+
 const LiveImage = () => {
   const canvasRef = useRef('canvas');
   const videoRef = useRef('video');
@@ -66,10 +71,7 @@ const LiveImage = () => {
     const runFun = async () => {
       // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
       const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
-      const isBelowThreshold = !!singlePose.keypoints
-        .slice(0, 5)
-        .find((poseItem) => poseItem.score < THRESHOLD);
-      if (isBelowThreshold) {
+      if (isBelowThreshold(singlePose)) {
         runFun();
       } else {
         video.pause();
