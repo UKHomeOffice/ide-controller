@@ -77,8 +77,7 @@ const LiveImage = () => {
   useEffect(() => {
     if (!videoRef.current) return;
     videoRef.current.addEventListener('canplay', estimateSinglePose);
-  });
-
+  }, [videoRef]);
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
