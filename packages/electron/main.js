@@ -52,5 +52,4 @@ app.on('activate', () => {
 })
 
 ipcMain.on('webCamDevices', (event, data) => {
-  console.log(data)
 })
