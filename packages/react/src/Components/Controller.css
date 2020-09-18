@@ -3,3 +3,10 @@
   height: auto;
   column-width: auto;
 }
+
+.picture-box {
+  height: 350px;
+  width: 245px;
+  border: 10px solid white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

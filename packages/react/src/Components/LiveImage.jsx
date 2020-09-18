@@ -9,7 +9,7 @@ import './Controller.css';
 const CAPTURE_OPTIONS = {
   audio: false,
   video: {
-    width: 300,
+    width: 245,
     height: 350,
     frameRate: 30,
     acingMode: 'user',
@@ -17,7 +17,7 @@ const CAPTURE_OPTIONS = {
   },
 };
 const THRESHOLD = 0.8;
-const ZOOM_FACTOR = 1.5;
+const ZOOM_FACTOR = 1.3;
 
 const LiveImage = () => {
   const canvasRef = useRef();
@@ -80,7 +80,7 @@ const LiveImage = () => {
   }, [videoRef]);
   return (
     <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
+      <div className="photoContainer--photo picture-box">
         <Video
           ref={videoRef}
           setVideoRef={setVideoRef}
