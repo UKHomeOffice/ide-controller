@@ -12,15 +12,11 @@ const ChipImage = () => {
       <ImageConsumer>
         {(fullPage) => {
           const datamap = new Map(fullPage);
-          const image = datamap.has('CD_IMAGEPHOTO') ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}` : Config.blankAvatar;
+          const image = datamap.has('CD_IMAGEPHOTO')
+            ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}`
+            : Config.blankAvatar;
 
-          return (
-            <img 
-              src={image}
-              alt="Chip image"
-              className="picture-box"
-            />
-          );
+          return <img src={image} alt="Chip" className="picture-box" />;
         }}
       </ImageConsumer>
     </div>

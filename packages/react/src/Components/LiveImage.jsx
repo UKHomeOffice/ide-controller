@@ -80,7 +80,7 @@ const LiveImage = () => {
 
   return (
     <div className="govuk-grid-column-one-third">
-      <div 
+      <div
         className="photoContainer--photo medium picture-box"
         alt="Live image"
       >

@@ -10,6 +10,9 @@
     "build": "lerna run build --stream"
   },
   "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-plugin-react": "^7.20.6",
     "lerna": "^3.22.1"
-  }
+  },
+  "dependencies": {}
 }

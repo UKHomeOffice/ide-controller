@@ -12,14 +12,11 @@ const ScanImage = () => {
       <ImageConsumer>
         {(fullPage) => {
           const datamap = new Map(fullPage);
-          const image = datamap.has('CD_IMAGEPHOTO') ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}` : Config.blankAvatar;
-
+          const image = datamap.has('CD_IMAGEPHOTO')
+            ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}`
+            : Config.blankAvatar;
           return (
-            <img 
-              src={image}
-              alt="Document scan"
-              className="picture-box"
-            />
+            <img src={image} alt="Document scan" className="picture-box" />
           );
         }}
       </ImageConsumer>

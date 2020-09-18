@@ -6,7 +6,6 @@ import ImagePanel from './ImagePanel';
 import MRZPanel from './MRZPanel';
 
 const InfoTabs = () => {
-  
   const [active, setActive] = useState({
     imagePanel: true,
     MRZPanel: false,
@@ -16,7 +15,9 @@ const InfoTabs = () => {
     <div className="govuk-tabe" data-module="govuk-tabs">
       <ul className="govuk-tabs__list" role="tablist">
         <li
-          className={`govuk-tabs__list-item ${active.imagePanel ? ' govuk-tabs__list-item--selected' : ''}`}
+          className={`govuk-tabs__list-item  ${
+            active.imagePanel ? ' govuk-tabs__list-item--selected' : ''
+          }`}
           role="presentation"
         >
           <a
@@ -28,7 +29,9 @@ const InfoTabs = () => {
           </a>
         </li>
         <li
-          className={`govuk-tabs__list-item ${active.MRZPanel ? ' govuk-tabs__list-item--selected' : ''}`}
+          className={`govuk-tabs__list-item ${
+            active.MRZPanel ? ' govuk-tabs__list-item--selected' : ''
+          }`}
           role="presentation"
         >
           <a

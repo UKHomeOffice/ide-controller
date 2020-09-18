@@ -13,11 +13,8 @@ const PageBody = () => {
   return (
     <body className="govuk-template__body">
       <Header />
-      <div 
-        className="govuk-width-container"
-        style={{"max-width": "95%"}}
-      >
-        <main 
+      <div className="govuk-width-container" style={{ 'max-width': '95%' }}>
+        <main
           className="govuk-main-wrapper govuk-main-wrapper-auto-spacing"
           id="main-content"
           role="main"
@@ -36,7 +33,6 @@ const PageBody = () => {
         </main>
       </div>
     </body>
-    
   );
 };
 

@@ -1,6 +1,5 @@
 // Global imports
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Local imports
 import ChipImage from './ChipImage';
@@ -8,9 +7,13 @@ import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
 
+// eslint-disable-next-line react/prop-types
 const ImagePanel = ({ isActive }) => {
   return (
-    <div className={`govuk-tabs__panel ${isActive ? '' : 'govuk-tabs__panel--hidden'}`}
+    <div
+      className={`govuk-tabs__panel ${
+        isActive ? '' : 'govuk-tabs__panel--hidden'
+      }`}
       role="tabpanel"
       aria-labelledby="image-data"
     >
@@ -27,12 +30,15 @@ const ImagePanel = ({ isActive }) => {
       </div>
 
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds"><p/></div>
+        <div className="govuk-grid-column-two-thirds">
+          <p />
+        </div>
         <div className="govuk-grid-column-one-third">
-          <button 
-            class="govuk-button govuk-button--secondary" 
+          <button
+            className="govuk-button govuk-button--secondary"
             data-module="govuk-button"
-            style={{"margin":"1em 0 0 0"}}
+            style={{ margin: '1em 0 0 0' }}
+            type="button"
           >
             Retake photo
           </button>

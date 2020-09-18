@@ -8,7 +8,9 @@ import MRZTable from './MRZTable';
 const MRZPanel = ({ isActive }) => {
   return (
     <div
-      className={`govuk-tabs__panel ${isActive ? '' : 'govuk-tabs__panel--hidden'}`}
+      className={`govuk-tabs__panel ${
+        isActive ? '' : 'govuk-tabs__panel--hidden'
+      }`}
       role="tabpanel"
       aria-labelledby="mrz-data"
     >

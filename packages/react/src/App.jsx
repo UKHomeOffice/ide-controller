@@ -42,9 +42,9 @@ const App = () => {
   }, [listening, fullpage]);
 
   return (
-      <ImageProvider value={fullpage}>
-        <PageBody />
-      </ImageProvider>
+    <ImageProvider value={fullpage}>
+      <PageBody />
+    </ImageProvider>
   );
 };
 
