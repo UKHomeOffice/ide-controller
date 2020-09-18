@@ -3,3 +3,18 @@
   height: auto;
   column-width: auto;
 }
+
+.waiting-match {
+  color: #505a5f; 
+  font-size: 55px;
+}
+
+.fail-match {
+  color: #d4351c; 
+  font-size: 55px;
+}
+
+.success-match {
+  color: #00703c; 
+  font-size: 55px;
+}
