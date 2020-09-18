@@ -62,17 +62,22 @@ const LiveImage = () => {
       CAPTURE_OPTIONS.video.width,
       CAPTURE_OPTIONS.video.height
     );
-    // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
-    const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
-    const isBelowThreshold = !!singlePose.keypoints
-      .slice(0, 5)
-      .find((poseItem) => poseItem.score < THRESHOLD);
-    if (isBelowThreshold) {
-      estimateSinglePose();
-    } else {
-      video.pause();
-      updateCanvas(singlePose);
-    }
+
+    const runFun = async () => {
+      // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
+      const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
+      const isBelowThreshold = !!singlePose.keypoints
+        .slice(0, 5)
+        .find((poseItem) => poseItem.score < THRESHOLD);
+      if (isBelowThreshold) {
+        runFun();
+      } else {
+        video.pause();
+        updateCanvas(singlePose);
+      }
+    };
+
+    runFun();
   };
 
   useEffect(() => {
