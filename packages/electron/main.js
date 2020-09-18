@@ -37,8 +37,6 @@ async function createWindow () {
     mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
   }
 
-
-
   // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
 
