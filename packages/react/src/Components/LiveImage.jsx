@@ -13,6 +13,7 @@ const CAPTURE_OPTIONS = {
     height: 350,
     frameRate: 30,
     acingMode: 'user',
+    sourceModel: 'C920',
   },
 };
 const THRESHOLD = 0.8;
