@@ -2,6 +2,7 @@
 import React from 'react';
 
 // Local imports
+import ClearButtonSection from './ClearButtonSection';
 import Header from './Header';
 import InfoTable from './InfoTable';
 import InfoTabs from './InfoTabs';
@@ -16,6 +17,7 @@ const PageBody = () => {
         <div className="govuk-grid-column-one-quarter-from-desktop">
           <MatchValue />
           <InfoTable />
+          <ClearButtonSection />
         </div>
         <div className="govuk-grid-column-three-quarters-from-desktop">
           <InfoTabs />
