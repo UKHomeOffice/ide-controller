@@ -68,18 +68,18 @@ const LiveImage = () => {
       CAPTURE_OPTIONS.video.height
     );
 
-    const runFun = async () => {
+    const estimate = async () => {
       // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
       const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
       if (isBelowThreshold(singlePose)) {
-        runFun();
+        estimate();
       } else {
         video.pause();
         updateCanvas(singlePose);
       }
     };
 
-    runFun();
+    estimate();
   };
 
   useEffect(() => {
