@@ -19,3 +19,12 @@
 .warning {
   color: #f47738;
 }
+
+.header-width {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+.header-text {
+  padding-left: 0px;
+}
