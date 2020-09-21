@@ -5,6 +5,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Video from './Video';
 import { ResPosenet } from '../helpers';
 import './Controller.css';
+import Canvas from './Canvas';
 
 const CAPTURE_OPTIONS = {
   audio: false,
@@ -91,11 +92,7 @@ const LiveImage = () => {
       <div className="photoContainer--photo medium at6">
         {showVideo && <Video ref={videoRef} captureOptions={CAPTURE_OPTIONS} />}
         {showCanvas && (
-          <canvas
-            ref={canvasRef}
-            width={CAPTURE_OPTIONS.video.width}
-            height={CAPTURE_OPTIONS.video.height}
-          />
+          <Canvas ref={canvasRef} captureOptions={CAPTURE_OPTIONS} />
         )}
       </div>
     </div>
