@@ -30,8 +30,9 @@ const LiveImage = () => {
   const videoRef = useRef('video');
   const [showVideo, setShowVideo] = useState(true);
   const [showCanvas, setShowCanvas] = useState(false);
+  const [sourceImageOptions, setSourceImageOptions] = useState({});
 
-  const updateCanvas = ({ keypoints }) => {
+  const calculateSourceImageOptions = ({ keypoints }) => {
     setShowCanvas(true);
     const nose = keypoints[0].position;
     const leftEye = keypoints[1].position;
@@ -47,18 +48,13 @@ const LiveImage = () => {
     const yNose = Math.floor(keypoints[4].position.y);
     const yStart = yNose - sHeight / 2;
 
-    const ctx = canvasRef.current.getContext('2d');
-    ctx.drawImage(
-      videoRef.current,
-      xStart - margin,
-      yStart - margin,
-      sWidth + margin * 2,
-      sHeight + margin * 2,
-      0,
-      0,
-      CAPTURE_OPTIONS.video.width,
-      CAPTURE_OPTIONS.video.height
-    );
+    setSourceImageOptions({
+      sx: xStart - margin,
+      sy: yStart - margin,
+      sWidth: sWidth + margin * 2,
+      sHeight: sHeight + margin * 2,
+    });
+
     setShowVideo(false);
   };
   const estimateSinglePose = async () => {
@@ -76,7 +72,7 @@ const LiveImage = () => {
         estimate();
       } else {
         video.pause();
-        updateCanvas(singlePose);
+        calculateSourceImageOptions(singlePose);
       }
     };
 
@@ -91,8 +87,13 @@ const LiveImage = () => {
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
         {showVideo && <Video ref={videoRef} captureOptions={CAPTURE_OPTIONS} />}
-        {showCanvas && (
-          <Canvas ref={canvasRef} captureOptions={CAPTURE_OPTIONS} />
+        {showCanvas && sourceImageOptions.sx && (
+          <Canvas
+            sourceImage={videoRef.current}
+            sourceImageOptions={sourceImageOptions}
+            ref={canvasRef}
+            options={CAPTURE_OPTIONS}
+          />
         )}
       </div>
     </div>
