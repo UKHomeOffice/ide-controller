@@ -5,6 +5,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Video from './Video';
 import { ResPosenet } from '../helpers';
 import './Controller.css';
+import Canvas from './Canvas';
 
 const CAPTURE_OPTIONS = {
   audio: false,
@@ -19,12 +20,20 @@ const CAPTURE_OPTIONS = {
 const THRESHOLD = 0.8;
 const ZOOM_FACTOR = 1.5;
 
-const LiveImage = () => {
-  const canvasRef = useRef();
-  const [videoRef, setVideoRef] = useState(useRef());
-  const [pose, setPose] = useState();
+const isBelowThreshold = (singlePose) =>
+  !!singlePose.keypoints
+    .slice(0, 5)
+    .find((poseItem) => poseItem.score < THRESHOLD);
 
-  const updateCanvas = ({ keypoints }) => {
+const LiveImage = () => {
+  const canvasRef = useRef('canvas');
+  const videoRef = useRef('video');
+  const [showVideo, setShowVideo] = useState(true);
+  const [showCanvas, setShowCanvas] = useState(false);
+  const [sourceImageOptions, setSourceImageOptions] = useState({});
+
+  const calculateSourceImageOptions = ({ keypoints }) => {
+    setShowCanvas(true);
     const nose = keypoints[0].position;
     const leftEye = keypoints[1].position;
     const rightEye = keypoints[2].position;
@@ -39,19 +48,14 @@ const LiveImage = () => {
     const yNose = Math.floor(keypoints[4].position.y);
     const yStart = yNose - sHeight / 2;
 
-    const ctx = canvasRef.current.getContext('2d');
-    ctx.drawImage(
-      videoRef.current,
-      xStart - margin,
-      yStart - margin,
-      sWidth + margin * 2,
-      sHeight + margin * 2,
-      0,
-      0,
-      CAPTURE_OPTIONS.video.width,
-      CAPTURE_OPTIONS.video.height
-    );
-    videoRef.current.style.display = 'none';
+    setSourceImageOptions({
+      sx: xStart - margin,
+      sy: yStart - margin,
+      sWidth: sWidth + margin * 2,
+      sHeight: sHeight + margin * 2,
+    });
+
+    setShowVideo(false);
   };
   const estimateSinglePose = async () => {
     const video = videoRef.current;
@@ -60,38 +64,37 @@ const LiveImage = () => {
       CAPTURE_OPTIONS.video.width,
       CAPTURE_OPTIONS.video.height
     );
-    // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
-    const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
-    const isBelowThreshold = !!singlePose.keypoints
-      .slice(0, 5)
-      .find((poseItem) => poseItem.score < THRESHOLD);
-    if (isBelowThreshold) {
-      estimateSinglePose();
-    } else {
-      video.pause();
-      setPose(singlePose);
-      updateCanvas(singlePose);
-    }
+
+    const estimate = async () => {
+      // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
+      const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
+      if (isBelowThreshold(singlePose)) {
+        estimate();
+      } else {
+        video.pause();
+        calculateSourceImageOptions(singlePose);
+      }
+    };
+
+    estimate();
   };
 
   useEffect(() => {
-    if (!videoRef.current) return;
     videoRef.current.addEventListener('canplay', estimateSinglePose);
-  }, [videoRef]);
+  }, []);
+
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        <Video
-          ref={videoRef}
-          setVideoRef={setVideoRef}
-          captureOptions={CAPTURE_OPTIONS}
-        />
-        <canvas
-          hidden={!pose}
-          ref={canvasRef}
-          width={CAPTURE_OPTIONS.video.width}
-          height={CAPTURE_OPTIONS.video.height}
-        />
+        {showVideo && <Video ref={videoRef} captureOptions={CAPTURE_OPTIONS} />}
+        {showCanvas && sourceImageOptions.sx && (
+          <Canvas
+            sourceImage={videoRef.current}
+            sourceImageOptions={sourceImageOptions}
+            ref={canvasRef}
+            options={CAPTURE_OPTIONS}
+          />
+        )}
       </div>
     </div>
   );
