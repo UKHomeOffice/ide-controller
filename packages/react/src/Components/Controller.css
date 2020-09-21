@@ -4,17 +4,18 @@
   column-width: auto;
 }
 
-.waiting-match {
+.neutral {
   color: #505a5f; 
-  font-size: 55px;
 }
 
-.fail-match {
+.fail {
   color: #d4351c; 
-  font-size: 55px;
 }
 
-.success-match {
+.pass {
   color: #00703c; 
-  font-size: 55px;
+}
+
+.warning {
+  color: #f47738;
 }

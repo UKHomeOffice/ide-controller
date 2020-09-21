@@ -5,7 +5,7 @@ const MatchValue = () => {
   return (
     <>
       <span className="govuk-caption-m">Facial likeness between images</span>
-      <h1 className="govuk-heading-xl waiting-match">READY</h1>
+      <h1 className="govuk-heading-xl govuk-!-font-size-48 fail">READY</h1>
     </>
   );
 };
