@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <div className="govuk-header" role="banner" data-module="govuk-header">
-      <div className="govuk-header__container header-width">
+    <header className="govuk-header" role="banner" data-module="govuk-header">
+      <div className="govuk-header__container govuk-width-container">
         <div className="govuk-header__content">
           <span
             href="/"
@@ -14,6 +14,6 @@ export default function Header() {
           </span>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
