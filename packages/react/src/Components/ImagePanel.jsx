@@ -1,5 +1,5 @@
 // Global imports
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Local imports
@@ -9,6 +9,12 @@ import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
 
 const ImagePanel = ({ isActive }) => {
+  const [restartCam, setRestartCam] = useState(true);
+  const restartLiveImage = () => {
+    setRestartCam(false);
+    setTimeout(() => setRestartCam(true), 0);
+  };
+
   return (
     <div
       className={`govuk-tabs__panel ${
@@ -26,7 +32,10 @@ const ImagePanel = ({ isActive }) => {
       <div className="govuk-grid-row">
         <ChipImage />
         <ScanImage />
-        <LiveImage />
+        {restartCam && <LiveImage restartCam={restartCam} />}
+        <button onClick={restartLiveImage} type="button">
+          Retake Photo
+        </button>
       </div>
     </div>
   );
