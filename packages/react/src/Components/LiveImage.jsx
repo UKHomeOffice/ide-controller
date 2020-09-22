@@ -8,7 +8,10 @@ import { ResPosenet } from '../helpers';
 import './Controller.css';
 import Canvas from './Canvas';
 
-const CAPTURE_OPTIONS = {
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
+let CAPTURE_OPTIONS = {
   audio: false,
   video: {
     width: 300,
@@ -82,6 +85,20 @@ const LiveImage = ({ restartCam }) => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', estimateSinglePose);
+
+    ipcRenderer.on('webCamDevices', (event, data) => {
+      CAPTURE_OPTIONS = {
+        ...CAPTURE_OPTIONS,
+        video: {
+          ...CAPTURE_OPTIONS.video,
+          deviceId: { exact: data.deviceId },
+        },
+      };
+      setShowCanvas(false);
+      setShowVideo(true);
+      setSourceImageOptions({});
+      videoRef.current.addEventListener('canplay', estimateSinglePose);
+    });
   }, [videoRef]);
 
   useEffect(() => {

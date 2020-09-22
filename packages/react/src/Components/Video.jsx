@@ -27,18 +27,15 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
     );
   };
 
-  ipcRenderer.on('webCamDevices', (event, data) => {
-    const videoOptions = getVideoOptionsWithExactDeviceId(data);
-    setupCamera(videoOptions);
-  });
-
   useEffect(() => {
     (async () => {
       const cameraDevices = await getCameraDevices();
       ipcRenderer.send('webCamDevices', cameraDevices);
-      const webCam = cameraDevices.find((device) =>
-        device.label.includes(captureOptions.video.sourceModel)
-      );
+      const webCam = captureOptions.video.deviceId
+        ? { deviceId: captureOptions.video.deviceId }
+        : cameraDevices.find((device) =>
+            device.label.includes(captureOptions.video.sourceModel)
+          );
       const videoOptions = getVideoOptionsWithExactDeviceId(webCam);
       setupCamera(videoOptions);
     })();

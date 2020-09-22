@@ -73,7 +73,7 @@ const sendSelectedCamera = (device) => {
   mainWindow.webContents.send('webCamDevices', device);
 }
 
-ipcMain.once('webCamDevices', (event, list) => {
+ipcMain.on('webCamDevices', (event, list) => {
   // if (data.length <= 1) return;
   ideMenu.append(new MenuItem({
     label: 'Camera List',
