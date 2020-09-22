@@ -50,4 +50,28 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
   );
 });
 
+Video.propTypes = {
+  captureOptions: PropTypes.shape({
+    video: PropTypes.shape({
+      width: PropTypes.number,
+      height: PropTypes.number,
+      sourceModel: PropTypes.string,
+      deviceId: PropTypes.string,
+    }),
+  }),
+};
+
+Video.defaultProps = {
+  captureOptions: {
+    audio: false,
+    video: {
+      width: 300,
+      height: 350,
+      frameRate: 30,
+      acingMode: 'user',
+      sourceModel: 'C920',
+    },
+  },
+};
+
 export default Video;
