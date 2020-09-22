@@ -1,6 +1,9 @@
-// Modules
-const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain} = require('electron')
+// Global imports
+const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain, Menu} = require('electron')
 const path = require('path');
+
+// Local imports
+const ideMenu =  require('./menu')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -45,6 +48,9 @@ async function createWindow () {
     mainWindow = null
   })
 }
+
+// Set application menu
+Menu.setApplicationMenu(ideMenu)
 
 // Electron `app` is ready
 app.on('ready', createWindow)
