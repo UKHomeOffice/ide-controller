@@ -7,6 +7,7 @@ const Canvas = forwardRef(
     canvasRef
   ) => {
     const updateCanvas = () => {
+      if (!sourceImage) return;
       const ctx = canvasRef.current.getContext('2d');
       // Check parameter options from https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
       ctx.drawImage(
@@ -39,7 +40,7 @@ Canvas.propTypes = {
       height: PropTypes.number,
     }),
   }),
-  sourceImage: PropTypes.shape({}).isRequired,
+  sourceImage: PropTypes.shape({}),
   sourceImageOptions: PropTypes.shape({
     sx: PropTypes.number,
     sy: PropTypes.number,
@@ -53,6 +54,7 @@ Canvas.propTypes = {
 };
 
 Canvas.defaultProps = {
+  sourceImage: {},
   options: {
     video: {
       width: 100,
