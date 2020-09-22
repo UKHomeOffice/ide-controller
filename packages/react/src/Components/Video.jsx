@@ -2,51 +2,46 @@
 import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+// Local imports
+import { getCameraDevices } from '../helpers';
+
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-ipcRenderer.on('webCamDevices', (event, data) => {});
 const Video = forwardRef(({ captureOptions }, videoRef) => {
+  const getVideoOptionsWithExactDeviceId = (webCam) => ({
+    ...captureOptions,
+    video: {
+      ...(webCam ? { deviceId: { exact: webCam.deviceId } } : {}),
+      ...captureOptions.video,
+    },
+  });
+
+  const setupCamera = async (options) => {
+    const stream = await navigator.mediaDevices.getUserMedia(options);
+    const video = videoRef.current;
+    video.srcObject = stream;
+    video.play();
+    video.addEventListener('pause', () =>
+      stream.getTracks().forEach((track) => track.stop())
+    );
+  };
+
+  ipcRenderer.on('webCamDevices', (event, data) => {
+    const videoOptions = getVideoOptionsWithExactDeviceId(data);
+    setupCamera(videoOptions);
+  });
+
   useEffect(() => {
-    navigator.mediaDevices
-      .enumerateDevices()
-      .then((devices) =>
-        devices.filter((device) => device.kind === 'videoinput')
-      )
-      .then((cameraDevices) => {
-        const webCam = cameraDevices.find((device) =>
-          device.label.includes(captureOptions.video.sourceModel)
-        );
-        const devices = cameraDevices.map((device) => ({
-          label: device.label,
-          deviceId: device.deviceId,
-        }));
-
-        ipcRenderer.send('webCamDevices', devices);
-        const videoOptions = {
-          ...captureOptions,
-          video: {
-            ...(webCam ? { chromeMediaSourceId: webCam.deviceId } : {}),
-            ...captureOptions.video,
-          },
-        };
-
-        console.log(videoOptions);
-
-        navigator.mediaDevices
-          .getUserMedia({ ...captureOptions, ...videoOptions })
-          .then((stream) => {
-            if (videoRef.current && !videoRef.current.srcObject) {
-              const video = videoRef.current;
-              video.srcObject = stream;
-              video.play();
-
-              video.addEventListener('pause', () =>
-                stream.getTracks().forEach((track) => track.stop())
-              );
-            }
-          });
-      });
+    (async () => {
+      const cameraDevices = await getCameraDevices();
+      ipcRenderer.send('webCamDevices', cameraDevices);
+      const webCam = cameraDevices.find((device) =>
+        device.label.includes(captureOptions.video.sourceModel)
+      );
+      const videoOptions = getVideoOptionsWithExactDeviceId(webCam);
+      setupCamera(videoOptions);
+    })();
   }, [videoRef]);
 
   return (

@@ -15,6 +15,15 @@ export const ResPosenet = async (width, height) => {
   return net;
 };
 
+export const getCameraDevices = async () => {
+  return (await navigator.mediaDevices.enumerateDevices())
+    .filter((device) => device.kind === 'videoinput')
+    .map((device) => ({
+      label: device.label,
+      deviceId: device.deviceId,
+    }));
+};
+
 export default {
   ResPosenet,
 };
