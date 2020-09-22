@@ -1,8 +1,4 @@
-const {Menu} = require('electron')
-const common = require('./common');
-
-const devMenu = Menu.buildFromTemplate([
-  ...common,
+const devMenu = [
   {
     label: 'Developer',
     submenu: [
@@ -10,6 +6,6 @@ const devMenu = Menu.buildFromTemplate([
       { role: 'toggledevtools' },
     ]
   }
-]);
+];
 
 module.exports = devMenu;

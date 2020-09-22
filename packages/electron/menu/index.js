@@ -1,7 +1,15 @@
-const { app } = require('electron');
-const isMac = process.platform === 'darwin'
+const { app, Menu } = require('electron');
+const devMenu = require('./devMenu');
+const prodMenu = require('./prodMenu');
 
-const Menu = [
+let ideMenu;
+if (process.env.ENV === 'development') {
+  ideMenu = devMenu;
+} else {
+  ideMenu = prodMenu;
+}
+
+const commonMenu = [
   {
     label: app.name,
     submenu: [
@@ -28,4 +36,7 @@ const Menu = [
   },
 ];
 
-module.exports =  Menu;
+module.exports = Menu.buildFromTemplate([
+  ...commonMenu,
+  ...ideMenu
+]);

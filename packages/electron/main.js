@@ -1,7 +1,9 @@
-// Modules
+// Global imports
 const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain, Menu} = require('electron')
 const path = require('path');
-const ideMenu =  process.env.ENV === 'development' ? require('./menu/devMenu') : require('./menu/prodMenu');
+
+// Local imports
+const ideMenu =  require('./menu')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

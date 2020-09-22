@@ -1,8 +1,3 @@
-const {Menu} = require('electron')
-const common = require('./common');
+const prodMenu = [];
 
-const devMenu = Menu.buildFromTemplate([
-  ...common
-]);
-
-module.exports = devMenu;
+module.exports = prodMenu;
