@@ -1,15 +1,15 @@
 // Global imports
 import React from 'react';
 
+// Local imports
+import GovButton from './Atoms/GovButton';
+
 const ClearButton = () => {
   return (
-    <button
-      className="govuk-button govuk-button--warning"
-      data-module="govuk-button"
-      type="button"
-    >
-      Clear Data Now
-    </button>
+    <GovButton 
+      buttonText="Clear Data Now" 
+      buttonVariant="warning" 
+      buttonType="button"/>
   );
 };
 
