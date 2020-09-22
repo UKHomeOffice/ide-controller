@@ -1,5 +1,6 @@
 // Global imports
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, memo } from 'react';
+import PropTypes from 'prop-types';
 
 // Local imports
 import Video from './Video';
@@ -25,7 +26,7 @@ const isBelowThreshold = (singlePose) =>
     .slice(0, 5)
     .find((poseItem) => poseItem.score < THRESHOLD);
 
-const LiveImage = () => {
+const LiveImage = ({ restartCam }) => {
   const canvasRef = useRef('canvas');
   const videoRef = useRef('video');
   const [showVideo, setShowVideo] = useState(true);
@@ -81,7 +82,12 @@ const LiveImage = () => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', estimateSinglePose);
-  }, []);
+  }, [videoRef]);
+
+  useEffect(() => {
+    setShowCanvas(false);
+    setShowVideo(true);
+  }, [restartCam]);
 
   return (
     <div className="govuk-grid-column-one-third">
@@ -100,4 +106,15 @@ const LiveImage = () => {
   );
 };
 
-export default LiveImage;
+LiveImage.propTypes = {
+  restartCam: PropTypes.bool,
+};
+
+LiveImage.defaultProps = {
+  restartCam: false,
+};
+
+const areEqual = (prevProps, nextProps) =>
+  prevProps.restartCam === nextProps.restartCam;
+
+export default memo(LiveImage, areEqual);
