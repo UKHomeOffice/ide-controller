@@ -1,5 +1,5 @@
-// Global imports
-const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain, Menu} = require('electron')
+// Modules
+const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain, Menu, MenuItem} = require('electron')
 const path = require('path');
 
 // Local imports
@@ -62,5 +62,22 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow()
 })
 
-ipcMain.on('webCamDevices', (event, data) => {
+const createCameraListSubmenu = (list) => (
+  list.map(device => ({
+    label: device.label.split('(')[0],
+    click() { sendSelectedCamera(device)}
+  }))
+);
+
+const sendSelectedCamera = (device) => {
+  mainWindow.webContents.send('webCamDevices', device);
+}
+
+ipcMain.once('webCamDevices', (event, list) => {
+  // if (data.length <= 1) return;
+  ideMenu.append(new MenuItem({
+    label: 'Camera List',
+      submenu: createCameraListSubmenu(list)
+  }))
+  Menu.setApplicationMenu(ideMenu);
 })

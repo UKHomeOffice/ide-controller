@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
+ipcRenderer.on('webCamDevices', (event, data) => {});
 const Video = forwardRef(({ captureOptions }, videoRef) => {
   useEffect(() => {
     navigator.mediaDevices
@@ -16,12 +17,12 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
         const webCam = cameraDevices.find((device) =>
           device.label.includes(captureOptions.video.sourceModel)
         );
-        cameraDevices.forEach((device) => {
-          ipcRenderer.send('webCamDevices', {
-            label: device.label,
-            deviceId: device.deviceId,
-          });
-        });
+        const devices = cameraDevices.map((device) => ({
+          label: device.label,
+          deviceId: device.deviceId,
+        }));
+
+        ipcRenderer.send('webCamDevices', devices);
         const videoOptions = {
           ...captureOptions,
           video: {
@@ -29,6 +30,8 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
             ...captureOptions.video,
           },
         };
+
+        console.log(videoOptions);
 
         navigator.mediaDevices
           .getUserMedia({ ...captureOptions, ...videoOptions })
@@ -54,15 +57,5 @@ const Video = forwardRef(({ captureOptions }, videoRef) => {
     />
   );
 });
-
-Video.propTypes = {
-  captureOptions: PropTypes.shape({
-    video: PropTypes.shape({
-      width: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-      sourceModel: PropTypes.string,
-    }),
-  }).isRequired,
-};
 
 export default Video;
