@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Local imports
-import { getCameraDevices } from '../helpers';
+import { getCameraDevices } from '../helpers/tf';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -65,11 +65,8 @@ Video.defaultProps = {
   captureOptions: {
     audio: false,
     video: {
-      width: 300,
-      height: 350,
-      frameRate: 30,
-      acingMode: 'user',
-      sourceModel: 'C920',
+      width: 100,
+      height: 100,
     },
   },
 };
