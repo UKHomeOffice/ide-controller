@@ -5,7 +5,10 @@ import * as posenet from '@tensorflow-models/posenet';
 // Local imports
 import { livePhotoConfig } from '../config/cameraOptions';
 
-export const ResPosenet = async (width, height) => {
+export const ResPosenet = async (
+  width = livePhotoConfig.video.width,
+  height = livePhotoConfig.video.height
+) => {
   const net = await posenet.load({
     architecture: 'ResNet50',
     outputStride: 16,
@@ -37,7 +40,7 @@ export const isBelowThreshold = (
     .find((poseItem) => poseItem.score < threshold);
 
 export const getSourceImageOptions = (
-  keypoints,
+  { keypoints },
   zoomFactor = livePhotoConfig.zoomFactor
 ) => {
   const nose = keypoints[0].position;
