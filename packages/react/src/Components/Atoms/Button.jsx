@@ -2,25 +2,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ buttonText, buttonVariant }) => {
+const Button = ({ buttonVariant, onClick, children }) => {
   return (
     <button
       className={`govuk-button govuk-button--${buttonVariant}`}
       data-module="govuk-button"
       type="button"
+      onClick={onClick}
     >
-      {buttonText}
+      {children}
     </button>
   );
 };
 
 Button.propTypes = {
-  buttonText: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
   buttonVariant: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
   buttonVariant: 'secondary',
+  onClick: null,
 };
 
 export default Button;

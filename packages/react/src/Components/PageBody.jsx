@@ -21,7 +21,7 @@ const PageBody = () => {
             This data will automatically be deleted when another document is
             scanned or after 15 minutes.
           </p>
-          <Button buttonText="Clear Data Now" buttonVariant="warning" />
+          <Button buttonVariant="warning">Clear Data Now</Button>
         </div>
         <div className="govuk-grid-column-three-quarters-from-desktop">
           <InfoTabs />
