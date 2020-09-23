@@ -1,6 +1,6 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
@@ -44,7 +44,7 @@ const ImagePanel = ({ isActive }) => {
       <div className="govuk-grid-row">
         <ChipImage />
         <ScanImage />
-        {restartCam && <LiveImage restartCam={restartCam} />}
+        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>
