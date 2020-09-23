@@ -35,9 +35,6 @@ const Video = forwardRef(({ captureOptions, deviceId }, videoRef) => {
     (async () => {
       const cameraDevices = await getCameraDevices();
       ipcRenderer.send('webCamDevices', cameraDevices);
-      // const webCam = captureOptions.video.deviceId
-      //   ? { deviceId: captureOptions.video.deviceId }
-      //   :
       const { defaultDevice } = captureOptions;
       const selectedDeviceId =
         deviceId ||
