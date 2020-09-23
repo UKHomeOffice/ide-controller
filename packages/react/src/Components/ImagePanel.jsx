@@ -1,6 +1,6 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
@@ -9,12 +9,23 @@ import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
 
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
 const ImagePanel = ({ isActive }) => {
   const [restartCam, setRestartCam] = useState(true);
+  const [cameraDeviceId, setCameraDeviceId] = useState();
   const restartLiveImage = () => {
     setRestartCam(false);
     setTimeout(() => setRestartCam(true), 0);
   };
+
+  useEffect(() => {
+    ipcRenderer.on('webCamDevices', (event, data) => {
+      setCameraDeviceId(data.deviceId);
+      restartLiveImage();
+    });
+  });
 
   return (
     <div
@@ -33,7 +44,7 @@ const ImagePanel = ({ isActive }) => {
       <div className="govuk-grid-row">
         <ChipImage />
         <ScanImage />
-        {restartCam && <LiveImage restartCam={restartCam} />}
+        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>

@@ -1,104 +1,66 @@
 // Global imports
-import React, { useRef, useEffect, useState, memo } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
-import Video from './Video';
-import { ResPosenet } from '../helpers';
-import './Controller.css';
+import { livePhotoConfig } from '../config/cameraOptions';
+import {
+  getSourceImageOptions,
+  isBelowThreshold,
+  ResPosenet,
+} from '../helpers/camera';
 import Canvas from './Canvas';
+import './Controller.css';
+import Video from './Video';
 
-const CAPTURE_OPTIONS = {
-  audio: false,
-  video: {
-    width: 300,
-    height: 350,
-    frameRate: 30,
-    acingMode: 'user',
-    sourceModel: 'C920',
-  },
-};
-const THRESHOLD = 0.8;
-const ZOOM_FACTOR = 1.5;
-
-const isBelowThreshold = (singlePose) =>
-  !!singlePose.keypoints
-    .slice(0, 5)
-    .find((poseItem) => poseItem.score < THRESHOLD);
-
-const LiveImage = ({ restartCam }) => {
+const LiveImage = ({ deviceId }) => {
   const canvasRef = useRef('canvas');
   const videoRef = useRef('video');
   const [showVideo, setShowVideo] = useState(true);
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
 
-  const calculateSourceImageOptions = ({ keypoints }) => {
-    setShowCanvas(true);
-    const nose = keypoints[0].position;
-    const leftEye = keypoints[1].position;
-    const rightEye = keypoints[2].position;
-    let margin = (nose.y - leftEye.y + (nose.y - rightEye.y)) / 2;
-    margin *= ZOOM_FACTOR;
-
-    const xStart = Math.floor(keypoints[4].position.x);
-    const xEnd = Math.ceil(keypoints[3].position.x);
-    const sWidth = xEnd - xStart;
-    const sHeight =
-      sWidth * (CAPTURE_OPTIONS.video.height / CAPTURE_OPTIONS.video.width);
-    const yNose = Math.floor(keypoints[4].position.y);
-    const yStart = yNose - sHeight / 2;
-
-    setSourceImageOptions({
-      sx: xStart - margin,
-      sy: yStart - margin,
-      sWidth: sWidth + margin * 2,
-      sHeight: sHeight + margin * 2,
-    });
-
-    setShowVideo(false);
+  const estimate = async (net) => {
+    if (!videoRef.current) return;
+    // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
+    const pose = await net.estimateSinglePose(videoRef.current, 0.5, false, 16);
+    if (isBelowThreshold(pose)) {
+      estimate(net);
+    } else {
+      videoRef.current.pause();
+      const { sx, sy, sWidth, sHeight } = getSourceImageOptions(pose);
+      setSourceImageOptions({ sx, sy, sWidth, sHeight });
+      setShowCanvas(true);
+      setShowVideo(false);
+    }
   };
-  const estimateSinglePose = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-    const net = await ResPosenet(
-      CAPTURE_OPTIONS.video.width,
-      CAPTURE_OPTIONS.video.height
-    );
 
-    const estimate = async () => {
-      // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
-      const singlePose = await net.estimateSinglePose(video, 0.5, false, 16);
-      if (isBelowThreshold(singlePose)) {
-        estimate();
-      } else {
-        video.pause();
-        calculateSourceImageOptions(singlePose);
-      }
-    };
-
-    estimate();
+  const initResPosenet = async () => {
+    if (!videoRef.current) return;
+    const net = await ResPosenet();
+    estimate(net);
   };
 
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', estimateSinglePose);
+    videoRef.current.addEventListener('canplay', initResPosenet);
   }, [videoRef]);
-
-  useEffect(() => {
-    setShowCanvas(false);
-    setShowVideo(true);
-  }, [restartCam]);
 
   return (
     <div className="govuk-grid-column-one-third">
       <div className="photoContainer--photo medium at6">
-        {showVideo && <Video ref={videoRef} captureOptions={CAPTURE_OPTIONS} />}
+        {showVideo && (
+          <Video
+            ref={videoRef}
+            deviceId={deviceId}
+            captureOptions={livePhotoConfig}
+          />
+        )}
         {showCanvas && sourceImageOptions.sx && (
           <Canvas
             sourceImage={videoRef.current}
             sourceImageOptions={sourceImageOptions}
             ref={canvasRef}
-            options={CAPTURE_OPTIONS}
+            options={livePhotoConfig}
           />
         )}
       </div>
@@ -106,15 +68,12 @@ const LiveImage = ({ restartCam }) => {
   );
 };
 
+export default LiveImage;
+
 LiveImage.propTypes = {
-  restartCam: PropTypes.bool,
+  deviceId: PropTypes.string,
 };
 
 LiveImage.defaultProps = {
-  restartCam: false,
+  deviceId: null,
 };
-
-const areEqual = (prevProps, nextProps) =>
-  prevProps.restartCam === nextProps.restartCam;
-
-export default memo(LiveImage, areEqual);
