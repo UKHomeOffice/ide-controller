@@ -10,7 +10,7 @@ const ideMenu =  require('./menu')
 let mainWindow
 
 // Create a new BrowserWindow when `app` is ready
-async function createWindow () {
+function createWindow () {
 
   mainWindow = new BrowserWindow({
     // frame: false,
@@ -25,12 +25,11 @@ async function createWindow () {
   if (process.platform === 'darwin') { 
     const image = nativeImage.createFromPath(path.resolve(__dirname, 'build/icon.png'))
     app.dock.setIcon(image) 
-    await systemPreferences.askForMediaAccess('camera');
-  } else {
-    const status = await systemPreferences.getMediaAccessStatus('camera');
-    if(status === 'granted') {
-      alert('App does not have access to the camera');
-    }
+    systemPreferences.askForMediaAccess('camera');
+  } 
+  const status = systemPreferences.getMediaAccessStatus('camera')
+  if(status !== 'granted') {
+    // Log device does not have access to camera
   }
 
   // Load index.html into the new BrowserWindow
