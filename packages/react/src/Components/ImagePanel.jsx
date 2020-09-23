@@ -1,8 +1,9 @@
 // Global imports
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 // Local imports
+import Button from './Atoms/Button';
 import ChipImage from './ChipImage';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
@@ -33,9 +34,7 @@ const ImagePanel = ({ isActive }) => {
         <ChipImage />
         <ScanImage />
         {restartCam && <LiveImage restartCam={restartCam} />}
-        <button onClick={restartLiveImage} type="button">
-          Retake Photo
-        </button>
+        <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>
   );
