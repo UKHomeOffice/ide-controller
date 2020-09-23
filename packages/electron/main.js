@@ -74,10 +74,17 @@ const sendSelectedCamera = (device) => {
 }
 
 ipcMain.on('webCamDevices', (event, list) => {
-  // if (data.length <= 1) return;
-  ideMenu.append(new MenuItem({
+  let cameraList = ideMenu.getMenuItemById('cameraList')
+  const cameraListMenuItem = new MenuItem({
+    id: 'cameraList',
     label: 'Camera List',
       submenu: createCameraListSubmenu(list)
-  }))
+  })
+  if (cameraList) {
+    cameraList = cameraListMenuItem
+  } else {
+    ideMenu.append(cameraListMenuItem)
+  }
+  
   Menu.setApplicationMenu(ideMenu);
 })
