@@ -9,12 +9,23 @@ import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
 
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
 const ImagePanel = ({ isActive }) => {
   const [restartCam, setRestartCam] = useState(true);
+  const [cameraDeviceId, setCameraDeviceId] = useState();
   const restartLiveImage = () => {
     setRestartCam(false);
     setTimeout(() => setRestartCam(true), 0);
   };
+
+  useEffect(() => {
+    ipcRenderer.on('webCamDevices', (event, data) => {
+      setCameraDeviceId(data.deviceId);
+      restartLiveImage();
+    });
+  });
 
   return (
     <div
