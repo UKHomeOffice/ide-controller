@@ -1,6 +1,11 @@
 module.exports = {
   someSidebar: {
-    'Getting Started': [],
-    'Guides': ['getting-started', 'build']
+    'Guides': [
+      'getting-started',
+      'build',
+      {
+        'IDE Eslint Setup': ['eslint/eslint-setup-vscode']
+      }
+    ]
   },
 };
