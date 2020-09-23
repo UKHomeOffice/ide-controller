@@ -1,21 +1,17 @@
 // Global imports
-import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
-import Video from './Video';
-import {
-  ResPosenet,
-  isBelowThreshold,
-  getSourceImageOptions,
-} from '../helpers/camera';
-import './Controller.css';
-import Canvas from './Canvas';
 import { livePhotoConfig } from '../config/cameraOptions';
-
-const CAPTURE_OPTIONS = {
-  ...livePhotoConfig,
-};
+import {
+  getSourceImageOptions,
+  isBelowThreshold,
+  ResPosenet,
+} from '../helpers/camera';
+import Canvas from './Canvas';
+import './Controller.css';
+import Video from './Video';
 
 const LiveImage = ({ deviceId }) => {
   const canvasRef = useRef('canvas');
@@ -56,7 +52,7 @@ const LiveImage = ({ deviceId }) => {
           <Video
             ref={videoRef}
             deviceId={deviceId}
-            captureOptions={CAPTURE_OPTIONS}
+            captureOptions={livePhotoConfig}
           />
         )}
         {showCanvas && sourceImageOptions.sx && (
@@ -64,7 +60,7 @@ const LiveImage = ({ deviceId }) => {
             sourceImage={videoRef.current}
             sourceImageOptions={sourceImageOptions}
             ref={canvasRef}
-            options={CAPTURE_OPTIONS}
+            options={livePhotoConfig}
           />
         )}
       </div>
