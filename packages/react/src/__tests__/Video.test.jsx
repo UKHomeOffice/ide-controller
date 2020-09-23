@@ -5,7 +5,10 @@ import { render, cleanup, act } from '@testing-library/react';
 describe('<Video />', () => {
   afterEach(cleanup);
   it('renders and matches the snapshot', async () => {
-    window.require = jest.fn(() => ({ ipcRenderer: jest.fn() }));
+    window.require = jest.fn(() => ({
+      ipcRenderer: { send: jest.fn() },
+    }));
+    window.HTMLMediaElement.prototype.play = jest.fn();
 
     const Video = (await import('../Components/Video.jsx')).default;
     const promise = Promise.resolve();
@@ -20,9 +23,9 @@ describe('<Video />', () => {
         height: 100,
       },
     };
-    const ref = jest.fn(() => ({
+    const ref = {
       current: {},
-    }));
+    };
     const { asFragment } = render(
       <Video ref={ref} captureOptions={captureOptions} />
     );
