@@ -52,8 +52,8 @@ export const getSourceImageOptions = (
   const xStart = Math.floor(keypoints[4].position.x);
   const xEnd = Math.ceil(keypoints[3].position.x);
   const sWidth = xEnd - xStart;
-  const sHeight =
-    sWidth * (livePhotoConfig.video.height / livePhotoConfig.video.width);
+  const ratio = livePhotoConfig.video.height / livePhotoConfig.video.width;
+  const sHeight = sWidth * ratio;
   const yNose = Math.floor(keypoints[4].position.y);
   const yStart = yNose - sHeight / 2;
 
@@ -61,7 +61,7 @@ export const getSourceImageOptions = (
     sx: xStart - margin,
     sy: yStart - margin,
     sWidth: sWidth + margin * 2,
-    sHeight: sHeight + margin * 2,
+    sHeight: sHeight + margin * 2 * ratio,
   };
 };
 

@@ -46,23 +46,25 @@ const LiveImage = ({ deviceId }) => {
   }, [videoRef]);
 
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
-        {showVideo && (
-          <Video
-            ref={videoRef}
-            deviceId={deviceId}
-            captureOptions={livePhotoConfig}
-          />
-        )}
-        {showCanvas && sourceImageOptions.sx && (
-          <Canvas
-            sourceImage={videoRef.current}
-            sourceImageOptions={sourceImageOptions}
-            ref={canvasRef}
-            options={livePhotoConfig}
-          />
-        )}
+    <div className="govuk-grid-column-one-third" style={{ padding: '5px' }}>
+      <div className="photoContainer">
+        <span className="shadow">
+          {showVideo && (
+            <Video
+              ref={videoRef}
+              deviceId={deviceId}
+              captureOptions={livePhotoConfig}
+            />
+          )}
+          {showCanvas && sourceImageOptions.sx && (
+            <Canvas
+              sourceImage={videoRef.current}
+              sourceImageOptions={sourceImageOptions}
+              ref={canvasRef}
+              options={livePhotoConfig}
+            />
+          )}
+        </span>
       </div>
     </div>
   );

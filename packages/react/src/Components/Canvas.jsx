@@ -58,14 +58,14 @@ Canvas.defaultProps = {
   options: {
     video: {
       width: 100,
-      height: 100,
+      height: 450,
     },
   },
   sourceImageOptions: {
     sx: 0,
     sy: 0,
     sWidth: 100,
-    sHeight: 100,
+    sHeight: 450,
   },
   destinationImageOptions: {
     dx: 0,

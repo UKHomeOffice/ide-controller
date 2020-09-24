@@ -14,8 +14,8 @@ function createWindow () {
 
   mainWindow = new BrowserWindow({
     // frame: false,
-    width: 1800,
-    height: 1200,
+    width: 1920,
+    height: 1280,
     resizable: false,
     titleBarStyle: 'hidden',
     backgroundColor: '#fff',

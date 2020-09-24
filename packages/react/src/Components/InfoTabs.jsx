@@ -12,7 +12,7 @@ const InfoTabs = () => {
   });
 
   return (
-    <div className="govuk-tabe" data-module="govuk-tabs">
+    <div className="govuk-tabs" data-module="govuk-tabs">
       <ul className="govuk-tabs__list" role="tablist">
         <li
           className={`

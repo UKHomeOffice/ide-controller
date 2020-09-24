@@ -6,36 +6,31 @@ import { ImageConsumer } from './ImageContext';
 import Config from './Config';
 import './Controller.css';
 
-const PhotoPanel = () => {
+const ScanImage = () => {
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
-        <ImageConsumer>
-          {(fullPage) => {
-            const datamap = new Map(fullPage);
+    <div className="govuk-grid-column-one-third image-padding">
+      <ImageConsumer>
+        {(fullPage) => {
+          const datamap = new Map(fullPage);
+          const image = datamap.has('CD_IMAGEPHOTO')
+            ? `data:image/jpeg;base64,${datamap.get('CD_IMAGEPHOTO').image}`
+            : Config.blankAvatar;
 
-            if (datamap.has('CD_IMAGEPHOTO')) {
-              const docdata = datamap.get('CD_IMAGEPHOTO');
-              return (
-                <img
-                  src={`data:image/jpeg;base64,${docdata.image}`}
-                  alt="Document scan"
-                  className="responsive"
+          return (
+            <div className="photoContainer">
+              <span className="shadow">
+                <div
+                  className="photoContainer--photo medium"
+                  alt="Chip"
+                  style={{ backgroundImage: `url(${image})` }}
                 />
-              );
-            }
-            return (
-              <img
-                src={Config.blankAvatar}
-                alt="Place holder"
-                className="responsive"
-              />
-            );
-          }}
-        </ImageConsumer>
-      </div>
+              </span>
+            </div>
+          );
+        }}
+      </ImageConsumer>
     </div>
   );
 };
 
-export default PhotoPanel;
+export default ScanImage;

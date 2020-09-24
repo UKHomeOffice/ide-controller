@@ -8,31 +8,27 @@ import './Controller.css';
 
 const ChipImage = () => {
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
-        <ImageConsumer>
-          {(fullPage) => {
-            const datamap = new Map(fullPage);
-            if (datamap.has('CD_IMAGEVIS')) {
-              const docdata = datamap.get('CD_IMAGEVIS');
-              return (
-                <img
-                  src={`data:image/jpeg;base64,${docdata.image}`}
+    <div className="govuk-grid-column-one-third image-padding">
+      <ImageConsumer>
+        {(fullPage) => {
+          const datamap = new Map(fullPage);
+          const image = datamap.has('CD_SCDG2_PHOTO')
+            ? `data:image/jpeg;base64,${datamap.get('CD_SCDG2_PHOTO').image}`
+            : Config.blankAvatar;
+
+          return (
+            <div className="photoContainer">
+              <span className="shadow">
+                <div
+                  className="photoContainer--photo medium"
                   alt="Chip"
-                  className="responsive"
+                  style={{ backgroundImage: `url(${image})` }}
                 />
-              );
-            }
-            return (
-              <img
-                src={Config.blankAvatar}
-                alt="Place holder"
-                className="responsive"
-              />
-            );
-          }}
-        </ImageConsumer>
-      </div>
+              </span>
+            </div>
+          );
+        }}
+      </ImageConsumer>
     </div>
   );
 };
