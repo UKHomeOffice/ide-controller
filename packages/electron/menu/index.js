@@ -12,11 +12,7 @@ if (process.env.ENV === 'development') {
 const commonMenu = [
   {
     label: app.name,
-    submenu: [
-      { role: 'about' },
-      { type: 'separator' },
-      { role: 'quit' }
-    ]
+    submenu: [{ role: 'about' }, { type: 'separator' }, { role: 'quit' }],
   },
   {
     label: 'View',
@@ -24,19 +20,13 @@ const commonMenu = [
       { role: 'reload' },
       { role: 'forcereload' },
       { type: 'separator' },
-      { role: 'togglefullscreen' }
-    ]
+      { role: 'togglefullscreen' },
+    ],
   },
   {
     label: 'Window',
-    submenu: [
-      { role: 'minimize' },
-      { role: 'close' }
-    ]
+    submenu: [{ role: 'minimize' }, { role: 'close' }],
   },
 ];
 
-module.exports = Menu.buildFromTemplate([
-  ...commonMenu,
-  ...ideMenu
-]);
+module.exports = Menu.buildFromTemplate([...commonMenu, ...ideMenu]);

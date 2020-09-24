@@ -6,8 +6,8 @@ module.exports = {
   extraFiles: [
     {
       from: path.resolve(__dirname, '../react/build/'),
-      to: 'Resources/react/build/'
-    }
+      to: 'Resources/react/build/',
+    },
   ],
   mac: {
     category: 'public.app-category.utilities',
@@ -15,10 +15,11 @@ module.exports = {
     hardenedRuntime: true,
     entitlements: 'build/entitlements.mac.plist',
     extendInfo: {
-      NSCameraUsageDescription: 'This app requires camera access to record video.',
-    }
+      NSCameraUsageDescription:
+        'This app requires camera access to record video.',
+    },
   },
   win: {
-    target: 'zip'
-  }
-}
+    target: 'zip',
+  },
+};
