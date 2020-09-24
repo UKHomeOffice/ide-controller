@@ -2,11 +2,11 @@
 const {
   app,
   BrowserWindow,
-  nativeImage,
-  systemPreferences,
   ipcMain,
+  nativeImage,
   Menu,
   MenuItem,
+  systemPreferences,
 } = require('electron');
 const path = require('path');
 
