@@ -8,6 +8,7 @@ slug: /
 When you’re ready to deploy to production, create a minified bundle with npm run build
 
 ```shell
+$ npm install
 $ npm run build
 ```
 
