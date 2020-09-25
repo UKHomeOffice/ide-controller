@@ -39,7 +39,7 @@ export const isBelowThreshold = (
     .slice(0, 5)
     .find((poseItem) => poseItem.score < threshold);
 
-export const getSourceImageOptions = (
+export const getDestinationImageCoordination = (
   { keypoints },
   zoomFactor = livePhotoConfig.zoomFactor
 ) => {
@@ -52,16 +52,35 @@ export const getSourceImageOptions = (
   const xStart = Math.floor(keypoints[4].position.x);
   const xEnd = Math.ceil(keypoints[3].position.x);
   const sWidth = xEnd - xStart;
-  const sHeight =
-    sWidth * (livePhotoConfig.video.height / livePhotoConfig.video.width);
+  const ratio = livePhotoConfig.video.height / livePhotoConfig.video.width;
+  const sHeight = sWidth * ratio;
   const yNose = Math.floor(keypoints[4].position.y);
   const yStart = yNose - sHeight / 2;
 
   return {
     sx: xStart - margin,
     sy: yStart - margin,
-    sWidth: sWidth + margin * 2,
-    sHeight: sHeight + margin * 2,
+    calculatedWidth: sWidth + margin * 2,
+    calculatedHeight: sHeight + margin * ratio * 2,
+  };
+};
+
+export const getGuidCoordination = (
+  { sx, sy, calculatedWidth, calculatedHeight },
+  pose
+) => {
+  const { width: sourceWidth, height: sourceHeight } = livePhotoConfig.video;
+  const targetImageTooSmall = [
+    calculatedWidth / sourceWidth,
+    calculatedHeight / sourceHeight,
+  ].every((value) => value < 0.4);
+  const collapseCoordination = { dx: 0, dy: 0, dWidth: 0, dHeight: 0 };
+  if (targetImageTooSmall || pose.score < 0.3) return collapseCoordination;
+  return {
+    sx,
+    sy,
+    calculatedWidth,
+    calculatedHeight,
   };
 };
 
