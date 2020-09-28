@@ -7,7 +7,7 @@ import Button from './Atoms/Button';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import Image from './Atoms/Image';
-import ImageCard from './ImageCard';
+import ImageWrapper from './ImageWrapper';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -42,15 +42,15 @@ const ImagePanel = ({ isActive }) => {
       </div>
       <PhotoHeaders />
       <div className="govuk-grid-row">
-        <ImageCard>
+        <ImageWrapper>
           <Image imageID="CD_IMAGEPHOTO" imageAlt="Scan" />
-        </ImageCard>
-        <ImageCard>
+        </ImageWrapper>
+        <ImageWrapper>
           <Image imageID="CD_SCDG2_PHOTO" imageAlt="Chip" />
-        </ImageCard>
-        <ImageCard>
+        </ImageWrapper>
+        <ImageWrapper>
           {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
-        </ImageCard>
+        </ImageWrapper>
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>

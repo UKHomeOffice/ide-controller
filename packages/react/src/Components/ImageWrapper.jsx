@@ -2,9 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Local imports
-
-const ImageCard = ({ children }) => {
+const ImageWrapper = ({ children }) => {
   return (
     <div className="govuk-grid-column-one-third image-padding">
       <div className="photoContainer">
@@ -14,8 +12,8 @@ const ImageCard = ({ children }) => {
   );
 };
 
-ImageCard.propTypes = {
+ImageWrapper.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export default ImageCard;
+export default ImageWrapper;
