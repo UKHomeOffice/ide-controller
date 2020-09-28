@@ -20,7 +20,7 @@ const drawImage = (context, sourceImage, destinationImage) => {
   );
 };
 
-const CanvasDrawImage = forwardRef(
+const CanvasImage = forwardRef(
   ({ sourceImage, destinationImage }, canvasRef) => {
     useEffect(() => {
       if (isEmpty(sourceImage)) return;
@@ -38,7 +38,7 @@ const CanvasDrawImage = forwardRef(
   }
 );
 
-CanvasDrawImage.propTypes = {
+CanvasImage.propTypes = {
   sourceImage: PropTypes.shape({
     image: PropTypes.shape({}),
     x: PropTypes.number,
@@ -54,7 +54,7 @@ CanvasDrawImage.propTypes = {
   }),
 };
 
-CanvasDrawImage.defaultProps = {
+CanvasImage.defaultProps = {
   sourceImage: {
     x: 0,
     y: 0,
@@ -69,4 +69,4 @@ CanvasDrawImage.defaultProps = {
   },
 };
 
-export default CanvasDrawImage;
+export default CanvasImage;

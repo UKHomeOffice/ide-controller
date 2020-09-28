@@ -10,7 +10,7 @@ import {
   isBelowThreshold,
   ResPosenet,
 } from '../helpers/camera';
-import CanvasDrawImage from './Atoms/CanvasDrawImage';
+import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
 import './Controller.css';
 import Video from './Video';
@@ -81,7 +81,7 @@ const LiveImage = ({ deviceId }) => {
           </>
         )}
         {showCanvas && (
-          <CanvasDrawImage
+          <CanvasImage
             sourceImage={{
               image: videoRef.current,
               x: sourceImageOptions.sourceX,
