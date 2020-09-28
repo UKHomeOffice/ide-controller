@@ -32,58 +32,48 @@ export const getCameraDevices = async () => {
 };
 
 export const isBelowThreshold = (
-  singlePose,
+  keypoints,
   threshold = livePhotoConfig.threshold
-) =>
-  !!singlePose.keypoints
-    .slice(0, 5)
-    .find((poseItem) => poseItem.score < threshold);
+) => !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
 
-export const getDestinationImageCoordination = (
-  { keypoints },
-  zoomFactor = livePhotoConfig.zoomFactor
-) => {
-  const nose = keypoints[0].position;
-  const leftEye = keypoints[1].position;
-  const rightEye = keypoints[2].position;
-  let margin = (nose.y - leftEye.y + (nose.y - rightEye.y)) / 2;
+const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
+  /* 5 is an arbitrary number to divide the face into sections  */
+  const faceVerticalDivisions = 5;
+  let margin = ((leftEar.x - rightEar.x) / faceVerticalDivisions) * 2;
   margin *= zoomFactor;
 
-  const xStart = Math.floor(keypoints[4].position.x);
-  const xEnd = Math.ceil(keypoints[3].position.x);
-  const sWidth = xEnd - xStart;
+  return margin;
+};
+
+const extractKeypointsPosition = (keypoints) => ({
+  nose: keypoints[0].position,
+  leftEar: keypoints[3].position,
+  rightEar: keypoints[4].position,
+});
+
+const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
+  const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
   const ratio = livePhotoConfig.video.height / livePhotoConfig.video.width;
+  const xStart = Math.floor(rightEar.x) - margin / 2;
+  const xEnd = Math.ceil(leftEar.x) + margin / 2;
+  const sWidth = xEnd - xStart;
   const sHeight = sWidth * ratio;
-  const yNose = Math.floor(keypoints[4].position.y);
-  const yStart = yNose - sHeight / 2;
+  const yStart = Math.floor(nose.y) - sHeight / 1.7;
 
   return {
-    sx: xStart - margin,
-    sy: yStart - margin,
-    calculatedWidth: sWidth + margin * 2,
-    calculatedHeight: sHeight + margin * ratio * 2,
+    sourceX: xStart,
+    sourceY: yStart,
+    calculatedWidth: sHeight,
+    calculatedHeight: sHeight,
   };
 };
 
-export const getGuidCoordination = (
-  { sx, sy, calculatedWidth, calculatedHeight },
-  pose
+export const getDestinationImageCoordination = (
+  keypoints,
+  zoomFactor = livePhotoConfig.zoomFactor
 ) => {
-  const { width: sourceWidth, height: sourceHeight } = livePhotoConfig.video;
-  const targetImageTooSmall = [
-    calculatedWidth / sourceWidth,
-    calculatedHeight / sourceHeight,
-  ].every((value) => value < 0.4);
-  const collapseCoordination = { dx: 0, dy: 0, dWidth: 0, dHeight: 0 };
-  if (targetImageTooSmall || pose.score < 0.3) return collapseCoordination;
-  return {
-    sx,
-    sy,
-    calculatedWidth,
-    calculatedHeight,
-  };
+  const keypointsPosition = extractKeypointsPosition(keypoints);
+  return calculateCoordination(keypointsPosition, zoomFactor);
 };
 
-export default {
-  ResPosenet,
-};
+export default {};
