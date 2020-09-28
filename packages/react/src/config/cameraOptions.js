@@ -4,8 +4,8 @@ export const livePhotoConfig = {
     height: 350,
     sourceModel: 'C920',
   },
-  threshold: 0.8,
-  zoomFactor: 1.5,
+  threshold: 0.99,
+  zoomFactor: 1.6,
 };
 
 export default livePhotoConfig;
