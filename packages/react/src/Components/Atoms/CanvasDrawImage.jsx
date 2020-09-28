@@ -5,26 +5,29 @@ import React, { useEffect, forwardRef } from 'react';
 // Local imports
 import { isEmpty } from '../../helpers/common';
 
+const drawImage = (context, sourceImage, destinationImage) => {
+  /* Check parameter options from https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage */
+  context.drawImage(
+    sourceImage.image,
+    sourceImage.x,
+    sourceImage.y,
+    sourceImage.width,
+    sourceImage.height,
+    destinationImage.x,
+    destinationImage.y,
+    destinationImage.width,
+    destinationImage.height
+  );
+};
+
 const CanvasDrawImage = forwardRef(
   ({ sourceImage, destinationImage }, canvasRef) => {
-    const drawImage = () => {
+    useEffect(() => {
       if (isEmpty(sourceImage)) return;
-      const ctx = canvasRef.current.getContext('2d');
-      // Check parameter options from https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-      ctx.drawImage(
-        sourceImage.image,
-        sourceImage.x,
-        sourceImage.y,
-        sourceImage.width,
-        sourceImage.height,
-        destinationImage.x,
-        destinationImage.y,
-        destinationImage.width,
-        destinationImage.height
-      );
-    };
+      const context = canvasRef.current.getContext('2d');
+      drawImage(context, sourceImage, destinationImage);
+    }, [sourceImage]);
 
-    useEffect(drawImage, [sourceImage]);
     return (
       <canvas
         ref={canvasRef}
