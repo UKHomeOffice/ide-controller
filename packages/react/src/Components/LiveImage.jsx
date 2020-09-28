@@ -71,7 +71,7 @@ const LiveImage = ({ deviceId }) => {
               ref={guidCanvasRef}
               width={livePhotoConfig.video.width}
               height={livePhotoConfig.video.height}
-              strokeRectCoordinate={{
+              coordinate={{
                 x: sourceImageOptions.sourceX,
                 y: sourceImageOptions.sourceY,
                 width: sourceImageOptions.calculatedWidth,

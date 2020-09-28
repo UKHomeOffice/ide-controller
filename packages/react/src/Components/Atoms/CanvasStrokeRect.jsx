@@ -5,22 +5,26 @@ import React, { useEffect, forwardRef } from 'react';
 // Local imports
 import { isEmpty } from '../../helpers/common';
 
+const paintRec = (context, coordinate, color = '#2ea44f') => {
+  context.strokeStyle = color;
+  context.lineWidth = 4;
+  context.strokeRect(
+    coordinate.x,
+    coordinate.y,
+    coordinate.width,
+    coordinate.height
+  );
+};
+
 const CanvasStrokeRect = forwardRef(
-  ({ strokeRectCoordinate, width, height, className }, canvasRef) => {
-    const strokeRect = () => {
+  ({ coordinate, width, height, className }, canvasRef) => {
+    const rePaintRec = () => {
       if (isEmpty(canvasRef)) return;
-      const ctx = canvasRef.current.getContext('2d');
-      ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = '#2ea44f';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(
-        strokeRectCoordinate.x,
-        strokeRectCoordinate.y,
-        strokeRectCoordinate.width,
-        strokeRectCoordinate.height
-      );
+      const context = canvasRef.current.getContext('2d');
+      context.clearRect(0, 0, width, height);
+      paintRec(context, coordinate);
     };
-    useEffect(strokeRect, [strokeRectCoordinate]);
+    useEffect(rePaintRec, [coordinate]);
 
     return (
       <canvas
@@ -36,7 +40,7 @@ const CanvasStrokeRect = forwardRef(
 CanvasStrokeRect.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
-  strokeRectCoordinate: PropTypes.shape({
+  coordinate: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
     width: PropTypes.number,
@@ -48,11 +52,11 @@ CanvasStrokeRect.propTypes = {
 CanvasStrokeRect.defaultProps = {
   width: 100,
   height: 100,
-  strokeRectCoordinate: {
+  coordinate: {
     x: 0,
     y: 0,
     width: 100,
-    height: 100,
+    heigh: 100,
   },
   className: '',
 };
