@@ -1,6 +1,5 @@
 // Global imports
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // Local imports
 import { ImageConsumer } from '../ImageContext';
@@ -15,7 +14,7 @@ const Image = (imageID, imageAlt) => {
       {(fullPage) => {
         const datamap = new Map(fullPage);
         const image = datamap.has(imageID)
-          ? `data:image/jpeg;base64,${datamap.get(imageID).image}`
+          ? constructImageURL(datamap.get(imageID).image)
           : Config.blankAvatar;
         return (
           <div
@@ -27,16 +26,6 @@ const Image = (imageID, imageAlt) => {
       }}
     </ImageConsumer>
   );
-};
-
-Image.propTypes = {
-  imageID: PropTypes.string.isRequired,
-  imageAlt: PropTypes.string.isRequired,
-};
-
-Image.defaultProps = {
-  imageID: 'NO_DOC',
-  imageAlt: 'Document',
 };
 
 export default Image;

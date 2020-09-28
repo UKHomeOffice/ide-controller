@@ -48,7 +48,9 @@ const ImagePanel = ({ isActive }) => {
         <ImageCard>
           <Image imageID="CD_SCDG2_PHOTO" imageAlt="Chip" />
         </ImageCard>
-        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
+        <ImageCard>
+          {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
+        </ImageCard>
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>
