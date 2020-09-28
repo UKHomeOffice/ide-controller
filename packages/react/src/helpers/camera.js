@@ -63,7 +63,7 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   return {
     sourceX: xStart,
     sourceY: yStart,
-    calculatedWidth: sHeight,
+    calculatedWidth: sWidth,
     calculatedHeight: sHeight,
   };
 };
