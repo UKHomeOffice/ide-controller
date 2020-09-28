@@ -12,7 +12,6 @@ const PageBody = () => {
   return (
     <>
       <Header />
-      {/* <div className="govuk-width-container body-width"> */}
       <main className="govuk-main-wrapper govuk-width-container" role="main">
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-one-quarter-from-desktop">
@@ -29,7 +28,6 @@ const PageBody = () => {
           </div>
         </div>
       </main>
-      {/* </div> */}
     </>
   );
 };
