@@ -1,17 +1,24 @@
 // Modules
-const {app, BrowserWindow, nativeImage, systemPreferences, ipcMain, Menu, MenuItem} = require('electron')
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  nativeImage,
+  Menu,
+  MenuItem,
+  systemPreferences,
+} = require('electron');
 const path = require('path');
 
 // Local imports
-const ideMenu =  require('./menu')
+const ideMenu = require('./menu');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 // Create a new BrowserWindow when `app` is ready
-function createWindow () {
-
+function createWindow() {
   mainWindow = new BrowserWindow({
     // frame: false,
     width: 1920,
@@ -20,15 +27,17 @@ function createWindow () {
     titleBarStyle: 'hidden',
     backgroundColor: '#fff',
     webPreferences: { nodeIntegration: true },
-  })
+  });
 
-  if (process.platform === 'darwin') { 
-    const image = nativeImage.createFromPath(path.resolve(__dirname, 'build/icon.png'))
-    app.dock.setIcon(image) 
+  if (process.platform === 'darwin') {
+    const image = nativeImage.createFromPath(
+      path.resolve(__dirname, 'build/icon.png')
+    );
+    app.dock.setIcon(image);
     systemPreferences.askForMediaAccess('camera');
-  } 
-  const status = systemPreferences.getMediaAccessStatus('camera')
-  if(status !== 'granted') {
+  }
+  const status = systemPreferences.getMediaAccessStatus('camera');
+  if (status !== 'granted') {
     // Log device does not have access to camera
   }
 
@@ -43,48 +52,49 @@ function createWindow () {
   // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
-  mainWindow.on('closed',  () => {
-    mainWindow = null
-  })
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 }
 
 // Set application menu
-Menu.setApplicationMenu(ideMenu)
+Menu.setApplicationMenu(ideMenu);
 
 // Electron `app` is ready
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 // Quit when all windows are closed - (Not macOS - Darwin)
-app.on('window-all-closed', app.quit)
+app.on('window-all-closed', app.quit);
 
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 app.on('activate', () => {
-  if (mainWindow === null) createWindow()
-})
+  if (mainWindow === null) createWindow();
+});
 
-const createCameraListSubmenu = (list) => (
-  list.map(device => ({
+const createCameraListSubmenu = (list) =>
+  list.map((device) => ({
     label: device.label.split('(')[0],
-    click() { sendSelectedCamera(device)}
-  }))
-);
+    click() {
+      sendSelectedCamera(device);
+    },
+  }));
 
 const sendSelectedCamera = (device) => {
   mainWindow.webContents.send('webCamDevices', device);
-}
+};
 
 ipcMain.on('webCamDevices', (event, list) => {
-  let cameraList = ideMenu.getMenuItemById('cameraList')
+  let cameraList = ideMenu.getMenuItemById('cameraList');
   const cameraListMenuItem = new MenuItem({
     id: 'cameraList',
     label: 'Camera List',
-      submenu: createCameraListSubmenu(list)
-  })
+    submenu: createCameraListSubmenu(list),
+  });
   if (cameraList) {
-    cameraList = cameraListMenuItem
+    cameraList = cameraListMenuItem;
   } else {
-    ideMenu.append(cameraListMenuItem)
+    ideMenu.append(cameraListMenuItem);
   }
-  
+
   Menu.setApplicationMenu(ideMenu);
-})
+});

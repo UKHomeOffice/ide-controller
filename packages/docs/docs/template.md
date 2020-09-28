@@ -1,4 +1,4 @@
-<!-- ---
+---
 id: doc1
 title: Style Guide
 sidebar_label: Style Guide
@@ -160,6 +160,8 @@ Quote break.
 
 ---
 
+This is a link to [another document.](doc3.md) This is a link to an [external page.](http://www.example.com/)
+
 ## Line Breaks
 
 Here's a line for us to start with.
@@ -200,4 +202,4 @@ This is a caution
 
 This is a warning
 
-::: -->
+:::
