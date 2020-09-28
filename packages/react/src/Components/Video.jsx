@@ -8,52 +8,55 @@ import { getCameraDevices } from '../helpers/camera';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const Video = forwardRef(({ captureOptions, deviceId }, videoRef) => {
-  const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
-    ...captureOptions,
-    video: {
-      deviceId: { exact: selectedDeviceId },
-      ...captureOptions.video,
-    },
-  });
+const Video = forwardRef(
+  ({ captureOptions, deviceId, className }, videoRef) => {
+    const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
+      ...captureOptions,
+      video: {
+        deviceId: { exact: selectedDeviceId },
+        ...captureOptions.video,
+      },
+    });
 
-  const setupCamera = async (options) => {
-    const stream = await navigator.mediaDevices.getUserMedia(options);
-    const video = videoRef.current;
-    video.srcObject = stream;
-    video.play();
-    video.addEventListener('pause', () =>
-      stream.getTracks().forEach((track) => track.stop())
+    const setupCamera = async (options) => {
+      const stream = await navigator.mediaDevices.getUserMedia(options);
+      const video = videoRef.current;
+      video.srcObject = stream;
+      video.play();
+      video.addEventListener('pause', () =>
+        stream.getTracks().forEach((track) => track.stop())
+      );
+    };
+
+    const findDefaultCamera = (cameraDevices) =>
+      cameraDevices.find((device) =>
+        device.label.includes(captureOptions.video.sourceModel)
+      );
+    useEffect(() => {
+      (async () => {
+        const cameraDevices = await getCameraDevices();
+        ipcRenderer.send('webCamDevices', cameraDevices);
+        const { defaultDevice } = captureOptions;
+        const selectedDeviceId =
+          deviceId ||
+          (defaultDevice ? findDefaultCamera(defaultDevice).deviceId : null);
+        const videoOptions = selectedDeviceId
+          ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
+          : captureOptions;
+        setupCamera(videoOptions);
+      })();
+    }, [videoRef]);
+
+    return (
+      <video
+        ref={videoRef}
+        width={captureOptions.video.width}
+        height={captureOptions.video.height}
+        className={className}
+      />
     );
-  };
-
-  const findDefaultCamera = (cameraDevices) =>
-    cameraDevices.find((device) =>
-      device.label.includes(captureOptions.video.sourceModel)
-    );
-  useEffect(() => {
-    (async () => {
-      const cameraDevices = await getCameraDevices();
-      ipcRenderer.send('webCamDevices', cameraDevices);
-      const { defaultDevice } = captureOptions;
-      const selectedDeviceId =
-        deviceId ||
-        (defaultDevice ? findDefaultCamera(defaultDevice).deviceId : null);
-      const videoOptions = selectedDeviceId
-        ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
-        : captureOptions;
-      setupCamera(videoOptions);
-    })();
-  }, [videoRef]);
-
-  return (
-    <video
-      ref={videoRef}
-      width={captureOptions.video.width}
-      height={captureOptions.video.height}
-    />
-  );
-});
+  }
+);
 
 Video.propTypes = {
   captureOptions: PropTypes.shape({
@@ -66,6 +69,7 @@ Video.propTypes = {
     defaultDevice: PropTypes.string,
   }),
   deviceId: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Video.defaultProps = {
@@ -78,6 +82,7 @@ Video.defaultProps = {
     defaultDevice: '',
   },
   deviceId: null,
+  className: '',
 };
 
 export default Video;
