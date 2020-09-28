@@ -4,32 +4,43 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
 import { livePhotoConfig } from '../config/cameraOptions';
+import './Atoms/style.scss';
 import {
-  getSourceImageOptions,
+  getDestinationImageCoordination,
   isBelowThreshold,
   ResPosenet,
 } from '../helpers/camera';
-import Canvas from './Canvas';
+import CanvasDrawImage from './Atoms/CanvasDrawImage';
+import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
 import './Controller.css';
 import Video from './Video';
 
 const LiveImage = ({ deviceId }) => {
   const canvasRef = useRef('canvas');
-  const videoRef = useRef('video');
+  const guidCanvasRef = useRef('guidCanvas');
+  const videoRef = useRef();
   const [showVideo, setShowVideo] = useState(true);
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
 
   const estimate = async (net) => {
-    if (!videoRef.current) return;
-    // parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride)
-    const pose = await net.estimateSinglePose(videoRef.current, 0.5, false, 16);
-    if (isBelowThreshold(pose)) {
+    const isCameraOffline = !videoRef.current;
+    if (isCameraOffline) return;
+    /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
+    const { keypoints } = await net.estimateSinglePose(
+      videoRef.current,
+      0.5,
+      false,
+      16
+    );
+    const destinationImageCoordinations = getDestinationImageCoordination(
+      keypoints
+    );
+    setSourceImageOptions(destinationImageCoordinations);
+    if (isBelowThreshold(keypoints)) {
       estimate(net);
     } else {
       videoRef.current.pause();
-      const { sx, sy, sWidth, sHeight } = getSourceImageOptions(pose);
-      setSourceImageOptions({ sx, sy, sWidth, sHeight });
       setShowCanvas(true);
       setShowVideo(false);
     }
@@ -47,20 +58,44 @@ const LiveImage = ({ deviceId }) => {
 
   return (
     <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
+      <div className="photoContainer--photo medium at6 position-relative">
         {showVideo && (
-          <Video
-            ref={videoRef}
-            deviceId={deviceId}
-            captureOptions={livePhotoConfig}
-          />
+          <>
+            <Video
+              ref={videoRef}
+              deviceId={deviceId}
+              captureOptions={livePhotoConfig}
+            />
+            <CanvasStrokeRect
+              className="position-absolute"
+              ref={guidCanvasRef}
+              width={livePhotoConfig.video.width}
+              height={livePhotoConfig.video.height}
+              strokeRectCoordinate={{
+                x: sourceImageOptions.sourceX,
+                y: sourceImageOptions.sourceY,
+                width: sourceImageOptions.calculatedWidth,
+                height: sourceImageOptions.calculatedHeight,
+              }}
+            />
+          </>
         )}
-        {showCanvas && sourceImageOptions.sx && (
-          <Canvas
-            sourceImage={videoRef.current}
-            sourceImageOptions={sourceImageOptions}
+        {showCanvas && (
+          <CanvasDrawImage
+            sourceImage={{
+              image: videoRef.current,
+              x: sourceImageOptions.sourceX,
+              y: sourceImageOptions.sourceY,
+              width: sourceImageOptions.calculatedWidth,
+              height: sourceImageOptions.calculatedHeight,
+            }}
             ref={canvasRef}
-            options={livePhotoConfig}
+            destinationImage={{
+              x: 0,
+              y: 0,
+              width: livePhotoConfig.video.width,
+              height: livePhotoConfig.video.height,
+            }}
           />
         )}
       </div>
