@@ -4,7 +4,7 @@ import React from 'react';
 // Local imports
 import { ImageConsumer } from '../ImageContext';
 import Config from '../Config';
-import '../Controller.css';
+import '../Controller.scss';
 
 const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 
