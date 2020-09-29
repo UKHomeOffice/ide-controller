@@ -3,14 +3,17 @@ import React from 'react';
 
 // Local imports
 import { ImageConsumer } from './ImageContext';
-import Image from './Atoms/Image';
+import ImageCard from './Molecules/ImageCard';
 import Config from './Config';
 import './Controller.scss';
+import Column from './Layout/Column';
+
+const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 
 const PhotoPanel = () => {
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6">
+    <Column size="one-third padding-5">
+      <ImageCard>
         <ImageConsumer>
           {(fullPage) => {
             const datamap = new Map(fullPage);
@@ -18,17 +21,19 @@ const PhotoPanel = () => {
             if (datamap.has('CD_IMAGEPHOTO')) {
               const docdata = datamap.get('CD_IMAGEPHOTO');
               return (
-                <Image
-                  image={`data:image/jpeg;base64,${docdata.image}`}
+                <ImageCard
+                  image={constructImageURL(docdata.image)}
                   imageAlt="Scan"
                 />
               );
             }
-            return <Image image={Config.blankAvatar} imageAlt="Place holder" />;
+            return (
+              <ImageCard image={Config.blankAvatar} imageAlt="Place holder" />
+            );
           }}
         </ImageConsumer>
-      </div>
-    </div>
+      </ImageCard>
+    </Column>
   );
 };
 
