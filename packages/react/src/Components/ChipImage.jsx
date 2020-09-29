@@ -3,7 +3,7 @@ import React from 'react';
 
 // Local imports
 import Image from './Atoms/Image';
-import './Controller.css';
+import './Controller.scss';
 
 const ChipImage = () => {
   return (

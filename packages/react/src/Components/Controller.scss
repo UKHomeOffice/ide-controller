@@ -5,15 +5,15 @@
 }
 
 .neutral {
-  color: #505a5f; 
+  color: #505a5f;
 }
 
 .fail {
-  color: #d4351c; 
+  color: #d4351c;
 }
 
 .pass {
-  color: #00703c; 
+  color: #00703c;
 }
 
 .warning {
@@ -29,14 +29,16 @@
   max-width: 95%;
 }
 
-.photoContainer--photo {
-  background-repeat: no-repeat;
-  margin-bottom: 0;
-  height: 450px;
-  width: 100%;
-  background-size: cover;
-  background-position: center 80px;
-  box-shadow: inset 0 0 0 10px #FFF;
+.photoContainer {
+  &--photo {
+    background-repeat: no-repeat;
+    margin-bottom: 0;
+    height: 450px;
+    width: 100%;
+    background-size: cover;
+    background-position: center 80px;
+    box-shadow: inset 0 0 0 10px #fff;
+  }
 }
 
 .shadow {
