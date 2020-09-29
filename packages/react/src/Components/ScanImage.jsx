@@ -13,26 +13,24 @@ const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 const PhotoPanel = () => {
   return (
     <Column size="one-third padding-5">
-      <ImageCard>
-        <ImageConsumer>
-          {(fullPage) => {
-            const datamap = new Map(fullPage);
+      <ImageConsumer>
+        {(fullPage) => {
+          const datamap = new Map(fullPage);
 
-            if (datamap.has('CD_IMAGEPHOTO')) {
-              const docdata = datamap.get('CD_IMAGEPHOTO');
-              return (
-                <ImageCard
-                  image={constructImageURL(docdata.image)}
-                  imageAlt="Scan"
-                />
-              );
-            }
+          if (datamap.has('CD_IMAGEPHOTO')) {
+            const docdata = datamap.get('CD_IMAGEPHOTO');
             return (
-              <ImageCard image={Config.blankAvatar} imageAlt="Place holder" />
+              <ImageCard
+                image={constructImageURL(docdata.image)}
+                imageAlt="Scan"
+              />
             );
-          }}
-        </ImageConsumer>
-      </ImageCard>
+          }
+          return (
+            <ImageCard image={Config.blankAvatar} imageAlt="Place holder" />
+          );
+        }}
+      </ImageConsumer>
     </Column>
   );
 };
