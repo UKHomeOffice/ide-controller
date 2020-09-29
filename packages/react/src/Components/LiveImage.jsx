@@ -57,49 +57,47 @@ const LiveImage = ({ deviceId }) => {
   }, [videoRef]);
 
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6 position-relative">
-        {showVideo && (
-          <>
-            <Video
-              ref={videoRef}
-              deviceId={deviceId}
-              captureOptions={livePhotoConfig}
-            />
-            <CanvasStrokeRect
-              className="position-absolute"
-              ref={guidCanvasRef}
-              width={livePhotoConfig.video.width}
-              height={livePhotoConfig.video.height}
-              coordinate={{
-                x: sourceImageOptions.sourceX,
-                y: sourceImageOptions.sourceY,
-                width: sourceImageOptions.calculatedWidth,
-                height: sourceImageOptions.calculatedHeight,
-              }}
-            />
-          </>
-        )}
-        {showCanvas && (
-          <CanvasImage
-            sourceImage={{
-              image: videoRef.current,
+    <>
+      {showVideo && (
+        <>
+          <Video
+            ref={videoRef}
+            deviceId={deviceId}
+            captureOptions={livePhotoConfig}
+          />
+          <CanvasStrokeRect
+            className="position-absolute"
+            ref={guidCanvasRef}
+            width={livePhotoConfig.video.width}
+            height={livePhotoConfig.video.height}
+            coordinate={{
               x: sourceImageOptions.sourceX,
               y: sourceImageOptions.sourceY,
               width: sourceImageOptions.calculatedWidth,
               height: sourceImageOptions.calculatedHeight,
             }}
-            ref={canvasRef}
-            destinationImage={{
-              x: 0,
-              y: 0,
-              width: livePhotoConfig.video.width,
-              height: livePhotoConfig.video.height,
-            }}
           />
-        )}
-      </div>
-    </div>
+        </>
+      )}
+      {showCanvas && (
+        <CanvasImage
+          sourceImage={{
+            image: videoRef.current,
+            x: sourceImageOptions.sourceX,
+            y: sourceImageOptions.sourceY,
+            width: sourceImageOptions.calculatedWidth,
+            height: sourceImageOptions.calculatedHeight,
+          }}
+          ref={canvasRef}
+          destinationImage={{
+            x: 0,
+            y: 0,
+            width: livePhotoConfig.video.width,
+            height: livePhotoConfig.video.height,
+          }}
+        />
+      )}
+    </>
   );
 };
 

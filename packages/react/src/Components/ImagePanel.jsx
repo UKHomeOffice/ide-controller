@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
-import ChipImage from './ChipImage';
+// import ChipImage from './ChipImage';
+import Image from './Atoms/Image';
+import ImageWrapper from './ImageWrapper';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
-import ScanImage from './ScanImage';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -42,9 +43,15 @@ const ImagePanel = ({ isActive }) => {
       </div>
       <PhotoHeaders />
       <div className="govuk-grid-row">
-        <ChipImage />
-        <ScanImage />
-        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
+        <ImageWrapper>
+          <Image imageID="CD_SCDG2_PHOTO" imageAlt="Chip" />
+        </ImageWrapper>
+        <ImageWrapper>
+          <Image imageID="CD_IMAGEPHOTO" imageAlt="Scan" />
+        </ImageWrapper>
+        <ImageWrapper>
+          {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
+        </ImageWrapper>
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </div>
     </div>
