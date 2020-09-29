@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
-// import ChipImage from './ChipImage';
 import Image from './Atoms/Image';
 import ImageWrapper from './ImageWrapper';
 import LiveImage from './LiveImage';
