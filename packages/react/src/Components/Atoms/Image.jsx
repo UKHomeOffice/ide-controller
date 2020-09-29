@@ -15,6 +15,13 @@ const Image = ({ image, imageAlt }) => {
   );
 };
 
-// @todo add prop checks and defaults
+Image.propTypes = {
+  image: PropTypes.string.isRequired,
+  imageAlt: PropTypes.string,
+};
+
+Image.defaultProps = {
+  imageAlt: '',
+};
 
 export default Image;
