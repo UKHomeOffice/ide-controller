@@ -12,7 +12,7 @@ import {
 } from '../helpers/camera';
 import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
-import './Controller.css';
+import './Controller.scss';
 import Video from './Video';
 
 const LiveImage = ({ deviceId }) => {

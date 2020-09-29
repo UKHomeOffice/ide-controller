@@ -1,0 +1,51 @@
+.responsive {
+  width: 100%;
+  height: auto;
+  column-width: auto;
+}
+
+.neutral {
+  color: #505a5f;
+}
+
+.fail {
+  color: #d4351c;
+}
+
+.pass {
+  color: #00703c;
+}
+
+.warning {
+  color: #f47738;
+}
+
+.header-width {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+.govuk-width-container {
+  max-width: 95%;
+}
+
+.photoContainer {
+  &--photo {
+    background-repeat: no-repeat;
+    margin-bottom: 0;
+    height: 450px;
+    width: 100%;
+    background-size: cover;
+    background-position: center 80px;
+    box-shadow: inset 0 0 0 10px #fff;
+  }
+}
+
+.shadow {
+  box-shadow: 0px 2px 6px 2px #bfc1c3;
+  display: block;
+}
+
+.image-padding {
+  padding: 5px;
+}

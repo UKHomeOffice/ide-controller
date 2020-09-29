@@ -3,8 +3,9 @@ import React from 'react';
 
 // Local imports
 import { ImageConsumer } from './ImageContext';
+import Image from './Atoms/Image';
 import Config from './Config';
-import './Controller.css';
+import './Controller.scss';
 
 const PhotoPanel = () => {
   return (
@@ -17,20 +18,13 @@ const PhotoPanel = () => {
             if (datamap.has('CD_IMAGEPHOTO')) {
               const docdata = datamap.get('CD_IMAGEPHOTO');
               return (
-                <img
-                  src={`data:image/jpeg;base64,${docdata.image}`}
-                  alt="Document scan"
-                  className="responsive"
+                <Image
+                  image={`data:image/jpeg;base64,${docdata.image}`}
+                  imageAlt="Scan"
                 />
               );
             }
-            return (
-              <img
-                src={Config.blankAvatar}
-                alt="Place holder"
-                className="responsive"
-              />
-            );
+            return <Image image={Config.blankAvatar} imageAlt="Place holder" />;
           }}
         </ImageConsumer>
       </div>
