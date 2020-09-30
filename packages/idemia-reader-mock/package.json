@@ -9,9 +9,12 @@
     "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "bugs": {
     "url": "https://github.com/UKHomeOffice/ide-controller/issues"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
