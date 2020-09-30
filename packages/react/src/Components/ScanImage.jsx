@@ -1,12 +1,12 @@
 // Global imports
 import React from 'react';
+import Config from './Config';
 
 // Local imports
-import { ImageConsumer } from './ImageContext';
-import ImageCard from './Molecules/ImageCard';
-import Config from './Config';
 import './Controller.scss';
-import Column from './Layout/Column';
+import { ImageConsumer } from './ImageContext';
+import { Column } from './Layout';
+import ImageCard from './Molecules/ImageCard';
 
 const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 

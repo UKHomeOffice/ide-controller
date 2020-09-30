@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // Local imports
 import MRZTable from './MRZTable';
+import { Row } from './Layout';
 
 const MRZPanel = ({ isActive }) => {
   return (
@@ -14,11 +15,11 @@ const MRZPanel = ({ isActive }) => {
       role="tabpanel"
       aria-labelledby="mrz-data"
     >
-      <div className="govuk-grid-row">
+      <Row>
         <div className="govuk-grid-column-full">
           <h2 className="govuk-heading-l">Data read from chip and MRZ</h2>
         </div>
-      </div>
+      </Row>
       <MRZTable />
     </div>
   );

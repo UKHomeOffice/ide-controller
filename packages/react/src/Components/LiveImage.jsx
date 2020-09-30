@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
 import { livePhotoConfig } from '../config/cameraOptions';
-import './Atoms/style.scss';
 import {
   getDestinationImageCoordination,
   isBelowThreshold,
@@ -12,10 +11,11 @@ import {
 } from '../helpers/camera';
 import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
+import './Atoms/style.scss';
 import './Controller.scss';
-import Video from './Video';
-import Column from './Layout/Column';
+import { Column } from './Layout';
 import ImageCard from './Molecules/ImageCard';
+import Video from './Video';
 
 const LiveImage = ({ deviceId }) => {
   const canvasRef = useRef('canvas');
