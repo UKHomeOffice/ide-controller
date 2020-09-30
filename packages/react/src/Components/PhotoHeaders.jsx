@@ -1,9 +1,12 @@
 // Global imports
 import React from 'react';
 
+// Local imports
+import { Row } from './Layout';
+
 const PhotoHeaders = () => {
   return (
-    <div className="govuk-grid-row">
+    <Row>
       <div className="govuk-grid-column-one-third">
         <h2 className="govuk-heading-m">Chip Photo</h2>
       </div>
@@ -13,7 +16,7 @@ const PhotoHeaders = () => {
       <div className="govuk-grid-column-one-third">
         <h2 className="govuk-heading-m">Live photo</h2>
       </div>
-    </div>
+    </Row>
   );
 };
 

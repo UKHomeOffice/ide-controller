@@ -1,10 +1,11 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
 import ChipImage from './ChipImage';
+import { Row } from './Layout';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import ScanImage from './ScanImage';
@@ -35,18 +36,18 @@ const ImagePanel = ({ isActive }) => {
       role="tabpanel"
       aria-labelledby="image-data"
     >
-      <div className="govuk-grid-row">
+      <Row>
         <div className="govuk-grid-column-full">
           <h2 className="govuk-heading-l">Images to compare</h2>
         </div>
-      </div>
+      </Row>
       <PhotoHeaders />
-      <div className="govuk-grid-row">
+      <Row>
         <ChipImage />
         <ScanImage />
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
-      </div>
+      </Row>
     </div>
   );
 };

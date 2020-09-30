@@ -3,10 +3,11 @@ import React from 'react';
 
 // Local imports
 import TableRow from './TableRow';
+import { Row } from './Layout';
 
 const InfoTable = () => {
   return (
-    <div className="govuk-grid-row">
+    <Row>
       <div className="govuk-grid-column-full">
         <h2 className="govuk-heading-m">Further information</h2>
         <table className="govuk-table">
@@ -26,7 +27,7 @@ const InfoTable = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </Row>
   );
 };
 
