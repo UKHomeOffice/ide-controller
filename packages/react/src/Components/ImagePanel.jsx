@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react';
 
 // Local imports
 import Button from './Atoms/Button';
-import ChipImage from './ChipImage';
-import { Row } from './Layout';
+import Config from './Config';
+import DocumentImage from './DocumentImage';
+import { ImageConsumer } from './ImageContext';
 import LiveImage from './LiveImage';
+import { Row } from './Layout';
 import PhotoHeaders from './PhotoHeaders';
-import ScanImage from './ScanImage';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
+
+const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 
 const ImagePanel = ({ isActive }) => {
   const [restartCam, setRestartCam] = useState(true);
@@ -43,8 +46,23 @@ const ImagePanel = ({ isActive }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        <ChipImage />
-        <ScanImage />
+        <ImageConsumer>
+          {(fullPage) => {
+            const docData = new Map(fullPage);
+            const chipImage = docData.has('CD_SCDG2_PHOTO')
+              ? constructImageURL(docData.get('CD_SCDG2_PHOTO').image)
+              : Config.blankAvatar;
+            const scanImage = docData.has('CD_IMAGEPHOTO')
+              ? constructImageURL(docData.get('CD_IMAGEPHOTO').image)
+              : Config.blankAvatar;
+            return (
+              <>
+                <DocumentImage image={chipImage} imageAlt="Chip" />
+                <DocumentImage image={scanImage} imageAlt="Scan" />
+              </>
+            );
+          }}
+        </ImageConsumer>
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
