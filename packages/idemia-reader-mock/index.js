@@ -3,7 +3,7 @@ const response = require('./response.json');
 
 const server = http.createServer((req, res) => {
   console.log(req.url)
-  if (req.method === 'POST' && req.url === '/reader/data') {
+  if (req.method === 'POST' && req.url === '/image/match') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(response));
   }
