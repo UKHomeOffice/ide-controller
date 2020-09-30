@@ -23,7 +23,7 @@ const drawImage = (context, sourceImage, destinationImage) => {
 const CanvasImage = forwardRef(
   ({ sourceImage, destinationImage }, canvasRef) => {
     useEffect(() => {
-      if (isEmpty(sourceImage)) return;
+      if (isEmpty(sourceImage.image)) return;
       const context = canvasRef.current.getContext('2d');
       drawImage(context, sourceImage, destinationImage);
     }, [sourceImage]);
