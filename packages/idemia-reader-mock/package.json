@@ -1,0 +1,17 @@
+{
+  "name": "idemia-reader-mock",
+  "version": "1.0.0",
+  "description": "Idemia software reader mock response",
+  "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/ide-controller/issues"
+  }
+}
