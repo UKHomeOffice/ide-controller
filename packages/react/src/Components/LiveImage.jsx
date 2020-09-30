@@ -14,6 +14,8 @@ import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
 import './Controller.scss';
 import Video from './Video';
+import Column from './Layout/Column';
+import ImageCard from './Molecules/ImageCard';
 
 const LiveImage = ({ deviceId }) => {
   const canvasRef = useRef('canvas');
@@ -57,8 +59,8 @@ const LiveImage = ({ deviceId }) => {
   }, [videoRef]);
 
   return (
-    <div className="govuk-grid-column-one-third">
-      <div className="photoContainer--photo medium at6 position-relative">
+    <Column size="one-third" className="padding-5 position-relative">
+      <ImageCard>
         {showVideo && (
           <>
             <Video
@@ -98,8 +100,8 @@ const LiveImage = ({ deviceId }) => {
             }}
           />
         )}
-      </div>
-    </div>
+      </ImageCard>
+    </Column>
   );
 };
 
