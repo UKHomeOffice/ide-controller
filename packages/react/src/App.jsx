@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 // Local  imports
 import DocumentData from './Types/DocumentData';
 import PageBody from './Components/PageBody';
-import { ImageProvider } from './Components/ImageContext';
+import { StoreProvider } from './Components/StoreContext';
 import { initOnlineStatus } from './helpers/electron';
 
 initOnlineStatus();
 
 const App = () => {
-  const [fullpage, setFullpage] = useState(new Map());
+  const [store, setStore] = useState(new Map());
   const [listening, setListening] = useState(false);
 
   // Doc reader
@@ -26,28 +26,28 @@ const App = () => {
           messageData.codelineData,
           messageData.image
         );
-        fullpage.set(datatype, datadata);
+        store.set(datatype, datadata);
       });
 
       events.addEventListener('event', (e) => {
         const messageData = JSON.parse(e.data);
         if (messageData.event === 'START_OF_DOCUMENT_DATA') {
-          setFullpage(fullpage.clear());
+          setStore(new Map());
         }
 
         if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-          setFullpage(fullpage);
+          setStore(store);
         }
       });
 
       setListening(true);
     }
-  }, [listening, fullpage]);
+  }, [listening, store]);
 
   return (
-    <ImageProvider value={fullpage}>
+    <StoreProvider value={store}>
       <PageBody />
-    </ImageProvider>
+    </StoreProvider>
   );
 };
 
