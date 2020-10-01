@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Button from './Atoms/Button';
 import Config from './Config';
 import DocumentImage from './DocumentImage';
-import { StoreConsumer } from './StoreContext';
+import { Consumer } from './Context';
 import LiveImage from './LiveImage';
 import { Row } from './Layout';
 import PhotoHeaders from './PhotoHeaders';
@@ -46,9 +46,9 @@ const ImagePanel = ({ isActive }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        <StoreConsumer>
-          {(store) => {
-            const docData = new Map(store);
+        <Consumer>
+          {({context, setContext}) => {
+            const docData = new Map(context);
             const chipImage = docData.has('CD_SCDG2_PHOTO')
               ? constructImageURL(docData.get('CD_SCDG2_PHOTO').image)
               : Config.blankAvatar;
@@ -62,7 +62,7 @@ const ImagePanel = ({ isActive }) => {
               </>
             );
           }}
-        </StoreConsumer>
+        </Consumer>
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
