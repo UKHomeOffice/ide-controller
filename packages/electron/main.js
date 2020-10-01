@@ -15,7 +15,7 @@ const ideMenu = require('./menu');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow, onlineStatusWindow;
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -97,4 +97,8 @@ ipcMain.on('webCamDevices', (event, list) => {
   }
 
   Menu.setApplicationMenu(ideMenu);
+});
+
+ipcMain.on('online-status-changed', (event, status) => {
+  onlineStatusWindow = status; // eslint-disable-line
 });

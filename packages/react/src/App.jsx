@@ -5,6 +5,9 @@ import React, { useState, useEffect } from 'react';
 import DocumentData from './Types/DocumentData';
 import PageBody from './Components/PageBody';
 import { ImageProvider } from './Components/ImageContext';
+import { initOnlineStatus } from './helpers/electron';
+
+initOnlineStatus();
 
 const App = () => {
   const [fullpage, setFullpage] = useState(new Map());
