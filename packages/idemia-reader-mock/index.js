@@ -1,5 +1,6 @@
 const http = require('http');
 const idemiaResponse = require('./image-match-response.json');
+const readerResponse = require('./reader-response');
 
 const idemiaServer = http.createServer((req, res) => {
   if (req.method === 'POST' && req.url === '/image/match') {
@@ -10,6 +11,7 @@ const idemiaServer = http.createServer((req, res) => {
   res.end('Not found!')
 });
 idemiaServer.listen(8081);
+
 
 const readerServer = http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,16 +25,16 @@ const readerServer = http.createServer((req, res) => {
       'Connection': 'keep-alive',
     });
 
-    const refreshRate = 1000;
-    return setInterval(() => {
-      const id = Date.now();
-      const data = `Hello World ${id}`;
-      const message123 =
-        `event: data\ndata: ${data}\n\n`;
-      res.write(message123);
-    }, refreshRate);
+    readerResponse.forEach(r => {
+      const data = JSON.stringify(r);
+      const message = `event: event\ndata: ${data}\n\n`;
+      res.write(message);
+      const message2 = `event: data\ndata: ${data}\n\n`;
+      res.write(message2);
+    });
+  } else {
+    res.statusCode = 404;
+    res.end('Not found!')
   }
-  res.statusCode = 404;
-  res.end('Not found!')
 });
 readerServer.listen(8080);
