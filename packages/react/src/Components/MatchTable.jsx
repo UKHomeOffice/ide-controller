@@ -26,9 +26,21 @@ const MatchTable = () => {
           </tr>
         </thead>
         <tbody className="govuk-table__body">
-          <TableRow rowLabel="Live to chip" status="Pending Document" />
-          <TableRow rowLabel="Live to document" status="Pending Document" />
-          <TableRow rowLabel="Chip to document" status="Pending Document" />
+          <TableRow
+            rowLabel="Live to chip"
+            status="neutral"
+            statusText="No chip"
+          />
+          <TableRow
+            rowLabel="Live to document"
+            status="neutral"
+            statusText="No chip"
+          />
+          <TableRow
+            rowLabel="Chip to document"
+            status="neutral"
+            statusText="No chip"
+          />
         </tbody>
       </table>
     </>

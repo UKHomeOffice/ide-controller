@@ -20,6 +20,21 @@
   color: #f47738;
 }
 
+.tag-state{
+  &--neutral {
+    background-color: #505a5f;
+  }
+  &--passed {
+    background-color: #00703c;
+  }
+  &--failed {
+    background-color: #d4351c;
+  }
+  &--warning {
+    background-color: #f47738;
+  }
+}
+
 .header-width {
   margin-left: 2.5%;
   margin-right: 2.5%;

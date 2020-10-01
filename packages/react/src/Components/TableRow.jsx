@@ -2,7 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TableRow = ({ rowLabel, status }) => {
+// Local imports
+import './Controller.scss';
+import Tag from './Atoms/Tag';
+
+const TableRow = ({ rowLabel, status, statusText }) => {
   return (
     <tr className="govuk-table__row">
       <th
@@ -12,9 +16,7 @@ const TableRow = ({ rowLabel, status }) => {
         {rowLabel}
       </th>
       <td className="govuk-table__cell govuk-!-width-one-half">
-        <strong className="govuk-tag govuk-tag--passed app-task-list__task-completed govuk-!-font-size-16">
-          {status}
-        </strong>
+        <Tag status={status} statusText={statusText} />
       </td>
     </tr>
   );
@@ -23,6 +25,7 @@ const TableRow = ({ rowLabel, status }) => {
 TableRow.propTypes = {
   rowLabel: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  statusText: PropTypes.string.isRequired,
 };
 
 export default TableRow;
