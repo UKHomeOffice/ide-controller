@@ -8,7 +8,7 @@ import ImageCard from './ImageCard';
 
 const DocumentImage = ({ image, imageAlt }) => {
   return (
-    <Column size="one-third padding-5">
+    <Column size="one-third" className="padding-5">
       <ImageCard image={image} imageAlt={imageAlt} />
     </Column>
   );
