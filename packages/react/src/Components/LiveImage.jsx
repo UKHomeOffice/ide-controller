@@ -16,7 +16,7 @@ import './Controller.scss';
 import { Column } from './Layout';
 import ImageCard from './Molecules/ImageCard';
 import { withContext } from './Context';
-import Video from './Video';
+import Video from './Atoms/Video';
 
 const LiveImage = ({ deviceId, value }) => {
   const canvasRef = useRef('canvas');
