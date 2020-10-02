@@ -47,7 +47,7 @@ const ImagePanel = ({ isActive }) => {
       <PhotoHeaders />
       <Row>
         <Consumer>
-          {({context, setContext}) => {
+          {({ context }) => {
             const docData = new Map(context);
             const chipImage = docData.has('CD_SCDG2_PHOTO')
               ? constructImageURL(docData.get('CD_SCDG2_PHOTO').image)
