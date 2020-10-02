@@ -14,7 +14,7 @@ import PhotoHeaders from './PhotoHeaders';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
+const constructImageURL = (encoding) => `data:image/jpeg;base64,${encoding}`;
 
 const ImagePanel = ({ isActive, value }) => {
   const [restartCam, setRestartCam] = useState(true);
@@ -31,20 +31,11 @@ const ImagePanel = ({ isActive, value }) => {
     });
   });
 
-  const fun = () => {
-    const { context } = value;
-    const chipImage = context.has('CD_SCDG2_PHOTO')
-      ? constructImageURL(context.get('CD_SCDG2_PHOTO').image)
+  const makeDocumentImage = (key) => {
+    const image = value.context.has(key)
+      ? constructImageURL(value.context.get(key).image)
       : Config.blankAvatar;
-    const scanImage = context.has('CD_IMAGEPHOTO')
-      ? constructImageURL(context.get('CD_IMAGEPHOTO').image)
-      : Config.blankAvatar;
-    return (
-      <>
-        <DocumentImage image={chipImage} imageAlt="Chip" />
-        <DocumentImage image={scanImage} imageAlt="Scan" />
-      </>
-    );
+    return <DocumentImage image={image} imageAlt="Chip" />;
   };
 
   return (
@@ -62,7 +53,8 @@ const ImagePanel = ({ isActive, value }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        {fun()}
+        {makeDocumentImage('CD_SCDG2_PHOTO')}
+        {makeDocumentImage('CD_IMAGEPHOTO')}
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
