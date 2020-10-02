@@ -18,7 +18,7 @@ import ImageCard from './Molecules/ImageCard';
 import { withContext } from './Context';
 import Video from './Video';
 
-const LiveImage = ({ deviceId, context }) => {
+const LiveImage = ({ deviceId, value }) => {
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
@@ -43,7 +43,7 @@ const LiveImage = ({ deviceId, context }) => {
     if (isBelowThreshold(keypoints)) {
       estimate(net);
     } else {
-      context.context.set('image', videoRef.current);
+      value.context.set('image', videoRef.current);
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);

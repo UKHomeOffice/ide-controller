@@ -8,7 +8,7 @@ const { Consumer } = Context;
 
 const withContext = (Component) => (props) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <Consumer>{(context) => <Component {...props} context={context} />}</Consumer>
+  <Consumer>{(context) => <Component {...props} value={context} />}</Consumer>
 );
 
 export { Provider, Consumer, withContext };

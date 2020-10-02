@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Button from './Atoms/Button';
 import Config from './Config';
 import DocumentImage from './DocumentImage';
-import { Consumer } from './Context';
+import { withContext } from './Context';
 import LiveImage from './LiveImage';
 import { Row } from './Layout';
 import PhotoHeaders from './PhotoHeaders';
@@ -16,7 +16,7 @@ const { ipcRenderer } = electron;
 
 const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
 
-const ImagePanel = ({ isActive }) => {
+const ImagePanel = ({ isActive, value }) => {
   const [restartCam, setRestartCam] = useState(true);
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const restartLiveImage = () => {
@@ -30,6 +30,22 @@ const ImagePanel = ({ isActive }) => {
       restartLiveImage();
     });
   });
+
+  const fun = () => {
+    const { context } = value;
+    const chipImage = context.has('CD_SCDG2_PHOTO')
+      ? constructImageURL(context.get('CD_SCDG2_PHOTO').image)
+      : Config.blankAvatar;
+    const scanImage = context.has('CD_IMAGEPHOTO')
+      ? constructImageURL(context.get('CD_IMAGEPHOTO').image)
+      : Config.blankAvatar;
+    return (
+      <>
+        <DocumentImage image={chipImage} imageAlt="Chip" />
+        <DocumentImage image={scanImage} imageAlt="Scan" />
+      </>
+    );
+  };
 
   return (
     <div
@@ -46,23 +62,7 @@ const ImagePanel = ({ isActive }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        <Consumer>
-          {({ context }) => {
-            const docData = new Map(context);
-            const chipImage = docData.has('CD_SCDG2_PHOTO')
-              ? constructImageURL(docData.get('CD_SCDG2_PHOTO').image)
-              : Config.blankAvatar;
-            const scanImage = docData.has('CD_IMAGEPHOTO')
-              ? constructImageURL(docData.get('CD_IMAGEPHOTO').image)
-              : Config.blankAvatar;
-            return (
-              <>
-                <DocumentImage image={chipImage} imageAlt="Chip" />
-                <DocumentImage image={scanImage} imageAlt="Scan" />
-              </>
-            );
-          }}
-        </Consumer>
+        {fun()}
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
@@ -74,4 +74,4 @@ ImagePanel.propTypes = {
   isActive: PropTypes.bool.isRequired,
 };
 
-export default ImagePanel;
+export default withContext(ImagePanel);
