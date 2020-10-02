@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
-import { blankAvatar } from '../Config';
+import { blankAvatar } from '../../images';
 import DocumentImage from './DocumentImage';
 import { withContext } from '../Context';
 import LiveImage from './LiveImage';
