@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // Local imports
-import { Column } from './Layout';
-import ImageCard from './Molecules/ImageCard';
+import { Column } from '../Layout';
+import ImageCard from './ImageCard';
 
 const DocumentImage = ({ image, imageAlt }) => {
   return (

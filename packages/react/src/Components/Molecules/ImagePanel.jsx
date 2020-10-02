@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 // Local imports
-import { Button } from './Atoms';
-import Config from './Config';
+import { Button } from '../Atoms';
+import Config from '../Config';
 import DocumentImage from './DocumentImage';
-import { withContext } from './Context';
+import { withContext } from '../Context';
 import LiveImage from './LiveImage';
-import { Row } from './Layout';
+import { Row } from '../Layout';
 import PhotoHeaders from './PhotoHeaders';
 
 const electron = window.require('electron');

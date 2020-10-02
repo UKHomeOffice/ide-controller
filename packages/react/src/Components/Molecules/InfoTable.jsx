@@ -2,8 +2,8 @@
 import React from 'react';
 
 // Local imports
-import { TableRow } from './Atoms';
-import { Row } from './Layout';
+import { TableRow } from '../Atoms';
+import { Row } from '../Layout';
 
 const InfoTable = () => {
   return (

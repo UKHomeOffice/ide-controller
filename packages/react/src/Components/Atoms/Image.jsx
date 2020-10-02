@@ -2,9 +2,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// Local imports
-import '../Controller.scss';
-
 const Image = ({ image, imageAlt }) => {
   return (
     <div
