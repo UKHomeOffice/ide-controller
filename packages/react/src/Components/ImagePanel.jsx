@@ -31,7 +31,7 @@ const ImagePanel = ({ isActive, value }) => {
 
   const makeDocumentImage = (key) => {
     const image =
-      value.context.[key] &&
+      value.context[key] &&
       `data:image/jpeg;base64,${value.context[key].image}`;
     return (
       <DocumentImage image={image || Config.blankAvatar} imageAlt="Chip" />
@@ -64,6 +64,14 @@ const ImagePanel = ({ isActive, value }) => {
 
 ImagePanel.propTypes = {
   isActive: PropTypes.bool.isRequired,
+  value: PropTypes.shape({
+    context: PropTypes.shape({}),
+    setContext: PropTypes.func,
+  }),
+};
+
+ImagePanel.defaultProps = {
+  value: {},
 };
 
 export default withContext(ImagePanel);

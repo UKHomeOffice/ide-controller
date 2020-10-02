@@ -115,14 +115,13 @@ export default withContext(LiveImage);
 
 LiveImage.propTypes = {
   deviceId: PropTypes.string,
-  context: PropTypes.shape({
-    context: PropTypes.shape({
-      set: PropTypes.func,
-    }),
+  value: PropTypes.shape({
+    context: PropTypes.shape({}),
+    setContext: PropTypes.func,
   }),
 };
 
 LiveImage.defaultProps = {
   deviceId: null,
-  context: {},
+  value: {},
 };
