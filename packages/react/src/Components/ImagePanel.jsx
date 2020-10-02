@@ -14,8 +14,6 @@ import PhotoHeaders from './PhotoHeaders';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const constructImageURL = (encoding) => `data:image/jpeg;base64,${encoding}`;
-
 const ImagePanel = ({ isActive, value }) => {
   const [restartCam, setRestartCam] = useState(true);
   const [cameraDeviceId, setCameraDeviceId] = useState();
@@ -32,10 +30,12 @@ const ImagePanel = ({ isActive, value }) => {
   });
 
   const makeDocumentImage = (key) => {
-    const image = value.context.has(key)
-      ? constructImageURL(value.context.get(key).image)
-      : Config.blankAvatar;
-    return <DocumentImage image={image} imageAlt="Chip" />;
+    const image =
+      value.context.has(key) &&
+      `data:image/jpeg;base64,${value.context.get(key).image}`;
+    return (
+      <DocumentImage image={image || Config.blankAvatar} imageAlt="Chip" />
+    );
   };
 
   return (
