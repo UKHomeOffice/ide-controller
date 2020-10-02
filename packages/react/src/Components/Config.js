@@ -1,7 +1,1 @@
-import blankAvatar from '../images/avatar-blank.svg';
-
-const Images = {
-  blankAvatar,
-};
-
-export default Images;
+export { default as blankAvatar } from '../images/avatar-blank.svg';
