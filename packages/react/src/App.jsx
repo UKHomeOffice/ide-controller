@@ -6,8 +6,6 @@ import DocumentData from './Types/DocumentData';
 import PageBody from './Components/Molecules/PageBody';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
-import './Components/Style/atoms.scss';
-import './Components/Style/global.scss';
 
 initOnlineStatus();
 const eventSourceData = {};

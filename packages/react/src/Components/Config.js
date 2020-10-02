@@ -1,4 +1,4 @@
-import blankAvatar from './images/avatar-blank.svg';
+import blankAvatar from '../images/avatar-blank.svg';
 
 const Images = {
   blankAvatar,
