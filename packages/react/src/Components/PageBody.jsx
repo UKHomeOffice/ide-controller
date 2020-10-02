@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Local imports
-import Button from './Atoms/Button';
+import { Button } from './Atoms';
 import Header from './Header';
 import InfoTable from './InfoTable';
 import InfoTabs from './InfoTabs';

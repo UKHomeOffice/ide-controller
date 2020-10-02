@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 // Local imports
-import Button from './Atoms/Button';
+import { Button } from './Atoms';
 import Config from './Config';
 import DocumentImage from './DocumentImage';
 import { withContext } from './Context';
