@@ -4,17 +4,7 @@ import React, { forwardRef, useEffect } from 'react';
 
 // Local imports
 import { isEmpty } from '../../helpers/common';
-
-const paintRec = (context, coordinate, color = '#2ea44f') => {
-  context.strokeStyle = color;
-  context.lineWidth = 4;
-  context.strokeRect(
-    coordinate.x,
-    coordinate.y,
-    coordinate.width,
-    coordinate.height
-  );
-};
+import { paintRec } from '../../helpers/canvas';
 
 const CanvasStrokeRect = forwardRef(
   ({ coordinate, width, height, className }, canvasRef) => {
@@ -58,7 +48,7 @@ CanvasStrokeRect.defaultProps = {
     width: 100,
     heigh: 100,
   },
-  className: '',
+  className: null,
 };
 
 export default CanvasStrokeRect;
