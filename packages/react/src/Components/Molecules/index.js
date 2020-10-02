@@ -1,6 +1,6 @@
-export { default as ImageCard } from './ImageCard';
 export { default as DocumentImage } from './DocumentImage';
 export { default as Header } from './Header';
+export { default as ImageCard } from './ImageCard';
 export { default as ImagePanel } from './ImagePanel';
 export { default as InfoTable } from './InfoTable';
 export { default as InfoTabs } from './InfoTabs';
