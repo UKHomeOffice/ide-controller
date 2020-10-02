@@ -11,7 +11,7 @@ import {
 } from '../helpers/camera';
 import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
-import './Atoms/style.scss';
+import './Style/atoms.scss';
 import './Controller.scss';
 import { Column } from './Layout';
 import ImageCard from './Molecules/ImageCard';
