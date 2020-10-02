@@ -8,14 +8,14 @@ import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
 
 initOnlineStatus();
+const eventSourceData = {};
 
 const App = () => {
-  const [context, setContext] = useState(new Map());
+  const [context, setContext] = useState(eventSourceData);
 
   // Doc reader
   useEffect(() => {
     const events = new EventSource('http://localhost:8080/reader/data');
-
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
       const datatype = messageData.dataType;
@@ -24,17 +24,17 @@ const App = () => {
         messageData.codelineData,
         messageData.image
       );
-      context.set(datatype, datadata);
+      eventSourceData[datatype] = datadata;
     });
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
       if (messageData.event === 'START_OF_DOCUMENT_DATA') {
-        setContext(new Map());
+        setContext({});
       }
 
       if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-        setContext(context);
+        setContext({ ...eventSourceData });
       }
     });
   }, [context]);

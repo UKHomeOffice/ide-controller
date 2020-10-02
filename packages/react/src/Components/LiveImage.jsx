@@ -43,7 +43,11 @@ const LiveImage = ({ deviceId, value }) => {
     if (isBelowThreshold(keypoints)) {
       estimate(net);
     } else {
-      value.context.set('image', videoRef.current);
+      const { context, setContext } = value;
+      setContext({
+        imgae: videoRef.current,
+        ...context,
+      });
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);

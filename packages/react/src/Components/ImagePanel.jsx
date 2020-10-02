@@ -31,8 +31,8 @@ const ImagePanel = ({ isActive, value }) => {
 
   const makeDocumentImage = (key) => {
     const image =
-      value.context.has(key) &&
-      `data:image/jpeg;base64,${value.context.get(key).image}`;
+      value.context.[key] &&
+      `data:image/jpeg;base64,${value.context[key].image}`;
     return (
       <DocumentImage image={image || Config.blankAvatar} imageAlt="Chip" />
     );
