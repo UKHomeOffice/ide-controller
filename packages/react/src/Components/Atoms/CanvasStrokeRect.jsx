@@ -1,6 +1,6 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useEffect, forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 
 // Local imports
 import { isEmpty } from '../../helpers/common';

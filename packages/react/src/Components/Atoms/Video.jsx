@@ -1,6 +1,6 @@
 // Global imports
-import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { forwardRef, useEffect } from 'react';
 
 // Local imports
 import { getCameraDevices } from '../../helpers/camera';
