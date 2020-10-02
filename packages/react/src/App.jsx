@@ -4,50 +4,50 @@ import React, { useState, useEffect } from 'react';
 // Local  imports
 import DocumentData from './Types/DocumentData';
 import PageBody from './Components/PageBody';
-import { ImageProvider } from './Components/ImageContext';
+import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
 
 initOnlineStatus();
 
 const App = () => {
-  const [fullpage, setFullpage] = useState(new Map());
-  const [listening, setListening] = useState(false);
+  const [context, setContext] = useState(new Map());
 
   // Doc reader
   useEffect(() => {
-    if (!listening) {
-      const events = new EventSource('http://localhost:8080/reader/data');
+    const events = new EventSource('http://localhost:8080/reader/data');
 
-      events.addEventListener('data', (e) => {
-        const messageData = JSON.parse(e.data);
-        const datatype = messageData.dataType;
-        const datadata = new DocumentData(
-          messageData.data,
-          messageData.codelineData,
-          messageData.image
-        );
-        fullpage.set(datatype, datadata);
-      });
+    events.addEventListener('data', (e) => {
+      const messageData = JSON.parse(e.data);
+      const datatype = messageData.dataType;
+      const datadata = new DocumentData(
+        messageData.data,
+        messageData.codelineData,
+        messageData.image
+      );
+      context.set(datatype, datadata);
+    });
 
-      events.addEventListener('event', (e) => {
-        const messageData = JSON.parse(e.data);
-        if (messageData.event === 'START_OF_DOCUMENT_DATA') {
-          setFullpage(fullpage.clear());
-        }
+    events.addEventListener('event', (e) => {
+      const messageData = JSON.parse(e.data);
+      if (messageData.event === 'START_OF_DOCUMENT_DATA') {
+        setContext(new Map());
+      }
 
-        if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-          setFullpage(fullpage);
-        }
-      });
-
-      setListening(true);
-    }
-  }, [listening, fullpage]);
+      if (messageData.event === 'END_OF_DOCUMENT_DATA') {
+        setContext(context);
+      }
+    });
+  }, [context]);
 
   return (
-    <ImageProvider value={fullpage}>
+    <Provider
+      value={{
+        context,
+        setContext,
+      }}
+    >
       <PageBody />
-    </ImageProvider>
+    </Provider>
   );
 };
 

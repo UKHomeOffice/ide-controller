@@ -15,9 +15,10 @@ import './Atoms/style.scss';
 import './Controller.scss';
 import { Column } from './Layout';
 import ImageCard from './Molecules/ImageCard';
+import { withContext } from './Context';
 import Video from './Video';
 
-const LiveImage = ({ deviceId }) => {
+const LiveImage = ({ deviceId, context }) => {
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
@@ -42,6 +43,7 @@ const LiveImage = ({ deviceId }) => {
     if (isBelowThreshold(keypoints)) {
       estimate(net);
     } else {
+      context.context.set('image', videoRef.current);
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
@@ -105,12 +107,18 @@ const LiveImage = ({ deviceId }) => {
   );
 };
 
-export default LiveImage;
+export default withContext(LiveImage);
 
 LiveImage.propTypes = {
   deviceId: PropTypes.string,
+  context: PropTypes.shape({
+    context: PropTypes.shape({
+      set: PropTypes.func,
+    }),
+  }),
 };
 
 LiveImage.defaultProps = {
   deviceId: null,
+  context: {},
 };
