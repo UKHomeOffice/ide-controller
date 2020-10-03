@@ -15,11 +15,12 @@ const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
 const ImagePanel = ({ isActive, value }) => {
-  const [restartCam, setRestartCam] = useState(true);
+  const [liveImageKey, setLiveImageKey] = useState(
+    `liveImageKey-${Date.now()}`
+  );
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const restartLiveImage = () => {
-    setRestartCam(false);
-    setTimeout(() => setRestartCam(true), 0);
+    setLiveImageKey(`liveImageKey-${Date.now()}`);
   };
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const ImagePanel = ({ isActive, value }) => {
       <Row>
         {makeDocumentImage('CD_SCDG2_PHOTO')}
         {makeDocumentImage('CD_IMAGEPHOTO')}
-        {restartCam && <LiveImage cameraId={cameraDeviceId} />}
+        <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
     </div>
