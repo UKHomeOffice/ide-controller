@@ -9,12 +9,10 @@ import {
   isBelowThreshold,
   ResPosenet,
 } from '../../helpers/camera';
-import CanvasImage from '../Atoms/CanvasImage';
-import CanvasStrokeRect from '../Atoms/CanvasStrokeRect';
+import { CanvasStrokeRect, CanvasImage, Video } from '../Atoms';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 import { withContext } from '../Context';
-import Video from '../Atoms/Video';
 
 const LiveImage = ({ cameraId, value }) => {
   const canvasRef = useRef('canvas');

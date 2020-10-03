@@ -24,11 +24,11 @@ const ImagePanel = ({ isActive, value }) => {
   };
 
   useEffect(() => {
-    ipcRenderer.on('webCamDevices', (event, data) => {
-      setCameraDeviceId(data.deviceId);
+    ipcRenderer.on('webCamDevices', (event, { deviceId }) => {
+      setCameraDeviceId(deviceId);
       restartLiveImage();
     });
-  });
+  }, []);
 
   const makeDocumentImage = (key) => {
     const image =
