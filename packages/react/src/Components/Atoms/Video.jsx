@@ -7,7 +7,7 @@ const Video = forwardRef(
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
       ...captureOptions,
       video: {
-        cameraId: { exact: selectedDeviceId },
+        deviceId: { exact: selectedDeviceId },
         ...captureOptions.video,
       },
     });
