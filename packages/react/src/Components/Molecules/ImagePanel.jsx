@@ -19,8 +19,11 @@ const ImagePanel = ({ isActive, value }) => {
     `liveImageKey-${Date.now()}`
   );
   const [cameraDeviceId, setCameraDeviceId] = useState();
+  const [canRetakeImage, setCanRetakeImage] = useState(true);
   const restartLiveImage = () => {
+    setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
+    setTimeout(() => setCanRetakeImage(true), 1000);
   };
 
   useEffect(() => {
@@ -64,7 +67,7 @@ const ImagePanel = ({ isActive, value }) => {
           ),
           [liveImageKey]
         )}
-        <Button onClick={restartLiveImage}>Retake Camera Image</Button>
+        <Button disabled={!canRetakeImage} onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
     </div>
   );
