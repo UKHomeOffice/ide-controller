@@ -2,12 +2,6 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect } from 'react';
 
-// Local imports
-import { getCameraDevices } from '../../helpers/camera';
-
-const electron = window.require('electron');
-const { ipcRenderer } = electron;
-
 const Video = forwardRef(
   ({ captureOptions, deviceId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
@@ -34,8 +28,6 @@ const Video = forwardRef(
       );
     useEffect(() => {
       (async () => {
-        const cameraDevices = await getCameraDevices();
-        ipcRenderer.send('webCamDevices', cameraDevices);
         const { defaultDevice } = captureOptions;
         const selectedDeviceId =
           deviceId ||
