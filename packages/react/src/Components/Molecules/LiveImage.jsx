@@ -37,7 +37,7 @@ const LiveImage = ({ cameraId, value }) => {
     );
     setSourceImageOptions(destinationImageCoordinations);
     if (isBelowThreshold(keypoints)) {
-      estimate(net);
+      setTimeout(() => estimate(net), 200);
     } else {
       const { context, setContext } = value;
       setContext({
