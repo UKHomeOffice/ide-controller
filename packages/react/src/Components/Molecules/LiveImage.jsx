@@ -50,15 +50,12 @@ const LiveImage = ({ cameraId, value }) => {
     }
   };
 
-  const initResPosenet = async () => {
-    if (!videoRef.current) return;
-    const net = await ResPosenet();
-    estimate(net);
-  };
-
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', initResPosenet);
-  }, [videoRef]);
+    videoRef.current.addEventListener('canplay', async () => {
+      const net = await ResPosenet();
+      estimate(net);
+    });
+  }, []);
 
   return (
     <Column size="one-third" className="padding-5 position-relative">
