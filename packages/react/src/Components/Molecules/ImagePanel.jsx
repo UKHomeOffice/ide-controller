@@ -67,7 +67,9 @@ const ImagePanel = ({ isActive, value }) => {
           ),
           [liveImageKey]
         )}
-        <Button disabled={!canRetakeImage} onClick={restartLiveImage}>Retake Camera Image</Button>
+        <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
+          Retake Camera Image
+        </Button>
       </Row>
     </div>
   );

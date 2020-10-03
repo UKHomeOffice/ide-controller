@@ -5,9 +5,8 @@ import React, { useEffect, useRef, useState } from 'react';
 // Local imports
 import { livePhotoConfig } from '../../config/camera';
 import {
-  getDestinationImageCoordination,
+  getCroppedImageCoordination,
   isBelowThreshold,
-  ResPosenet,
 } from '../../helpers/camera';
 import { CanvasStrokeRect, CanvasImage, Video } from '../Atoms';
 import { Column } from '../Layout';
@@ -22,22 +21,15 @@ const LiveImage = ({ cameraId, value }) => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
 
-  const estimate = async (net) => {
+  const estimate = async () => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
-    /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
-    const { keypoints } = await net.estimateSinglePose(
-      videoRef.current,
-      0.5,
-      false,
-      16
+    const croppedImageCoordination = await getCroppedImageCoordination(
+      videoRef.current
     );
-    const destinationImageCoordinations = getDestinationImageCoordination(
-      keypoints
-    );
-    setSourceImageOptions(destinationImageCoordinations);
-    if (isBelowThreshold(keypoints)) {
-      setTimeout(() => estimate(net), 200);
+    setSourceImageOptions(croppedImageCoordination);
+    if (isBelowThreshold()) {
+      setTimeout(() => estimate(), 250);
     } else {
       const { context, setContext } = value;
       setContext({
@@ -52,8 +44,7 @@ const LiveImage = ({ cameraId, value }) => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', async () => {
-      const net = await ResPosenet();
-      estimate(net);
+      estimate();
     });
   }, []);
 
