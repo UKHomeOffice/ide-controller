@@ -53,7 +53,7 @@ const ImagePanel = ({ isActive, value }) => {
       <Row>
         {makeDocumentImage('CD_SCDG2_PHOTO')}
         {makeDocumentImage('CD_IMAGEPHOTO')}
-        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
+        {restartCam && <LiveImage cameraId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
     </div>

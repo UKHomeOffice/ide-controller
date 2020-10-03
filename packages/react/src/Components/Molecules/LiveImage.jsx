@@ -16,7 +16,7 @@ import ImageCard from './ImageCard';
 import { withContext } from '../Context';
 import Video from '../Atoms/Video';
 
-const LiveImage = ({ deviceId, value }) => {
+const LiveImage = ({ cameraId, value }) => {
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
@@ -69,7 +69,7 @@ const LiveImage = ({ deviceId, value }) => {
           <>
             <Video
               ref={videoRef}
-              deviceId={deviceId}
+              cameraId={cameraId}
               captureOptions={livePhotoConfig}
             />
             <CanvasStrokeRect
@@ -112,7 +112,7 @@ const LiveImage = ({ deviceId, value }) => {
 export default withContext(LiveImage);
 
 LiveImage.propTypes = {
-  deviceId: PropTypes.string,
+  cameraId: PropTypes.string,
   value: PropTypes.shape({
     context: PropTypes.shape({}),
     setContext: PropTypes.func,
@@ -120,6 +120,6 @@ LiveImage.propTypes = {
 };
 
 LiveImage.defaultProps = {
-  deviceId: null,
+  cameraId: null,
   value: {},
 };

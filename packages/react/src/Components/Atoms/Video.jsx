@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect } from 'react';
 
 const Video = forwardRef(
-  ({ captureOptions, deviceId, className }, videoRef) => {
+  ({ captureOptions, cameraId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
       ...captureOptions,
       video: {
-        deviceId: { exact: selectedDeviceId },
+        cameraId: { exact: selectedDeviceId },
         ...captureOptions.video,
       },
     });
@@ -30,8 +30,8 @@ const Video = forwardRef(
       (async () => {
         const { defaultDevice } = captureOptions;
         const selectedDeviceId =
-          deviceId ||
-          (defaultDevice ? findDefaultCamera(defaultDevice).deviceId : null);
+          cameraId ||
+          (defaultDevice ? findDefaultCamera(defaultDevice).cameraId : null);
         const videoOptions = selectedDeviceId
           ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
           : captureOptions;
@@ -56,11 +56,10 @@ Video.propTypes = {
       width: PropTypes.number,
       height: PropTypes.number,
       sourceModel: PropTypes.string,
-      deviceId: PropTypes.string,
     }),
     defaultDevice: PropTypes.string,
   }),
-  deviceId: PropTypes.string,
+  cameraId: PropTypes.string,
   className: PropTypes.string,
 };
 
@@ -73,7 +72,7 @@ Video.defaultProps = {
     },
     defaultDevice: '',
   },
-  deviceId: null,
+  cameraId: null,
   className: '',
 };
 
