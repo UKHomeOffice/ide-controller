@@ -1,6 +1,6 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
@@ -54,7 +54,16 @@ const ImagePanel = ({ isActive, value }) => {
       <Row>
         {makeDocumentImage('CD_SCDG2_PHOTO')}
         {makeDocumentImage('CD_IMAGEPHOTO')}
-        <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+        {/*
+          The reason why we have useMemo here is because LiveImage is computationally expensive.
+          And we don't want any unintended re-rendering.
+        */}
+        {useMemo(
+          () => (
+            <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+          ),
+          [liveImageKey]
+        )}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
     </div>
