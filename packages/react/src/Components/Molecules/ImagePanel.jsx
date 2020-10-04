@@ -5,18 +5,18 @@ import React, { useEffect, useState, useMemo } from 'react';
 // Local imports
 import { Button } from '../Atoms';
 import { blankAvatar } from '../../images';
-import DocumentImage from './DocumentImage';
 import { withContext } from '../Context';
 import LiveImage from './LiveImage';
 import { Column, Row } from '../Layout';
 import PhotoHeaders from './PhotoHeaders';
+import ImageCard from './ImageCard';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const makeDocumentImage = (key, { context }) => {
+const makeImageCard = (key, { context }) => {
   const image = context[key] && `data:image/jpeg;base64,${context[key].image}`;
-  return <DocumentImage image={image || blankAvatar} imageAlt="Chip" />;
+  return <ImageCard image={image || blankAvatar} imageAlt={key} />;
 };
 
 const ImagePanel = ({ isActive, value }) => {
@@ -53,8 +53,12 @@ const ImagePanel = ({ isActive, value }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        {makeDocumentImage('CD_SCDG2_PHOTO', value)}
-        {makeDocumentImage('CD_IMAGEPHOTO', value)}
+        <Column size="one-third" className="padding-5">
+          {makeImageCard('CD_SCDG2_PHOTO', value)}
+        </Column>
+        <Column size="one-third" className="padding-5">
+          {makeImageCard('CD_IMAGEPHOTO', value)}
+        </Column>
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.
           And we don't want any unintended re-rendering.
