@@ -14,6 +14,11 @@ import PhotoHeaders from './PhotoHeaders';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
+const makeDocumentImage = (key, { context }) => {
+  const image = context[key] && `data:image/jpeg;base64,${context[key].image}`;
+  return <DocumentImage image={image || blankAvatar} imageAlt="Chip" />;
+};
+
 const ImagePanel = ({ isActive, value }) => {
   const [liveImageKey, setLiveImageKey] = useState(
     `liveImageKey-${Date.now()}`
@@ -33,13 +38,6 @@ const ImagePanel = ({ isActive, value }) => {
     });
   }, []);
 
-  const makeDocumentImage = (key) => {
-    const image =
-      value.context[key] &&
-      `data:image/jpeg;base64,${value.context[key].image}`;
-    return <DocumentImage image={image || blankAvatar} imageAlt="Chip" />;
-  };
-
   return (
     <div
       className={`govuk-tabs__panel ${
@@ -55,8 +53,8 @@ const ImagePanel = ({ isActive, value }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        {makeDocumentImage('CD_SCDG2_PHOTO')}
-        {makeDocumentImage('CD_IMAGEPHOTO')}
+        {makeDocumentImage('CD_SCDG2_PHOTO', value)}
+        {makeDocumentImage('CD_IMAGEPHOTO', value)}
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.
           And we don't want any unintended re-rendering.
