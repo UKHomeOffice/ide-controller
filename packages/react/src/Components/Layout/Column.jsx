@@ -9,9 +9,11 @@ Column.propTypes = {
   size: PropTypes.oneOf([
     'one-third',
     'one-quarter',
+    'one-quarter-from-desktop',
     'one-half',
     'two-thirds',
     'three-quarters',
+    'three-quarters-from-desktop',
     'full',
   ]),
   className: PropTypes.string,
