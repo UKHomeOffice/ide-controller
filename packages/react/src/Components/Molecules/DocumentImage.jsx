@@ -6,13 +6,11 @@ import React from 'react';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 
-const DocumentImage = ({ image, imageAlt }) => {
-  return (
-    <Column size="one-third" className="padding-5">
-      <ImageCard image={image} imageAlt={imageAlt} />
-    </Column>
-  );
-};
+const DocumentImage = ({ image, imageAlt }) => (
+  <Column size="one-third" className="padding-5">
+    <ImageCard image={image} imageAlt={imageAlt} />
+  </Column>
+);
 
 DocumentImage.propTypes = {
   image: PropTypes.string,
