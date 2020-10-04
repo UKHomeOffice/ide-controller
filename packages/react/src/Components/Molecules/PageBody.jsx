@@ -7,6 +7,7 @@ import Header from './Header';
 import InfoTable from './InfoTable';
 import InfoTabs from './InfoTabs';
 import MatchValue from './MatchValue';
+import { Column } from '../Layout';
 
 const PageBody = () => {
   return (
@@ -14,7 +15,7 @@ const PageBody = () => {
       <Header />
       {/* <div className="govuk-width-container body-width"> */}
       <main className="govuk-main-wrapper" role="main">
-        <div className="govuk-grid-column-one-quarter-from-desktop">
+        <Column size="one-quarter-from-desktop">
           <MatchValue />
           <InfoTable />
           <p>
@@ -22,10 +23,10 @@ const PageBody = () => {
             scanned or after 15 minutes.
           </p>
           <Button buttonVariant="warning">Clear Data Now</Button>
-        </div>
-        <div className="govuk-grid-column-three-quarters-from-desktop">
+        </Column>
+        <Column size="three-quarters-from-desktop">
           <InfoTabs />
-        </div>
+        </Column>
       </main>
       {/* </div> */}
     </>

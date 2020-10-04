@@ -8,7 +8,7 @@ import { blankAvatar } from '../../images';
 import DocumentImage from './DocumentImage';
 import { withContext } from '../Context';
 import LiveImage from './LiveImage';
-import { Row } from '../Layout';
+import { Column, Row } from '../Layout';
 import PhotoHeaders from './PhotoHeaders';
 
 const electron = window.require('electron');
@@ -49,9 +49,9 @@ const ImagePanel = ({ isActive, value }) => {
       aria-labelledby="image-data"
     >
       <Row>
-        <div className="govuk-grid-column-full">
+        <Column size="full">
           <h2 className="govuk-heading-l">Images to compare</h2>
-        </div>
+        </Column>
       </Row>
       <PhotoHeaders />
       <Row>

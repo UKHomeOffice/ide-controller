@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Local imports
 import MRZTable from './MRZTable';
-import { Row } from '../Layout';
+import { Column, Row } from '../Layout';
 
 const MRZPanel = ({ isActive }) => {
   return (
@@ -16,9 +16,9 @@ const MRZPanel = ({ isActive }) => {
       aria-labelledby="mrz-data"
     >
       <Row>
-        <div className="govuk-grid-column-full">
+        <Column size="full">
           <h2 className="govuk-heading-l">Data read from chip and MRZ</h2>
-        </div>
+        </Column>
       </Row>
       <MRZTable />
     </div>

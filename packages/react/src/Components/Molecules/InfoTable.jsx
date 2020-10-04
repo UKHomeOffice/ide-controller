@@ -3,12 +3,12 @@ import React from 'react';
 
 // Local imports
 import { TableRow } from '../Atoms';
-import { Row } from '../Layout';
+import { Column, Row } from '../Layout';
 
 const InfoTable = () => {
   return (
     <Row>
-      <div className="govuk-grid-column-full">
+      <Column size="full">
         <h2 className="govuk-heading-m">Further information</h2>
         <table className="govuk-table">
           <thead className="govuk-table__head">
@@ -26,7 +26,7 @@ const InfoTable = () => {
             <TableRow rowLabel="MRZ data" status="Pending Document" />
           </tbody>
         </table>
-      </div>
+      </Column>
     </Row>
   );
 };
