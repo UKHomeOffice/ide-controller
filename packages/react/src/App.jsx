@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Local  imports
-import PageBody from './Components/Molecules/PageBody';
+import Index from './Components/Pages';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
 
@@ -45,7 +45,7 @@ const App = () => {
         setContext,
       }}
     >
-      <PageBody />
+      <Index />
     </Provider>
   );
 };

@@ -3,13 +3,13 @@ import React from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
-import Header from './Header';
-import InfoTable from './InfoTable';
-import InfoTabs from './InfoTabs';
-import MatchValue from './MatchValue';
+import { Header } from '../Organisms';
+import InfoTable from '../Organisms/InfoTable';
+import InfoTabs from '../Molecules/InfoTabs';
+import MatchValue from '../Molecules/MatchValue';
 import { Column } from '../Layout';
 
-const PageBody = () => (
+const Index = () => (
   <>
     <Header />
     <main className="govuk-main-wrapper" role="main">
@@ -29,4 +29,4 @@ const PageBody = () => (
   </>
 );
 
-export default PageBody;
+export default Index;
