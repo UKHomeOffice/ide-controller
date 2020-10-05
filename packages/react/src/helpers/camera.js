@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs'; // eslint-disable-line
 import * as posenet from '@tensorflow-models/posenet';
 
 // Local imports
-import { livePhotoConfig } from '../config/cameraOptions';
+import { livePhotoConfig } from '../config/camera';
 
 export const ResPosenet = async (
   width = livePhotoConfig.video.width,

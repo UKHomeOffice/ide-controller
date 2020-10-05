@@ -2,12 +2,9 @@
 import React, { useState, useEffect } from 'react';
 
 // Local  imports
-import DocumentData from './Types/DocumentData';
 import PageBody from './Components/Molecules/PageBody';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
-import './Components/Style/atoms.scss';
-import './Components/Style/global.scss';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -21,11 +18,11 @@ const App = () => {
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
       const datatype = messageData.dataType;
-      const datadata = new DocumentData(
-        messageData.data,
-        messageData.codelineData,
-        messageData.image
-      );
+      const datadata = {
+        data: messageData.data,
+        codelineData: messageData.codelineData,
+        image: messageData.image,
+      };
       eventSourceData[datatype] = datadata;
     });
 

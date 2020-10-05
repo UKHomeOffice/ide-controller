@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
-import Config from '../Config';
+import { blankAvatar } from '../../images';
 import DocumentImage from './DocumentImage';
 import { withContext } from '../Context';
 import LiveImage from './LiveImage';
@@ -33,9 +33,7 @@ const ImagePanel = ({ isActive, value }) => {
     const image =
       value.context[key] &&
       `data:image/jpeg;base64,${value.context[key].image}`;
-    return (
-      <DocumentImage image={image || Config.blankAvatar} imageAlt="Chip" />
-    );
+    return <DocumentImage image={image || blankAvatar} imageAlt="Chip" />;
   };
 
   return (

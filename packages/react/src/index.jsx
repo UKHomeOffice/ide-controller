@@ -3,9 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { initAll } from 'govuk-frontend';
 import 'govuk-frontend/govuk/all.scss';
+import './Components/Style/atoms.scss';
+import './Components/Style/global.scss';
 
 // Local imports
-import './index.css';
 import App from './App';
 
 document.body.className = document.body.className

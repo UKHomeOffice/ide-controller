@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
-import { livePhotoConfig } from '../../config/cameraOptions';
+import { livePhotoConfig } from '../../config/camera';
 import {
   getDestinationImageCoordination,
   isBelowThreshold,
