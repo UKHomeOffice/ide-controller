@@ -11,7 +11,7 @@ initOnlineStatus();
 const eventSourceData = {};
 
 const App = () => {
-  const [context, setContext] = useState(eventSourceData);
+  const [context, setContext] = useState({ eventSourceData });
 
   // Doc reader
   useEffect(() => {
@@ -34,22 +34,30 @@ const App = () => {
       }
 
       if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-        setContext({ ...eventSourceData });
+        setContext({ ...context, eventSourceData });
       }
     });
-
-    if (context.image) {
-      post('http://localhost:8081/image/match', {
-        image: context.image,
-        image2: context.image,
-      }).then((res) => {
-        setContext({
-          match: res,
-          ...context,
-        });
-      });
-    }
   }, [context]);
+
+  useEffect(() => {
+    if (context.image === undefined) return;
+    post('http://localhost:8081/image/match', {
+      image: context.image,
+      image2: `data:image/jpeg;base64,${context.eventSourceData.CD_SCDG2_PHOTO.image}`,
+    })
+      .then((res) => {
+        setContext({
+          ...context,
+          match: JSON.parse(res),
+        });
+      })
+      .catch(() =>
+        setContext({
+          ...context,
+          match: { score: 0 },
+        })
+      );
+  }, [context.image]);
 
   return (
     <Provider

@@ -15,7 +15,11 @@ const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
 const makeImageCard = (key, { context }) => {
-  const image = context[key] && `data:image/jpeg;base64,${context[key].image}`;
+  const { eventSourceData } = context;
+  const image =
+    eventSourceData &&
+    eventSourceData[key] &&
+    `data:image/jpeg;base64,${eventSourceData[key].image}`;
   return <ImageCard image={image || blankAvatar} imageAlt={key} />;
 };
 
