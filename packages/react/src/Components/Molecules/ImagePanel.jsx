@@ -1,6 +1,6 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
@@ -15,19 +15,23 @@ const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
 const ImagePanel = ({ isActive, value }) => {
-  const [restartCam, setRestartCam] = useState(true);
+  const [liveImageKey, setLiveImageKey] = useState(
+    `liveImageKey-${Date.now()}`
+  );
   const [cameraDeviceId, setCameraDeviceId] = useState();
+  const [canRetakeImage, setCanRetakeImage] = useState(true);
   const restartLiveImage = () => {
-    setRestartCam(false);
-    setTimeout(() => setRestartCam(true), 0);
+    setCanRetakeImage(false);
+    setLiveImageKey(`liveImageKey-${Date.now()}`);
+    setTimeout(() => setCanRetakeImage(true), 1000);
   };
 
   useEffect(() => {
-    ipcRenderer.on('webCamDevices', (event, data) => {
-      setCameraDeviceId(data.deviceId);
+    ipcRenderer.on('webCamDevices', (event, { deviceId }) => {
+      setCameraDeviceId(deviceId);
       restartLiveImage();
     });
-  });
+  }, []);
 
   const makeDocumentImage = (key) => {
     const image =
@@ -53,8 +57,19 @@ const ImagePanel = ({ isActive, value }) => {
       <Row>
         {makeDocumentImage('CD_SCDG2_PHOTO')}
         {makeDocumentImage('CD_IMAGEPHOTO')}
-        {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
-        <Button onClick={restartLiveImage}>Retake Camera Image</Button>
+        {/*
+          The reason why we have useMemo here is because LiveImage is computationally expensive.
+          And we don't want any unintended re-rendering.
+        */}
+        {useMemo(
+          () => (
+            <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+          ),
+          [liveImageKey]
+        )}
+        <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
+          Retake Camera Image
+        </Button>
       </Row>
     </div>
   );

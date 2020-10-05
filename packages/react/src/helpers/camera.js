@@ -5,11 +5,21 @@ import * as posenet from '@tensorflow-models/posenet';
 // Local imports
 import { livePhotoConfig } from '../config/camera';
 
-export const ResPosenet = async (
-  width = livePhotoConfig.video.width,
-  height = livePhotoConfig.video.height
-) => {
-  const net = await posenet.load({
+const {
+  video,
+  zoomFactor: defaultZoomFactor,
+  threshold: defaulThreshold,
+} = livePhotoConfig;
+
+let net;
+let keypoints;
+
+/*
+ * tfjs-models
+ * https://github.com/tensorflow/tfjs-models/tree/master/posenet
+ */
+const loadPosenet = (width = video.width, height = video.height) =>
+  posenet.load({
     architecture: 'ResNet50',
     outputStride: 16,
     inputResolution: {
@@ -19,7 +29,10 @@ export const ResPosenet = async (
     quantBytes: 2,
   });
 
-  return net;
+export const estimateSinglePose = async (frame) => {
+  if (!net) net = await loadPosenet();
+  /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
+  return net.estimateSinglePose(frame, 0.5, false, 16);
 };
 
 export const getCameraDevices = async () => {
@@ -31,10 +44,10 @@ export const getCameraDevices = async () => {
     }));
 };
 
-export const isBelowThreshold = (
-  keypoints,
-  threshold = livePhotoConfig.threshold
-) => !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
+export const isBelowThreshold = (threshold = defaulThreshold) => {
+  if (!keypoints) return true;
+  return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
+};
 
 const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   /* 5 is an arbitrary number to divide the face into sections  */
@@ -45,7 +58,7 @@ const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   return margin;
 };
 
-const extractKeypointsPosition = (keypoints) => ({
+const extractKeypointsPosition = () => ({
   nose: keypoints[0].position,
   leftEar: keypoints[3].position,
   rightEar: keypoints[4].position,
@@ -53,7 +66,7 @@ const extractKeypointsPosition = (keypoints) => ({
 
 const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
-  const ratio = livePhotoConfig.video.height / livePhotoConfig.video.width;
+  const ratio = video.height / video.width;
   const xStart = Math.floor(rightEar.x) - margin / 2;
   const xEnd = Math.ceil(leftEar.x) + margin / 2;
   const sWidth = xEnd - xStart;
@@ -68,11 +81,12 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   };
 };
 
-export const getDestinationImageCoordination = (
-  keypoints,
-  zoomFactor = livePhotoConfig.zoomFactor
+export const getCroppedImageCoordination = async (
+  frame,
+  zoomFactor = defaultZoomFactor
 ) => {
-  const keypointsPosition = extractKeypointsPosition(keypoints);
+  keypoints = (await estimateSinglePose(frame)).keypoints;
+  const keypointsPosition = extractKeypointsPosition();
   return calculateCoordination(keypointsPosition, zoomFactor);
 };
 

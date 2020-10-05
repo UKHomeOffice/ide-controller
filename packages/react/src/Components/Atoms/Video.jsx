@@ -1,15 +1,9 @@
 // Global imports
-import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-// Local imports
-import { getCameraDevices } from '../../helpers/camera';
-
-const electron = window.require('electron');
-const { ipcRenderer } = electron;
+import React, { forwardRef, useEffect } from 'react';
 
 const Video = forwardRef(
-  ({ captureOptions, deviceId, className }, videoRef) => {
+  ({ captureOptions, cameraId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
       ...captureOptions,
       video: {
@@ -34,12 +28,10 @@ const Video = forwardRef(
       );
     useEffect(() => {
       (async () => {
-        const cameraDevices = await getCameraDevices();
-        ipcRenderer.send('webCamDevices', cameraDevices);
         const { defaultDevice } = captureOptions;
         const selectedDeviceId =
-          deviceId ||
-          (defaultDevice ? findDefaultCamera(defaultDevice).deviceId : null);
+          cameraId ||
+          (defaultDevice ? findDefaultCamera(defaultDevice).cameraId : null);
         const videoOptions = selectedDeviceId
           ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
           : captureOptions;
@@ -64,11 +56,10 @@ Video.propTypes = {
       width: PropTypes.number,
       height: PropTypes.number,
       sourceModel: PropTypes.string,
-      deviceId: PropTypes.string,
     }),
     defaultDevice: PropTypes.string,
   }),
-  deviceId: PropTypes.string,
+  cameraId: PropTypes.string,
   className: PropTypes.string,
 };
 
@@ -81,7 +72,7 @@ Video.defaultProps = {
     },
     defaultDevice: '',
   },
-  deviceId: null,
+  cameraId: null,
   className: '',
 };
 

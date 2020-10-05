@@ -5,18 +5,15 @@ import React, { useEffect, useRef, useState } from 'react';
 // Local imports
 import { livePhotoConfig } from '../../config/camera';
 import {
-  getDestinationImageCoordination,
+  getCroppedImageCoordination,
   isBelowThreshold,
-  ResPosenet,
 } from '../../helpers/camera';
-import CanvasImage from '../Atoms/CanvasImage';
-import CanvasStrokeRect from '../Atoms/CanvasStrokeRect';
+import { CanvasStrokeRect, CanvasImage, Video } from '../Atoms';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 import { withContext } from '../Context';
-import Video from '../Atoms/Video';
 
-const LiveImage = ({ deviceId, value }) => {
+const LiveImage = ({ cameraId, value }) => {
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
@@ -24,22 +21,15 @@ const LiveImage = ({ deviceId, value }) => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
 
-  const estimate = async (net) => {
+  const estimate = async () => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
-    /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
-    const { keypoints } = await net.estimateSinglePose(
-      videoRef.current,
-      0.5,
-      false,
-      16
+    const croppedImageCoordination = await getCroppedImageCoordination(
+      videoRef.current
     );
-    const destinationImageCoordinations = getDestinationImageCoordination(
-      keypoints
-    );
-    setSourceImageOptions(destinationImageCoordinations);
-    if (isBelowThreshold(keypoints)) {
-      estimate(net);
+    setSourceImageOptions(croppedImageCoordination);
+    if (isBelowThreshold()) {
+      setTimeout(() => estimate(), 250);
     } else {
       const { context, setContext } = value;
       setContext({
@@ -52,15 +42,11 @@ const LiveImage = ({ deviceId, value }) => {
     }
   };
 
-  const initResPosenet = async () => {
-    if (!videoRef.current) return;
-    const net = await ResPosenet();
-    estimate(net);
-  };
-
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', initResPosenet);
-  }, [videoRef]);
+    videoRef.current.addEventListener('canplay', async () => {
+      estimate();
+    });
+  }, []);
 
   return (
     <Column size="one-third" className="padding-5 position-relative">
@@ -69,7 +55,7 @@ const LiveImage = ({ deviceId, value }) => {
           <>
             <Video
               ref={videoRef}
-              deviceId={deviceId}
+              cameraId={cameraId}
               captureOptions={livePhotoConfig}
             />
             <CanvasStrokeRect
@@ -112,7 +98,7 @@ const LiveImage = ({ deviceId, value }) => {
 export default withContext(LiveImage);
 
 LiveImage.propTypes = {
-  deviceId: PropTypes.string,
+  cameraId: PropTypes.string,
   value: PropTypes.shape({
     context: PropTypes.shape({}),
     setContext: PropTypes.func,
@@ -120,6 +106,6 @@ LiveImage.propTypes = {
 };
 
 LiveImage.defaultProps = {
-  deviceId: null,
+  cameraId: null,
   value: {},
 };
