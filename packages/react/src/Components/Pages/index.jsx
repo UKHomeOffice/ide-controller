@@ -2,9 +2,9 @@
 import React from 'react';
 
 // Local imports
-import { Button, MatchCard } from '../Atoms';
+import { Button } from '../Atoms';
 import { Header } from '../Organisms';
-import { MainSection, MatchTable, ReadTable } from '../Molecules';
+import { MainSection, MatchCard, MatchTable, ReadTable } from '../Molecules';
 import { Column, Row } from '../Layout';
 
 const Index = () => (
