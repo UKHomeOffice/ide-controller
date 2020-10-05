@@ -52,9 +52,7 @@ function createWindow() {
   // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow.on('closed', app.quit);
 }
 
 // Set application menu
