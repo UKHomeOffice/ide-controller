@@ -14,8 +14,7 @@ import ImageCard from './ImageCard';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const makeImageCard = (key, { context }) => {
-  const { eventSourceData } = context;
+const makeImageCard = (key, { eventSourceData }) => {
   const image =
     eventSourceData &&
     eventSourceData[key] &&
@@ -24,6 +23,7 @@ const makeImageCard = (key, { context }) => {
 };
 
 const ImagePanel = ({ isActive, value }) => {
+  const { context, setContext } = value;
   const [liveImageKey, setLiveImageKey] = useState(
     `liveImageKey-${Date.now()}`
   );
@@ -33,6 +33,7 @@ const ImagePanel = ({ isActive, value }) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
+    setContext({ ...context });
   };
 
   useEffect(() => {
@@ -58,10 +59,10 @@ const ImagePanel = ({ isActive, value }) => {
       <PhotoHeaders />
       <Row>
         <Column size="one-third" className="padding-5">
-          {makeImageCard('CD_SCDG2_PHOTO', value)}
+          {makeImageCard('CD_SCDG2_PHOTO', context)}
         </Column>
         <Column size="one-third" className="padding-5">
-          {makeImageCard('CD_IMAGEPHOTO', value)}
+          {makeImageCard('CD_IMAGEPHOTO', context)}
         </Column>
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.

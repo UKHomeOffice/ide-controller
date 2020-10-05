@@ -40,10 +40,11 @@ const App = () => {
   }, [context]);
 
   useEffect(() => {
-    if (context.image === undefined) return;
+    const { eventSourceData: evenDdata, image } = context;
+    if (!evenDdata?.CD_SCDG2_PHOTO?.image || !image) return;
     post('http://localhost:8081/image/match', {
       image: context.image,
-      image2: `data:image/jpeg;base64,${context.eventSourceData.CD_SCDG2_PHOTO.image}`,
+      image2: `data:image/jpeg;base64,${evenDdata.CD_SCDG2_PHOTO.image}`,
     })
       .then((res) => {
         setContext({
@@ -57,7 +58,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [context.image]);
+  }, [context.image, context.eventSourceData]);
 
   return (
     <Provider
