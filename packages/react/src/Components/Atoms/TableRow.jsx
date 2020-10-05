@@ -1,36 +1,28 @@
 // Global imports
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const TableRow = ({ rowLabel, status, type }) => {
+const TableRow = ({ rowLabel, status }) => {
   return (
     <tr className="govuk-table__row">
-      <th className={`govuk-table__${type}`} scope="row">
+      <th
+        className="govuk-table__cell govuk-!-font-weight-regular govuk-!-width-one-half"
+        scope="row"
+      >
         {rowLabel}
       </th>
-      {status && (
-        <td className="govuk-table__cell">
-          <strong
-            className="govuk-tag govuk-tag--failed app-task-list__task-completed"
-            id="eligibility-completed"
-          >
-            {status}
-          </strong>
-        </td>
-      )}
+      <td className="govuk-table__cell govuk-!-width-one-half">
+        <strong className="govuk-tag govuk-tag--passed app-task-list__task-completed govuk-!-font-size-16">
+          {status}
+        </strong>
+      </td>
     </tr>
   );
 };
 
 TableRow.propTypes = {
   rowLabel: PropTypes.string.isRequired,
-  status: PropTypes.string,
-  type: PropTypes.string,
-};
-
-TableRow.defaultProps = {
-  status: undefined,
-  type: 'cell',
+  status: PropTypes.string.isRequired,
 };
 
 export default TableRow;
