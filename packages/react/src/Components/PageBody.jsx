@@ -7,6 +7,8 @@ import Header from './Header';
 import InfoTable from './InfoTable';
 import InfoTabs from './InfoTabs';
 import MatchValue from './MatchValue';
+import MatchState from './MatchState';
+import { Row } from './Layout';
 
 const PageBody = () => {
   return (
@@ -15,7 +17,10 @@ const PageBody = () => {
       {/* <div className="govuk-width-container body-width"> */}
       <main className="govuk-main-wrapper" role="main">
         <div className="govuk-grid-column-one-quarter-from-desktop">
-          <MatchValue />
+          <Row>
+            <MatchState />
+            <MatchValue />
+          </Row>
           <InfoTable />
           <p>
             This data will automatically be deleted when another document is
