@@ -8,7 +8,7 @@ import {
   getCroppedImageCoordination,
   isBelowThreshold,
 } from '../../helpers/camera';
-import { CanvasStrokeRect, CanvasImage, Video } from '../Atoms';
+import { CanvasRect, CanvasImage, Video } from '../Atoms';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 import { withContext } from '../Context';
@@ -58,7 +58,7 @@ const LiveImage = ({ cameraId, value }) => {
               cameraId={cameraId}
               captureOptions={livePhotoConfig}
             />
-            <CanvasStrokeRect
+            <CanvasRect
               className="position-absolute"
               ref={guidCanvasRef}
               width={livePhotoConfig.video.width}

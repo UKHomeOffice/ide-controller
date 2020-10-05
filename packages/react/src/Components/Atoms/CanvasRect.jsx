@@ -6,7 +6,7 @@ import React, { forwardRef, useEffect } from 'react';
 import { isEmpty } from '../../helpers/common';
 import { paintRec } from '../../helpers/canvas';
 
-const CanvasStrokeRect = forwardRef(
+const CanvasRect = forwardRef(
   ({ coordinate, width, height, className }, canvasRef) => {
     const rePaintRec = () => {
       if (isEmpty(canvasRef)) return;
@@ -27,7 +27,7 @@ const CanvasStrokeRect = forwardRef(
   }
 );
 
-CanvasStrokeRect.propTypes = {
+CanvasRect.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   coordinate: PropTypes.shape({
@@ -39,7 +39,7 @@ CanvasStrokeRect.propTypes = {
   className: PropTypes.string,
 };
 
-CanvasStrokeRect.defaultProps = {
+CanvasRect.defaultProps = {
   width: 100,
   height: 100,
   coordinate: {
@@ -51,4 +51,4 @@ CanvasStrokeRect.defaultProps = {
   className: null,
 };
 
-export default CanvasStrokeRect;
+export default CanvasRect;

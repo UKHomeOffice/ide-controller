@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import ImagePanel from './ImagePanel';
 import MRZPanel from './MRZPanel';
 
-const InfoTabs = () => {
+const MainSection = () => {
   const [active, setActive] = useState({
     imagePanel: true,
     MRZPanel: false,
@@ -49,4 +49,4 @@ const InfoTabs = () => {
   );
 };
 
-export default InfoTabs;
+export default MainSection;

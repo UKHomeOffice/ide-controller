@@ -8,6 +8,7 @@ import 'govuk-frontend/govuk/all.scss';
 import App from './App';
 import './Components/Style/atoms.scss';
 import './Components/Style/global.scss';
+import './Components/Style/molecules.scss';
 import './helpers/ipcMainEvents';
 
 document.body.className = document.body.className
