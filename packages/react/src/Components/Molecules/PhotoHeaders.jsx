@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Local imports
-import { Row } from './Layout';
+import { Row } from '../Layout';
 
 const PhotoHeaders = () => {
   return (

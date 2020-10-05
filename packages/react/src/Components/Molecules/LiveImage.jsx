@@ -3,20 +3,18 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 
 // Local imports
-import { livePhotoConfig } from '../config/cameraOptions';
+import { livePhotoConfig } from '../../config/cameraOptions';
 import {
   getDestinationImageCoordination,
   isBelowThreshold,
   ResPosenet,
-} from '../helpers/camera';
-import CanvasImage from './Atoms/CanvasImage';
-import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
-import './Style/atoms.scss';
-import './Controller.scss';
-import { Column } from './Layout';
-import ImageCard from './Molecules/ImageCard';
-import { withContext } from './Context';
-import Video from './Atoms/Video';
+} from '../../helpers/camera';
+import CanvasImage from '../Atoms/CanvasImage';
+import CanvasStrokeRect from '../Atoms/CanvasStrokeRect';
+import { Column } from '../Layout';
+import ImageCard from './ImageCard';
+import { withContext } from '../Context';
+import Video from '../Atoms/Video';
 
 const LiveImage = ({ deviceId, value }) => {
   const canvasRef = useRef('canvas');

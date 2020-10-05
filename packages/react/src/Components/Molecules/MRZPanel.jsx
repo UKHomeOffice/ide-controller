@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Local imports
 import MRZTable from './MRZTable';
-import { Row } from './Layout';
+import { Row } from '../Layout';
 
 const MRZPanel = ({ isActive }) => {
   return (
