@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Local imports
-import { getCameraDevices } from '../helpers/camera';
+import { getCameraDevices } from '../../helpers/camera';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;

@@ -11,14 +11,14 @@ import {
 } from '../helpers/camera';
 import CanvasImage from './Atoms/CanvasImage';
 import CanvasStrokeRect from './Atoms/CanvasStrokeRect';
-import './Atoms/style.scss';
+import './Style/atoms.scss';
 import './Controller.scss';
 import { Column } from './Layout';
 import ImageCard from './Molecules/ImageCard';
 import { withContext } from './Context';
-import Video from './Video';
+import Video from './Atoms/Video';
 
-const LiveImage = ({ deviceId, context }) => {
+const LiveImage = ({ deviceId, value }) => {
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
@@ -43,7 +43,11 @@ const LiveImage = ({ deviceId, context }) => {
     if (isBelowThreshold(keypoints)) {
       estimate(net);
     } else {
-      context.context.set('image', videoRef.current);
+      const { context, setContext } = value;
+      setContext({
+        imgae: videoRef.current,
+        ...context,
+      });
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
@@ -111,14 +115,13 @@ export default withContext(LiveImage);
 
 LiveImage.propTypes = {
   deviceId: PropTypes.string,
-  context: PropTypes.shape({
-    context: PropTypes.shape({
-      set: PropTypes.func,
-    }),
+  value: PropTypes.shape({
+    context: PropTypes.shape({}),
+    setContext: PropTypes.func,
   }),
 };
 
 LiveImage.defaultProps = {
   deviceId: null,
-  context: {},
+  value: {},
 };

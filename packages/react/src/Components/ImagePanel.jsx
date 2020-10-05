@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 // Local imports
-import Button from './Atoms/Button';
+import { Button } from './Atoms';
 import Config from './Config';
 import DocumentImage from './DocumentImage';
-import { Consumer } from './Context';
+import { withContext } from './Context';
 import LiveImage from './LiveImage';
 import { Row } from './Layout';
 import PhotoHeaders from './PhotoHeaders';
@@ -14,9 +14,7 @@ import PhotoHeaders from './PhotoHeaders';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const constructImageURL = (base64) => `data:image/jpeg;base64,${base64}`;
-
-const ImagePanel = ({ isActive }) => {
+const ImagePanel = ({ isActive, value }) => {
   const [restartCam, setRestartCam] = useState(true);
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const restartLiveImage = () => {
@@ -30,6 +28,15 @@ const ImagePanel = ({ isActive }) => {
       restartLiveImage();
     });
   });
+
+  const makeDocumentImage = (key) => {
+    const image =
+      value.context[key] &&
+      `data:image/jpeg;base64,${value.context[key].image}`;
+    return (
+      <DocumentImage image={image || Config.blankAvatar} imageAlt="Chip" />
+    );
+  };
 
   return (
     <div
@@ -46,23 +53,8 @@ const ImagePanel = ({ isActive }) => {
       </Row>
       <PhotoHeaders />
       <Row>
-        <Consumer>
-          {({ context }) => {
-            const docData = new Map(context);
-            const chipImage = docData.has('CD_SCDG2_PHOTO')
-              ? constructImageURL(docData.get('CD_SCDG2_PHOTO').image)
-              : Config.blankAvatar;
-            const scanImage = docData.has('CD_IMAGEPHOTO')
-              ? constructImageURL(docData.get('CD_IMAGEPHOTO').image)
-              : Config.blankAvatar;
-            return (
-              <>
-                <DocumentImage image={chipImage} imageAlt="Chip" />
-                <DocumentImage image={scanImage} imageAlt="Scan" />
-              </>
-            );
-          }}
-        </Consumer>
+        {makeDocumentImage('CD_SCDG2_PHOTO')}
+        {makeDocumentImage('CD_IMAGEPHOTO')}
         {restartCam && <LiveImage cameraDeviceId={cameraDeviceId} />}
         <Button onClick={restartLiveImage}>Retake Camera Image</Button>
       </Row>
@@ -72,6 +64,14 @@ const ImagePanel = ({ isActive }) => {
 
 ImagePanel.propTypes = {
   isActive: PropTypes.bool.isRequired,
+  value: PropTypes.shape({
+    context: PropTypes.shape({}),
+    setContext: PropTypes.func,
+  }),
 };
 
-export default ImagePanel;
+ImagePanel.defaultProps = {
+  value: {},
+};
+
+export default withContext(ImagePanel);
