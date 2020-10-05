@@ -5,7 +5,7 @@ import React from 'react';
 import { Button } from '../Atoms';
 import { Header } from '../Organisms';
 import InfoTable from '../Organisms/InfoTable';
-import InfoTabs from '../Molecules/InfoTabs';
+import { MainSection } from '../Molecules';
 import MatchValue from '../Molecules/MatchValue';
 import { Column } from '../Layout';
 
@@ -23,7 +23,7 @@ const Index = () => (
         <Button buttonVariant="warning">Clear Data Now</Button>
       </Column>
       <Column size="three-quarters-from-desktop">
-        <InfoTabs />
+        <MainSection />
       </Column>
     </main>
   </>
