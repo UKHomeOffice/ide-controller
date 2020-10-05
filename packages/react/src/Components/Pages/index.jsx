@@ -2,9 +2,9 @@
 import React from 'react';
 
 // Local imports
-import { Button } from '../Atoms';
+import { Button, MatchCard } from '../Atoms';
 import { Header } from '../Organisms';
-import { MainSection, MatchValue, MatchTable, ReadTable } from '../Molecules';
+import { MainSection, MatchTable, ReadTable } from '../Molecules';
 import { Column, Row } from '../Layout';
 
 const Index = () => (
@@ -17,7 +17,10 @@ const Index = () => (
       >
         <Row>
           <Column size="one-quarter">
-            <MatchValue />
+            <Row>
+              <MatchCard title="Result" value="No data" state="neutral" />
+              <MatchCard title="Score" value="No data" state="neutral" />
+            </Row>
             <MatchTable />
             <hr className="govuk-section-break govuk-section-break--m" />
             <ReadTable />
