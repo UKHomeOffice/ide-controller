@@ -8,3 +8,4 @@ export { default as MatchValue } from './MatchValue';
 export { default as MRZPanel } from './MRZPanel';
 export { default as PhotoHeaders } from './PhotoHeaders';
 export { default as ReadTable } from './ReadTable';
+export { default as TableRow } from './TableRow';

@@ -1,8 +1,11 @@
 // Global imports
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-const TableRow = ({ rowLabel, status }) => {
+// Local imports
+import { Tag } from '../Atoms';
+
+const TableRow = ({ rowLabel, status, statusText }) => {
   return (
     <tr className="govuk-table__row">
       <th
@@ -12,9 +15,7 @@ const TableRow = ({ rowLabel, status }) => {
         {rowLabel}
       </th>
       <td className="govuk-table__cell govuk-!-width-one-half">
-        <strong className="govuk-tag govuk-tag--passed app-task-list__task-completed govuk-!-font-size-16">
-          {status}
-        </strong>
+        <Tag status={status} statusText={statusText} />
       </td>
     </tr>
   );
@@ -23,6 +24,7 @@ const TableRow = ({ rowLabel, status }) => {
 TableRow.propTypes = {
   rowLabel: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  statusText: PropTypes.string.isRequired,
 };
 
 export default TableRow;

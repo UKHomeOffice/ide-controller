@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Local imports
-import { TableRow } from '../Atoms';
+import TableRow from './TableRow';
 
 const ReadTable = () => {
   return (
@@ -26,8 +26,12 @@ const ReadTable = () => {
           </tr>
         </thead>
         <tbody className="govuk-table__body">
-          <TableRow rowLabel="Live to chip" status="Pending Document" />
-          <TableRow rowLabel="Live to document" status="Pending Document" />
+          <TableRow
+            rowLabel="Chip opened"
+            status="neutral"
+            statusText="No chip"
+          />
+          <TableRow rowLabel="MRZ read" status="neutral" statusText="No chip" />
         </tbody>
       </table>
     </>

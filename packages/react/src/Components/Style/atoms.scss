@@ -9,3 +9,18 @@
   top: 0;
 }
 /*** End Generic ***/
+
+.tag-state{
+  &--neutral {
+    background-color: #505a5f;
+  }
+  &--passed {
+    background-color: #00703c;
+  }
+  &--failed {
+    background-color: #d4351c;
+  }
+  &--warning {
+    background-color: #f47738;
+  }
+}

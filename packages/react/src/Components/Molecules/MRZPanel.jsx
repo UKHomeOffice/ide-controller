@@ -1,6 +1,6 @@
 // Global imports
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 // Local imports
 import MRZTable from './MRZTable';

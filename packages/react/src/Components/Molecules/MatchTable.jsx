@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Local imports
-import { TableRow } from '../Atoms';
+import TableRow from './TableRow';
 
 const MatchTable = () => {
   return (
@@ -26,9 +26,21 @@ const MatchTable = () => {
           </tr>
         </thead>
         <tbody className="govuk-table__body">
-          <TableRow rowLabel="Live to chip" status="Pending Document" />
-          <TableRow rowLabel="Live to document" status="Pending Document" />
-          <TableRow rowLabel="Chip to document" status="Pending Document" />
+          <TableRow
+            rowLabel="Live to chip"
+            status="neutral"
+            statusText="No data"
+          />
+          <TableRow
+            rowLabel="Live to document"
+            status="neutral"
+            statusText="No data"
+          />
+          <TableRow
+            rowLabel="Chip to document"
+            status="neutral"
+            statusText="No data"
+          />
         </tbody>
       </table>
     </>
