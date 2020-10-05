@@ -32,13 +32,13 @@ const LiveImage = ({ cameraId, value }) => {
       setTimeout(() => estimate(), 250);
     } else {
       const { context, setContext } = value;
-      setContext({
-        imgae: videoRef.current,
-        ...context,
-      });
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
+      setContext({
+        image: canvasRef.current.toDataURL('image/jpeg'),
+        ...context,
+      });
     }
   };
 

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Index from './Components/Pages';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
+import { post } from './helpers/common';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -36,6 +37,18 @@ const App = () => {
         setContext({ ...eventSourceData });
       }
     });
+
+    if (context.image) {
+      post('http://localhost:8081/image/match', {
+        image: context.image,
+        image2: context.image,
+      }).then((res) => {
+        setContext({
+          match: res,
+          ...context,
+        });
+      });
+    }
   }, [context]);
 
   return (
