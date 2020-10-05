@@ -36,8 +36,8 @@ const LiveImage = ({ cameraId, value }) => {
       setShowCanvas(true);
       setShowVideo(false);
       setContext({
-        image: canvasRef.current.toDataURL('image/jpeg'),
         ...context,
+        image: canvasRef.current.toDataURL('image/jpeg'),
       });
     }
   };
