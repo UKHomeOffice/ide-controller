@@ -7,7 +7,7 @@ import { withContext } from '../Context';
 
 const MatchValue = ({ value }) => {
   const { match } = value.context;
-  const percentage = (score) => Math.round((score / 7480) * 100);
+  const percentage = (score) => Math.round((score / 8000) * 100);
   const headerStateClass = ({ score } = {}) => {
     if (percentage(score) >= 80) return 'pass';
     if (percentage(score) < 80) return 'fail';
