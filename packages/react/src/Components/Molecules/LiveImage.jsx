@@ -29,16 +29,16 @@ const LiveImage = ({ cameraId, value }) => {
     );
     setSourceImageOptions(croppedImageCoordination);
     if (isBelowThreshold()) {
-      setTimeout(() => estimate(), 250);
+      setTimeout(() => estimate(), 50);
     } else {
       const { context, setContext } = value;
-      setContext({
-        imgae: videoRef.current,
-        ...context,
-      });
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
+      setContext({
+        ...context,
+        image: canvasRef.current.toDataURL('image/jpeg'),
+      });
     }
   };
 

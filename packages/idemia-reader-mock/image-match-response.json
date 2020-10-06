@@ -1,1 +1,22 @@
-{"action":"Match","images":[{"name":"Image 1","height":450,"width":800,"resolution":0.0,"quality":100,"colour":"RGB24"},{"name":"Image 2","height":450,"width":800,"resolution":0.0,"quality":100,"colour":"RGB24"}],"score":7477}
+{
+  "action": "Match",
+  "images": [
+    {
+      "name": "Image 1",
+      "height": 450,
+      "width": 800,
+      "resolution": 0.0,
+      "quality": 100,
+      "colour": "RGB24"
+    },
+    {
+      "name": "Image 2",
+      "height": 450,
+      "width": 800,
+      "resolution": 0.0,
+      "quality": 100,
+      "colour": "RGB24"
+    }
+  ],
+  "score": 7000
+}

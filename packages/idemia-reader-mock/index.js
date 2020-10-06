@@ -3,7 +3,12 @@ const idemiaResponse = require('./image-match-response.json');
 const readerResponse = require('./reader-response');
 
 const idemiaServer = http.createServer((req, res) => {
-  if (req.method === 'POST' && req.url === '/image/match') {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Request-Method', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  console.log('here')
+  if (['POST', 'OPTIONS'].includes(req.method) && req.url === '/image/match') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(idemiaResponse));
   }
@@ -16,8 +21,8 @@ idemiaServer.listen(8081);
 const readerServer = http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Request-Method', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-	res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   if (req.url === '/reader/data') {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
