@@ -5,12 +5,13 @@ import React, { useState, useEffect } from 'react';
 import Index from './Components/Pages';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
+import { post } from './helpers/common';
 
 initOnlineStatus();
 const eventSourceData = {};
 
 const App = () => {
-  const [context, setContext] = useState(eventSourceData);
+  const [context, setContext] = useState({ eventSourceData });
 
   // Doc reader
   useEffect(() => {
@@ -33,10 +34,31 @@ const App = () => {
       }
 
       if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-        setContext({ ...eventSourceData });
+        setContext({ ...context, eventSourceData });
       }
     });
   }, [context]);
+
+  useEffect(() => {
+    const { eventSourceData: evenDdata, image } = context;
+    if (!evenDdata?.CD_SCDG2_PHOTO?.image || !image) return;
+    post('http://localhost:8081/image/match', {
+      image: image.replace('data:image/jpeg;base64,', ''),
+      image2: evenDdata.CD_SCDG2_PHOTO.image,
+    })
+      .then((res) => {
+        setContext({
+          ...context,
+          match: JSON.parse(res),
+        });
+      })
+      .catch(() =>
+        setContext({
+          ...context,
+          match: { score: 0 },
+        })
+      );
+  }, [context.image, context.eventSourceData]);
 
   return (
     <Provider
