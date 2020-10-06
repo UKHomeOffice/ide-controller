@@ -29,7 +29,7 @@ const LiveImage = ({ cameraId, value }) => {
     );
     setSourceImageOptions(croppedImageCoordination);
     if (isBelowThreshold()) {
-      setTimeout(() => estimate(), 250);
+      setTimeout(() => estimate(), 100);
     } else {
       const { context, setContext } = value;
       videoRef.current.pause();
