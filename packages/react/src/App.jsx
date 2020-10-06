@@ -42,10 +42,6 @@ const App = () => {
   useEffect(() => {
     const { eventSourceData: evenDdata, image } = context;
     if (!evenDdata?.CD_SCDG2_PHOTO?.image || !image) return;
-    console.log({
-      image: image.replace('data:image/jpeg;base64,', ''),
-      image2: evenDdata.CD_SCDG2_PHOTO.image,
-    });
     post('http://localhost:8081/image/match', {
       image: image.replace('data:image/jpeg;base64,', ''),
       image2: evenDdata.CD_SCDG2_PHOTO.image,
