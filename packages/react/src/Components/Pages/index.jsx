@@ -4,7 +4,12 @@ import React from 'react';
 // Local imports
 import { Button } from '../Atoms';
 import { Header } from '../Organisms';
-import { MainSection, MatchValue, MatchTable, ReadTable } from '../Molecules';
+import {
+  MainSection,
+  MatchValue,
+  ImageComparisionsTable,
+  DataReadTable,
+} from '../Molecules';
 import { Column, Row } from '../Layout';
 
 const Index = () => (
@@ -18,9 +23,9 @@ const Index = () => (
         <Row>
           <Column size="one-quarter">
             <MatchValue />
-            <MatchTable />
+            <ImageComparisionsTable />
             <hr className="govuk-section-break govuk-section-break--m" />
-            <ReadTable />
+            <DataReadTable />
             <p>
               This data will automatically be deleted when another document is
               scanned or after 15 minutes.
