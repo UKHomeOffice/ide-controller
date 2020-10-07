@@ -3,14 +3,14 @@ import React from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
-import { Header } from '../Organisms';
+import { Column, Row } from '../Layout';
 import {
+  DataReadTable,
+  ImageComparisonsTable,
   MainSection,
   MatchValue,
-  ImageComparisonsTable,
-  DataReadTable,
 } from '../Molecules';
-import { Column, Row } from '../Layout';
+import { Header } from '../Organisms';
 
 const Index = () => (
   <>
