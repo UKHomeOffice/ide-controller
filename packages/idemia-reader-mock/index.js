@@ -7,7 +7,6 @@ const idemiaServer = http.createServer((req, res) => {
 	res.setHeader('Access-Control-Request-Method', '*');
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  console.log('here')
   if (['POST', 'OPTIONS'].includes(req.method) && req.url === '/image/match') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(idemiaResponse));
