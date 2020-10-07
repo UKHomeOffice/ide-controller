@@ -1,13 +1,12 @@
 const http = require('http');
-const idemiaResponse = require('./image-match-response.json');
-const readerResponse = require('./reader-response');
+const idemiaResponse = require('./responses/image-match-response.json');
+const readerResponse = require('./responses/reader-response');
 
 const idemiaServer = http.createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Request-Method', '*');
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  console.log('here')
   if (['POST', 'OPTIONS'].includes(req.method) && req.url === '/image/match') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(idemiaResponse));
@@ -37,7 +36,7 @@ const readerServer = http.createServer((req, res) => {
       const message2 = `event: data\ndata: ${data}\n\n`;
       res.write(message2);
     });
-  } 
+  }
 
   else if (req.url === '/reader/status') {
     res.writeHead(200, {
@@ -55,8 +54,8 @@ const readerServer = http.createServer((req, res) => {
       const message2 = `event: data\ndata: ${data}\n\n`;
       res.write(message2);
     });
-  } 
-  
+  }
+
   else {
     res.statusCode = 404;
     res.end('Not found!')

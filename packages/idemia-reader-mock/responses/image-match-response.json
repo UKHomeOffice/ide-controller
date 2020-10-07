@@ -1,0 +1,32 @@
+{
+  "action": "Match",
+  "images": [
+    {
+      "name": "Live Image",
+      "height": 350,
+      "width": 300,
+      "resolution": 0.0,
+      "quality": 100,
+      "colour": "RGB24"
+    },
+    {
+      "name": "Bio Image",
+      "height": 949,
+      "width": 631,
+      "resolution": 0.0,
+      "quality": 100,
+      "colour": "RGB24"
+    },
+    {
+      "name": "Chip Image",
+      "height": 480,
+      "width": 384,
+      "resolution": 300.0,
+      "quality": 100,
+      "colour": "RGB24"
+    }
+  ],
+  "liveBioScore": 3619,
+  "bioChipScore": 4467,
+  "liveChipScore": 4324
+}

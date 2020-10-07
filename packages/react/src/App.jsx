@@ -46,10 +46,11 @@ const App = () => {
 
   useEffect(() => {
     const { eventSourceData: evenDdata, image } = context;
-    if (!evenDdata?.CD_SCDG2_PHOTO?.image || !image) return;
+    if (!evenDdata?.CD_IMAGEPHOTO?.image || !image) return;
     post(IMAGE_MATCH, {
-      image: image.replace('data:image/jpeg;base64,', ''),
-      image2: evenDdata.CD_SCDG2_PHOTO.image,
+      chipImage: evenDdata.CD_SCDG2_PHOTO?.image,
+      bioImage: evenDdata.CD_IMAGEPHOTO.image,
+      liveImage: image.replace('data:image/jpeg;base64,', ''),
     })
       .then((res) => {
         setContext({

@@ -5,31 +5,31 @@ import React from 'react';
 // Local imports
 import { withContext } from '../Context';
 
+const headerStateClass = (averageScore) => {
+  const acceptablePercentage = 45;
+  if (averageScore >= acceptablePercentage) return 'pass';
+  if (averageScore < acceptablePercentage) return 'fail';
+
+  return '';
+};
+
 const MatchValue = ({ value }) => {
-  const { match } = value.context;
-  const percentage = (score) => Math.round((score / 8000) * 100);
-  const headerStateClass = ({ score } = {}) => {
-    if (percentage(score) >= 80) return 'pass';
-    if (percentage(score) < 80) return 'fail';
-
-    return '';
-  };
-  const headerText = ({ score } = {}) => {
-    if (score === undefined) return 'Ready';
-    if (typeof score === 'number') return `${percentage(score)}%`;
-
-    return '';
-  };
+  const { liveBioScore, bioChipScore, liveChipScore } =
+    value.context?.match || {};
+  const totalScore = liveBioScore + bioChipScore + liveChipScore;
+  const divideBy = bioChipScore > 0 ? 3 : 2;
+  const averageScore = totalScore / divideBy;
+  const percentageScore = Math.round((averageScore / 8000) * 100);
 
   return (
     <>
       <span className="govuk-caption-m">Facial likeness between images</span>
       <h1
         className={`govuk-heading-xl govuk-!-font-size-48 ${headerStateClass(
-          match
+          percentageScore
         )}`}
       >
-        {headerText(match)}
+        {percentageScore ? `${percentageScore}%` : 'Ready'}
       </h1>
     </>
   );
