@@ -6,6 +6,7 @@ import Index from './Components/Pages';
 import { Provider } from './Components/Context';
 import { initOnlineStatus } from './helpers/electron';
 import { post } from './helpers/common';
+import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -15,7 +16,7 @@ const App = () => {
 
   // Doc reader
   useEffect(() => {
-    const events = new EventSource('http://localhost:8080/reader/data');
+    const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
       const datatype = messageData.dataType;
@@ -42,7 +43,7 @@ const App = () => {
   useEffect(() => {
     const { eventSourceData: evenDdata, image } = context;
     if (!evenDdata?.CD_SCDG2_PHOTO?.image || !image) return;
-    post('http://localhost:8081/image/match', {
+    post(IMAGE_MATCH, {
       image: image.replace('data:image/jpeg;base64,', ''),
       image2: evenDdata.CD_SCDG2_PHOTO.image,
     })
