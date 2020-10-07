@@ -9,8 +9,9 @@ const MatchValue = ({ value }) => {
   const { match } = value.context;
   const percentage = (score) => Math.round((score / 8000) * 100);
   const headerStateClass = ({ score } = {}) => {
-    if (percentage(score) >= 80) return 'pass';
-    if (percentage(score) < 80) return 'fail';
+    const acceptablePercentage = 45;
+    if (percentage(score) >= acceptablePercentage) return 'pass';
+    if (percentage(score) < acceptablePercentage) return 'fail';
 
     return '';
   };

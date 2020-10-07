@@ -18,5 +18,7 @@
       "colour": "RGB24"
     }
   ],
-  "score": 7000
+  "liveBioScore": 7480,
+  "bioChipScore": 7480,
+  "liveChipScore": 7480
 }
