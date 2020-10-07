@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Local imports
-import { TableRow } from '../Atoms';
+import { TableRow } from '../Molecules';
 import { Column, Row } from '../Layout';
 
 const InfoTable = () => (
