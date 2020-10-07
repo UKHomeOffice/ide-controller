@@ -7,7 +7,8 @@ const Tag = ({ tagText, tagStatus }) => {
 };
 
 Tag.propTypes = {
-  tagStatus: PropTypes.string.isRequired,
+  tagStatus: PropTypes.oneOf(['neutral', 'passed', 'failed', 'warning'])
+    .isRequired,
   tagText: PropTypes.string.isRequired,
 };
 
