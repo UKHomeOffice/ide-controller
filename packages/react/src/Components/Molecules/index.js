@@ -1,6 +1,6 @@
 export { default as Header } from '../Organisms/Header';
 export { default as ImageCard } from './ImageCard';
-export { default as ImageComparisionsTable } from './ImageComparisionsTable';
+export { default as ImageComparisonsTable } from './ImageComparisonsTable';
 export { default as ImagePanel } from './ImagePanel';
 export { default as MainSection } from './MainSection';
 export { default as LiveImage } from './LiveImage';

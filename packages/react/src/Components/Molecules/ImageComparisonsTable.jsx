@@ -4,7 +4,7 @@ import React from 'react';
 // Local imports
 import { TableRow } from '../Atoms';
 
-const ImageComparisionsTable = () => {
+const ImageComparisonsTable = () => {
   return (
     <table className="govuk-table">
       <caption className="govuk-table__caption">Image comparisons</caption>
@@ -16,4 +16,4 @@ const ImageComparisionsTable = () => {
     </table>
   );
 };
-export default ImageComparisionsTable;
+export default ImageComparisonsTable;
