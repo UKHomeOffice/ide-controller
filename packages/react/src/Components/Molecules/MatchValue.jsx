@@ -16,6 +16,12 @@ const headerStateClass = (averageScore) => {
 const MatchValue = ({ value }) => {
   const { liveBioScore, bioChipScore, liveChipScore } =
     value.context?.match || {};
+  console.log('Context ', value.context);
+  console.log();
+  console.log('liveBioScore ', liveBioScore);
+  console.log('bioChipScore ', bioChipScore);
+  console.log('liveChipScore ', liveChipScore);
+  console.log();
   const totalScore = liveBioScore + bioChipScore + liveChipScore;
   const divideBy = bioChipScore > 0 ? 3 : 2;
   const averageScore = totalScore / divideBy;
@@ -23,6 +29,10 @@ const MatchValue = ({ value }) => {
 
   return (
     <>
+      <h1>{liveBioScore && liveBioScore}</h1>
+      <h1>{bioChipScore && bioChipScore}</h1>
+      <h1>{liveChipScore && liveChipScore}</h1>
+      <h1>{percentageScore}</h1>
       <span className="govuk-caption-m">Facial likeness between images</span>
       <h1
         className={`govuk-heading-xl govuk-!-font-size-48 ${headerStateClass(

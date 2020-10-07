@@ -53,6 +53,7 @@ const App = () => {
       liveImage: image.replace('data:image/jpeg;base64,', ''),
     })
       .then((res) => {
+        console.log(JSON.parse(res));
         setContext({
           ...context,
           match: JSON.parse(res),
