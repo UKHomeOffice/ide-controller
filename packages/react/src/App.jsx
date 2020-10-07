@@ -37,6 +37,10 @@ const App = () => {
       if (messageData.event === 'END_OF_DOCUMENT_DATA') {
         setContext({ ...context, eventSourceData });
       }
+
+      if (messageData.event === 'READER_STATUS') {
+        setContext({ ...context, readerStatus: messageData });
+      }
     });
   }, [context]);
 

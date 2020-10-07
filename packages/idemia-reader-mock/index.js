@@ -37,7 +37,27 @@ const readerServer = http.createServer((req, res) => {
       const message2 = `event: data\ndata: ${data}\n\n`;
       res.write(message2);
     });
-  } else {
+  } 
+
+  else if (req.url === '/reader/status') {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    });
+
+    readerResponse.forEach(r => {
+      const index = Math.round(Math.random())
+      const status = ['OK', 'FAILED'];
+      const data = JSON.stringify({ "status" : status[index]});
+      const message = `event: event\ndata: ${data}\n\n`;
+      res.write(message);
+      const message2 = `event: data\ndata: ${data}\n\n`;
+      res.write(message2);
+    });
+  } 
+  
+  else {
     res.statusCode = 404;
     res.end('Not found!')
   }
