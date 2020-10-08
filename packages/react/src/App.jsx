@@ -7,6 +7,11 @@ import { LivePhotoProvider } from './Components/Context/LivePhoto';
 import { ScoreProvider } from './Components/Context/Score';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
+import {
+  END_OF_DOCUMENT_DATA,
+  READER_STATUS,
+  START_OF_DOCUMENT_DATA,
+} from './config/EventSource';
 import { post } from './helpers/common';
 import { initOnlineStatus } from './helpers/electron';
 
@@ -34,18 +39,18 @@ const App = () => {
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
-      if (messageData.event === 'START_OF_DOCUMENT_DATA') {
-        setEventSourceContext({ eventSourceEvent: 'START_OF_DOCUMENT_DATA' });
+      if (messageData.event === START_OF_DOCUMENT_DATA) {
+        setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
 
-      if (messageData.event === 'END_OF_DOCUMENT_DATA') {
+      if (messageData.event === END_OF_DOCUMENT_DATA) {
         setEventSourceContext({
           ...eventSourceData,
-          eventSourceEvent: 'END_OF_DOCUMENT_DATA',
+          eventSourceEvent: END_OF_DOCUMENT_DATA,
         });
       }
 
-      if (messageData.event === 'READER_STATUS') {
+      if (messageData.event === READER_STATUS) {
         setEventSourceContext({
           ...eventSourceData,
           readerStatus: messageData,
