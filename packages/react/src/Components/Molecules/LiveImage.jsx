@@ -10,11 +10,13 @@ import {
 } from '../../helpers/camera';
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
+import { ScoreContext } from '../Context/Score';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 
 const LiveImage = ({ cameraId }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
+  const { setScoreContext } = useContext(ScoreContext);
 
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
@@ -47,6 +49,7 @@ const LiveImage = ({ cameraId }) => {
     videoRef.current.addEventListener('canplay', async () => {
       estimate();
     });
+    setScoreContext({});
   }, []);
 
   return (
