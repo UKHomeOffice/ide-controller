@@ -1,39 +1,37 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 // Local imports
-import { Button } from '../Atoms';
 import { blankAvatar } from '../../images';
-import { withContext } from '../Context';
-import LiveImage from './LiveImage';
+import { Button } from '../Atoms';
+import { EventSourceContext } from '../Context/EventSource';
 import { Column, Row } from '../Layout';
-import PhotoHeaders from './PhotoHeaders';
 import ImageCard from './ImageCard';
+import LiveImage from './LiveImage';
+import PhotoHeaders from './PhotoHeaders';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const makeImageCard = (key, { eventSourceData }) => {
-  const image =
-    eventSourceData &&
-    eventSourceData[key] &&
-    `data:image/jpeg;base64,${eventSourceData[key].image}`;
+const makeImageCard = (key, event) => {
+  const image = event && `data:image/jpeg;base64,${event.image}`;
   return <ImageCard image={image || blankAvatar} imageAlt={key} />;
 };
 
-const ImagePanel = ({ isActive, value }) => {
-  const { context, setContext } = value;
-  const [liveImageKey, setLiveImageKey] = useState(
-    `liveImageKey-${Date.now()}`
+const ImagePanel = ({ isActive }) => {
+  const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
+    EventSourceContext
   );
+
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const [canRetakeImage, setCanRetakeImage] = useState(true);
+  const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
+
   const restartLiveImage = () => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
-    setContext({ ...context });
   };
 
   useEffect(() => {
@@ -42,6 +40,12 @@ const ImagePanel = ({ isActive, value }) => {
       restartLiveImage();
     });
   }, []);
+
+  useEffect(() => {
+    if (eventSourceEvent === 'START_OF_DOCUMENT_DATA') {
+      restartLiveImage();
+    }
+  }, [eventSourceEvent]);
 
   return (
     <div
@@ -59,10 +63,10 @@ const ImagePanel = ({ isActive, value }) => {
       <PhotoHeaders />
       <Row>
         <Column size="one-third" className="padding-5">
-          {makeImageCard('CD_SCDG2_PHOTO', context)}
+          {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO)}
         </Column>
         <Column size="one-third" className="padding-5">
-          {makeImageCard('CD_IMAGEPHOTO', context)}
+          {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO)}
         </Column>
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.
@@ -84,14 +88,6 @@ const ImagePanel = ({ isActive, value }) => {
 
 ImagePanel.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  value: PropTypes.shape({
-    context: PropTypes.shape({}),
-    setContext: PropTypes.func,
-  }),
 };
 
-ImagePanel.defaultProps = {
-  value: {},
-};
-
-export default withContext(ImagePanel);
+export default ImagePanel;
