@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Local  imports
 import { EventSourceProvider } from './Components/Context/EventSource';
 import { LivePhotoProvider } from './Components/Context/LivePhoto';
+import { ScoreProvider } from './Components/Context/Score';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
 import { post } from './helpers/common';
@@ -15,6 +16,7 @@ const eventSourceData = {};
 const App = () => {
   const [eventSourceContext, setEventSourceContext] = useState({});
   const [livePhotoContext, setLivePhotoContext] = useState({});
+  const [scoreContext, setScoreContext] = useState({});
 
   // Doc reader
   useEffect(() => {
@@ -61,19 +63,15 @@ const App = () => {
       chipImage: CD_SCDG2_PHOTO?.image,
       bioImage: CD_IMAGEPHOTO.image,
       liveImage: image.replace('data:image/jpeg;base64,', ''),
-    });
-    // .then((res) => {
-    //   setContext({
-    //     ...context,
-    //     match: JSON.parse(res),
-    //   });
-    // })
-    // .catch(() =>
-    //   setContext({
-    //     ...context,
-    //     match: { score: 0 },
-    //   })
-    // );
+    })
+      .then((res) => {
+        setScoreContext(JSON.parse(res));
+      })
+      .catch(() =>
+        setScoreContext({
+          match: { score: 0 },
+        })
+      );
   }, [livePhotoContext.image]);
 
   return (
@@ -84,7 +82,14 @@ const App = () => {
           setLivePhotoContext,
         }}
       >
-        <Index />
+        <ScoreProvider
+          value={{
+            scoreContext,
+            setScoreContext,
+          }}
+        >
+          <Index />
+        </ScoreProvider>
       </LivePhotoProvider>
     </EventSourceProvider>
   );
