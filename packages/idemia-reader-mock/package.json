@@ -8,9 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
   },
-  "scripts": {
-    "dev": "nodemon index.js"
-  },
+  "scripts": {},
   "bugs": {
     "url": "https://github.com/UKHomeOffice/ide-controller/issues"
   },
