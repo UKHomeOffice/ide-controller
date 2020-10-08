@@ -1,12 +1,10 @@
 const http = require('http');
 const idemiaResponse = require('./responses/image-match-response.json');
 const readerResponse = require('./responses/reader-response');
+const { allowAllOrigins } = require('./helpers');
 
 const idemiaServer = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Request-Method', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  allowAllOrigins(res);
   if (['POST', 'OPTIONS'].includes(req.method) && req.url === '/image/match') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(idemiaResponse));
@@ -16,12 +14,8 @@ const idemiaServer = http.createServer((req, res) => {
 });
 idemiaServer.listen(8081);
 
-
 const readerServer = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Request-Method', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  allowAllOrigins(res);
   if (req.url === '/reader/data') {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -29,13 +23,16 @@ const readerServer = http.createServer((req, res) => {
       'Connection': 'keep-alive',
     });
 
-    readerResponse.forEach(r => {
-      const data = JSON.stringify(r);
-      const message = `event: event\ndata: ${data}\n\n`;
-      res.write(message);
-      const message2 = `event: data\ndata: ${data}\n\n`;
-      res.write(message2);
-    });
+    readerServer.triggerScanEvents = () => {
+      readerResponse.forEach(response => {
+        const data = JSON.stringify(response);
+        const message = `event: event\ndata: ${data}\n\n`;
+        res.write(message);
+        const message2 = `event: data\ndata: ${data}\n\n`;
+        res.write(message2);
+      });
+    };
+
   }
 
   else if (req.url === '/reader/status') {
@@ -62,3 +59,5 @@ const readerServer = http.createServer((req, res) => {
   }
 });
 readerServer.listen(8080);
+
+module.exports = readerServer;
