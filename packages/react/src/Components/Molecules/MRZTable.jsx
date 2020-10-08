@@ -1,54 +1,38 @@
 // Global imports
 import React from 'react';
 
+// Local imports
+import { MRZTableRow, MRZTableHeading } from '../Atoms';
+
 const MRZTable = () => (
   <table className="govuk-table">
-    <thead className="govuk-table__head">
-      <tr className="govuk-table__row">
-        <th scope="col" className="govuk-table__header">
-          Read from chip
-        </th>
-        <th scope="col" className="govuk-table__header">
-          Read from MRZ
-        </th>
-      </tr>
-    </thead>
+    <MRZTableHeading
+      headingOne=""
+      headingTwo="Data from Chip"
+      headingThree="Data from MRZ"
+    />
     <tbody className="govuk-table__body">
-      <tr className="govuk-table__row">
-        <th className="govuk-table__cell" scope="row">
-          Document number
-        </th>
-        <td className="govuk-table__cell">No chip</td>
-        <td className="govuk-table__cell">No Data</td>
-      </tr>
-      <tr className="govuk-table__row">
-        <th className="govuk-table__cell" scope="row">
-          Document expiry date
-        </th>
-        <td className="govuk-table__cell">No chip</td>
-        <td className="govuk-table__cell">No Data</td>
-      </tr>
-      <tr className="govuk-table__row">
-        <th className="govuk-table__cell" scope="row">
-          Document type
-        </th>
-        <td className="govuk-table__cell">No chip</td>
-        <td className="govuk-table__cell">No Data</td>
-      </tr>
-      <tr className="govuk-table__row">
-        <th className="govuk-table__cell" scope="row">
-          Document issuer
-        </th>
-        <td className="govuk-table__cell">No chip</td>
-        <td className="govuk-table__cell">No Data</td>
-      </tr>
-      <tr className="govuk-table__row">
-        <th className="govuk-table__cell" scope="row">
-          MRZ
-        </th>
-        <td className="govuk-table__cell">No chip</td>
-        <td className="govuk-table__cell">No Data</td>
-      </tr>
+      <MRZTableRow
+        heading="Document number"
+        chipData="No Data"
+        MRZData="No Data"
+      />
+      <MRZTableRow
+        heading="Document expiry date"
+        chipData="No Data"
+        MRZData="No Data"
+      />
+      <MRZTableRow
+        heading="Document type"
+        chipData="No Data"
+        MRZData="No Data"
+      />
+      <MRZTableRow
+        heading="Document issuer"
+        chipData="No Data"
+        MRZData="No Data"
+      />
+      <MRZTableRow heading="MRZ" chipData="No Data" MRZData="No Data" />
     </tbody>
   </table>
 );
