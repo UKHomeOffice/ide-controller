@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 
 // Local imports
-import { EventSourceContext } from '../Context/EventSource';
+import { ScoreContext } from '../Context/Score';
 
 const headerStateClass = (averageScore) => {
   const acceptablePercentage = 45;
@@ -13,9 +13,8 @@ const headerStateClass = (averageScore) => {
 };
 
 const MatchValue = () => {
-  const { liveBioScore, bioChipScore, liveChipScore } = useContext(
-    EventSourceContext
-  );
+  const { scoreContext } = useContext(ScoreContext);
+  const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
   const totalScore = liveBioScore + bioChipScore + liveChipScore;
   const divideBy = bioChipScore > 0 ? 3 : 2;
   const averageScore = totalScore / divideBy;
