@@ -1,9 +1,8 @@
 // Global imports
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Local imports
-import { withContext } from '../Context';
+import { ScoreContext } from '../Context/Score';
 
 const headerStateClass = (averageScore) => {
   const acceptablePercentage = 45;
@@ -13,9 +12,9 @@ const headerStateClass = (averageScore) => {
   return '';
 };
 
-const MatchValue = ({ value }) => {
-  const { liveBioScore, bioChipScore, liveChipScore } =
-    value.context?.match || {};
+const MatchValue = () => {
+  const { scoreContext } = useContext(ScoreContext);
+  const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
   const totalScore = liveBioScore + bioChipScore + liveChipScore;
   const divideBy = bioChipScore > 0 ? 3 : 2;
   const averageScore = totalScore / divideBy;
@@ -35,17 +34,4 @@ const MatchValue = ({ value }) => {
   );
 };
 
-MatchValue.propTypes = {
-  value: PropTypes.shape({
-    context: PropTypes.shape({
-      match: PropTypes.shape({}),
-    }),
-    setContext: PropTypes.func,
-  }),
-};
-
-MatchValue.defaultProps = {
-  value: { match: { score: 0 } },
-};
-
-export default withContext(MatchValue);
+export default MatchValue;

@@ -1,11 +1,11 @@
 const { app, Menu } = require('electron');
-const devMenu = require('./devMenu');
-const prodMenu = require('./prodMenu');
 
 let ideMenu;
 if (process.env.ENV === 'development') {
+  const devMenu = require('./devMenu');
   ideMenu = devMenu;
 } else {
+  const prodMenu = require('./prodMenu');
   ideMenu = prodMenu;
 }
 

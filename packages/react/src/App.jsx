@@ -1,18 +1,27 @@
 // Global imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Local  imports
+import { EventSourceProvider } from './Components/Context/EventSource';
+import { LivePhotoProvider } from './Components/Context/LivePhoto';
+import { ScoreProvider } from './Components/Context/Score';
 import Index from './Components/Pages';
-import { Provider } from './Components/Context';
-import { initOnlineStatus } from './helpers/electron';
-import { post } from './helpers/common';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
+import {
+  END_OF_DOCUMENT_DATA,
+  READER_STATUS,
+  START_OF_DOCUMENT_DATA,
+} from './config/EventSource';
+import { post } from './helpers/common';
+import { initOnlineStatus } from './helpers/electron';
 
 initOnlineStatus();
 const eventSourceData = {};
 
 const App = () => {
-  const [context, setContext] = useState({ eventSourceData });
+  const [eventSourceContext, setEventSourceContext] = useState({});
+  const [livePhotoContext, setLivePhotoContext] = useState({});
+  const [scoreContext, setScoreContext] = useState({});
 
   // Doc reader
   useEffect(() => {
@@ -30,51 +39,64 @@ const App = () => {
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
-      if (messageData.event === 'START_OF_DOCUMENT_DATA') {
-        setContext({});
+      if (messageData.event === START_OF_DOCUMENT_DATA) {
+        setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
 
-      if (messageData.event === 'END_OF_DOCUMENT_DATA') {
-        setContext({ ...context, eventSourceData });
+      if (messageData.event === END_OF_DOCUMENT_DATA) {
+        setEventSourceContext({
+          ...eventSourceData,
+          eventSourceEvent: END_OF_DOCUMENT_DATA,
+        });
       }
 
-      if (messageData.event === 'READER_STATUS') {
-        setContext({ ...context, readerStatus: messageData });
+      if (messageData.event === READER_STATUS) {
+        setEventSourceContext({
+          ...eventSourceData,
+          readerStatus: messageData,
+        });
       }
     });
-  }, [context]);
+  }, []);
 
   useEffect(() => {
-    const { eventSourceData: evenDdata, image } = context;
-    if (!evenDdata?.CD_IMAGEPHOTO?.image || !image) return;
+    const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
+    const { image } = livePhotoContext;
+    if (!CD_IMAGEPHOTO?.image || !image) return;
+
     post(IMAGE_MATCH, {
-      chipImage: evenDdata.CD_SCDG2_PHOTO?.image,
-      bioImage: evenDdata.CD_IMAGEPHOTO.image,
+      chipImage: CD_SCDG2_PHOTO?.image,
+      bioImage: CD_IMAGEPHOTO.image,
       liveImage: image.replace('data:image/jpeg;base64,', ''),
     })
       .then((res) => {
-        setContext({
-          ...context,
-          match: JSON.parse(res),
-        });
+        setScoreContext(JSON.parse(res));
       })
       .catch(() =>
-        setContext({
-          ...context,
+        setScoreContext({
           match: { score: 0 },
         })
       );
-  }, [context.image, context.eventSourceData]);
+  }, [livePhotoContext.image]);
 
   return (
-    <Provider
-      value={{
-        context,
-        setContext,
-      }}
-    >
-      <Index />
-    </Provider>
+    <EventSourceProvider value={eventSourceContext}>
+      <LivePhotoProvider
+        value={{
+          livePhotoContext,
+          setLivePhotoContext,
+        }}
+      >
+        <ScoreProvider
+          value={{
+            scoreContext,
+            setScoreContext,
+          }}
+        >
+          <Index />
+        </ScoreProvider>
+      </LivePhotoProvider>
+    </EventSourceProvider>
   );
 };
 
