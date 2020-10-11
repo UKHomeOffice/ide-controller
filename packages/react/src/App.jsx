@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { EventSourceProvider } from './Components/Context/EventSource';
 import { LivePhotoProvider } from './Components/Context/LivePhoto';
 import { ScoreProvider } from './Components/Context/Score';
+import { StatusProvider } from './Components/Context/Status';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
 import {
@@ -22,6 +23,7 @@ const App = () => {
   const [eventSourceContext, setEventSourceContext] = useState({});
   const [livePhotoContext, setLivePhotoContext] = useState({});
   const [scoreContext, setScoreContext] = useState({});
+  const [statusContext, setStatusContext] = useState({});
 
   // Doc reader
   useEffect(() => {
@@ -56,6 +58,13 @@ const App = () => {
           readerStatus: messageData,
         });
       }
+    });
+
+    events.addEventListener('status', (e) => {
+      const messageData = JSON.parse(e.data);
+      setStatusContext({
+        ...messageData,
+      });
     });
   }, []);
 
@@ -93,7 +102,9 @@ const App = () => {
             setScoreContext,
           }}
         >
-          <Index />
+          <StatusProvider value={statusContext}>
+            <Index />
+          </StatusProvider>
         </ScoreProvider>
       </LivePhotoProvider>
     </EventSourceProvider>

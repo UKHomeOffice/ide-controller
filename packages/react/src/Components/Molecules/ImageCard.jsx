@@ -27,7 +27,7 @@ ImageCard.defaultProps = {
   image: '',
   imageAlt: '',
   children: [],
-  className: null
+  className: null,
 };
 
 export default ImageCard;
