@@ -17,13 +17,15 @@ const ideMenu = require('./menu');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, onlineStatusWindow;
 
+const isDev = process.env.ENV === 'development';
+
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
   mainWindow = new BrowserWindow({
     // frame: false,
-    width: 1800,
-    height: 1200,
-    resizable: false,
+    width: 1920,
+    height: 1280,
+    resizable: isDev,
     titleBarStyle: 'hidden',
     backgroundColor: '#fff',
     webPreferences: { nodeIntegration: true },
@@ -42,7 +44,7 @@ function createWindow() {
   }
 
   // Load index.html into the new BrowserWindow
-  if (process.env.ENV === 'development') {
+  if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
   } else {
     mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
