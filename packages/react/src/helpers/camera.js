@@ -18,15 +18,12 @@ let keypoints;
  * tfjs-models
  * https://github.com/tensorflow/tfjs-models/tree/master/posenet
  */
-const loadPosenet = (width = video.width, height = video.height) =>
+const loadPosenet = () =>
   posenet.load({
     architecture: 'ResNet50',
-    outputStride: 16,
-    inputResolution: {
-      width,
-      height,
-    },
-    quantBytes: 2,
+    outputStride: 32,
+    multiplier: 1,
+    quantBytes: 1,
   });
 
 export const estimateSinglePose = async (frame) => {
@@ -51,11 +48,20 @@ export const isBelowThreshold = (threshold = defaulThreshold) => {
 
 const isAboveThreshold = (threshold = defaulThreshold) =>
   !isBelowThreshold(threshold);
-const isGoodRatio = () => true;
-const isGoodResolution = () => true;
+const videoRatio = video.width / video.height;
+const isGoodRatio = ({ width, height }) => {
+  return width / height === videoRatio;
+};
+const isGoodResolution = (width) => {
+  const resolutionPercentage = Math.round(width/ video.width * 100)
+  return resolutionPercentage > 70;
+};
 
-export const isGoodPicture = () =>
-  isAboveThreshold() && isGoodRatio() && isGoodResolution();
+export const isGoodPicture = ({ width, height }) => {
+  return (
+    isAboveThreshold() && isGoodRatio({ width, height }) && isGoodResolution(width)
+  );
+};
 
 const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   /* 5 is an arbitrary number to divide the face into sections  */
