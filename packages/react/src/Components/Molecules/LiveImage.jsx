@@ -33,10 +33,7 @@ const LiveImage = ({ cameraId }) => {
       videoRef.current
     );
     setSourceImageOptions(croppedImageCoordination);
-    const isBadQuality = !isGoodPicture({
-      width: croppedImageCoordination.calculatedWidth,
-      height: croppedImageCoordination.calculatedHeight,
-    });
+    const isBadQuality = !isGoodPicture(croppedImageCoordination);
     if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
