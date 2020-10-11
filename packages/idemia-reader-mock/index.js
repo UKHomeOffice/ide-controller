@@ -30,6 +30,10 @@ const readerServer = http.createServer((req, res) => {
         res.write(message);
         const message2 = `event: data\ndata: ${data}\n\n`;
         res.write(message2);
+        const randomIndex = Math.round(Math.random());
+        const status = ['OK', 'FAILED'];
+        const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
+        res.write(`event: status\ndata: ${statusMessage}\n\n`);
       });
     };
 
