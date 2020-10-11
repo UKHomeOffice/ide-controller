@@ -4,3 +4,10 @@ $passed-color: #00703c;
 $failed-color: #d4351c;
 $warning-color: #f47738;
 /*** End Colours ***/
+
+/*** Resolution ***/
+$screen-width: 1920px;
+$screen-height: 1280px;
+$body-margin: 48px;
+$max-body-width: calc(#{$screen-width} - #{$body-margin * 2});
+/*** End Resolution ***/

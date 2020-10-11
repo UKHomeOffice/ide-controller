@@ -28,6 +28,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  max-width: $screen-width;
+  max-height: $screen-height;
+  width: 100vw;
+  height: 100vh;
+}
+
+.govuk-width-container {
+  margin: 0 auto 0 auto;
+  max-width: $max-body-width;
 }
 
 .neutral {
@@ -44,10 +54,6 @@ body {
 
 .warning {
   color: #f47738;
-}
-
-.govuk-width-container {
-  max-width: 95%;
 }
 
 .photoContainer {
