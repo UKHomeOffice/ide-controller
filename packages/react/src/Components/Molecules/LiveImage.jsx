@@ -33,7 +33,10 @@ const LiveImage = ({ cameraId }) => {
       videoRef.current
     );
     setSourceImageOptions(croppedImageCoordination);
-    const isBadQuality = !isGoodPicture();
+    const isBadQuality = !isGoodPicture({
+      width: croppedImageCoordination.calculatedWidth,
+      height: croppedImageCoordination.calculatedHeight,
+    });
     if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
@@ -62,9 +65,10 @@ const LiveImage = ({ cameraId }) => {
               ref={videoRef}
               cameraId={cameraId}
               captureOptions={livePhotoConfig}
+              className="photoContainer--photo"
             />
             <CanvasRect
-              className="position-absolute"
+              className="photoContainer--photo position-absolute"
               ref={guidCanvasRef}
               width={livePhotoConfig.video.width}
               height={livePhotoConfig.video.height}
@@ -79,6 +83,7 @@ const LiveImage = ({ cameraId }) => {
         )}
         {showCanvas && (
           <CanvasImage
+            className="photoContainer--photo"
             sourceImage={{
               image: videoRef.current,
               x: sourceImageOptions.sourceX,
