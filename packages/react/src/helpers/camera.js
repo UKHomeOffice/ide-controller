@@ -53,13 +53,15 @@ const isGoodRatio = ({ width, height }) => {
   return width / height === videoRatio;
 };
 const isGoodResolution = (width) => {
-  const resolutionPercentage = Math.round(width/ video.width * 100)
+  const resolutionPercentage = Math.round((width / video.width) * 100);
   return resolutionPercentage > 70;
 };
 
 export const isGoodPicture = ({ width, height }) => {
   return (
-    isAboveThreshold() && isGoodRatio({ width, height }) && isGoodResolution(width)
+    isAboveThreshold() &&
+    isGoodRatio({ width, height }) &&
+    isGoodResolution(width)
   );
 };
 
