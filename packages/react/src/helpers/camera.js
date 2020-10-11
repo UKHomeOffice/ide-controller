@@ -49,6 +49,14 @@ export const isBelowThreshold = (threshold = defaulThreshold) => {
   return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
 };
 
+const isAboveThreshold = (threshold = defaulThreshold) =>
+  !isBelowThreshold(threshold);
+const isGoodRatio = () => true;
+const isGoodResolution = () => true;
+
+export const isGoodPicture = () =>
+  isAboveThreshold() && isGoodRatio() && isGoodResolution();
+
 const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   /* 5 is an arbitrary number to divide the face into sections  */
   const faceVerticalDivisions = 5;

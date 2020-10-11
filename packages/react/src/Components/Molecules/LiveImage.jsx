@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { livePhotoConfig } from '../../config/camera';
 import {
   getCroppedImageCoordination,
-  isBelowThreshold,
+  isGoodPicture,
 } from '../../helpers/camera';
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
@@ -33,7 +33,8 @@ const LiveImage = ({ cameraId }) => {
       videoRef.current
     );
     setSourceImageOptions(croppedImageCoordination);
-    if (isBelowThreshold()) {
+    const isBadQuality = !isGoodPicture();
+    if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
       videoRef.current.pause();
