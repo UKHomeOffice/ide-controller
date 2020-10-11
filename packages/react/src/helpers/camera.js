@@ -49,20 +49,28 @@ export const isBelowThreshold = (threshold = defaulThreshold) => {
 
 const isAboveThreshold = (threshold = defaulThreshold) =>
   !isBelowThreshold(threshold);
-const videoRatio = video.width / video.height;
-const isGoodRatio = ({ width, height }) => {
-  return width / height === videoRatio;
+const isGoodRatio = ({
+  sourceX,
+  sourceY,
+  calculatedWidth,
+  calculatedHeight,
+}) => {
+  const isYInsideFrame =
+    sourceY >= 0 && sourceY + calculatedHeight <= video.height;
+  const isXInsideFrame =
+    sourceX >= 0 && sourceX + calculatedWidth <= video.height;
+  return isYInsideFrame && isXInsideFrame;
 };
 const isGoodResolution = (width) => {
   const resolutionPercentage = Math.round((width / video.width) * 100);
   return resolutionPercentage > imageResolution;
 };
 
-export const isGoodPicture = ({ width, height }) => {
+export const isGoodPicture = (croppedImageCoordination) => {
   return (
     isAboveThreshold() &&
-    isGoodRatio({ width, height }) &&
-    isGoodResolution(width)
+    isGoodRatio(croppedImageCoordination) &&
+    isGoodResolution(croppedImageCoordination.calculatedWidth)
   );
 };
 
