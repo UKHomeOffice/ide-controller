@@ -10,6 +10,7 @@ export const livePhotoConfig = {
   },
   threshold: 0.9,
   zoomFactor: 1.6,
+  imageResolution: 70,
 };
 
 export default livePhotoConfig;

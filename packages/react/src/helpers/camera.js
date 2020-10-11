@@ -9,6 +9,7 @@ const {
   video,
   zoomFactor: defaultZoomFactor,
   threshold: defaulThreshold,
+  imageResolution,
 } = livePhotoConfig;
 
 let net;
@@ -54,7 +55,7 @@ const isGoodRatio = ({ width, height }) => {
 };
 const isGoodResolution = (width) => {
   const resolutionPercentage = Math.round((width / video.width) * 100);
-  return resolutionPercentage > 70;
+  return resolutionPercentage > imageResolution;
 };
 
 export const isGoodPicture = ({ width, height }) => {
