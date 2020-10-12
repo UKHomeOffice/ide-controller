@@ -42,7 +42,7 @@ body {
 .govuk-width-container {
   max-width: $max-body-width;
   &--align-centre {
-    margin-top: 200px;
+    margin-top: 90px;
   }
 }
 
@@ -119,11 +119,10 @@ body {
   &--xxl {
     font-size: 4.5rem;
   }
- }
+}
 /*** End Helpers ***/
 
 .reverse-row-direction {
   display: flex;
   flex-direction: row-reverse;
 }
-
