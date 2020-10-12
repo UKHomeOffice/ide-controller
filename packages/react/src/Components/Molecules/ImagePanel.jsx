@@ -80,7 +80,7 @@ const ImagePanel = ({ isActive }) => {
         )}
       </Row>
       <div className="govuk-section-break--m" />
-      <div className="govuk-grid-row reverse-row-direction">
+      <div className="govuk-grid-row flex-direction-row-reverse">
         <Column size="one-third">
           <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
             Retake Camera Image
