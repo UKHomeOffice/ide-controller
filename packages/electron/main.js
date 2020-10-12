@@ -105,9 +105,9 @@ ipcMain.on('online-status-changed', (event, status) => {
 });
 
 const userStore = new Store();
-ipcMain.handle('addToStore', (event, data) => {
+ipcMain.handle('addToStore', (event, key, value) => {
   try {
-    userStore.set(data);
+    userStore.set(key, value);
   } catch (e) {
     userStore.set({ error: e });
   }
