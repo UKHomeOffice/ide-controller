@@ -15,7 +15,10 @@ import { Header } from '../Organisms';
 const Index = () => (
   <>
     <Header />
-    <main className="govuk-width-container--align-centre" role="main">
+    <main
+      className="govuk-width-container govuk-width-container--align-centre"
+      role="main"
+    >
       <Row>
         <Column size="one-quarter">
           <MatchValue />
