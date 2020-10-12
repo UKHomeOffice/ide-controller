@@ -57,15 +57,15 @@ const ImagePanel = ({ isActive }) => {
     >
       <Row>
         <Column size="full">
-          <h2 className="govuk-heading-l">Images to compare</h2>
+          <h2 className="govuk-heading-l font--xl">Images to compare</h2>
         </Column>
       </Row>
       <PhotoHeaders />
       <Row>
-        <Column size="one-third" className="padding-5">
+        <Column size="one-third">
           {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO)}
         </Column>
-        <Column size="one-third" className="padding-5">
+        <Column size="one-third">
           {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO)}
         </Column>
         {/*
@@ -78,10 +78,15 @@ const ImagePanel = ({ isActive }) => {
           ),
           [liveImageKey]
         )}
-        <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
-          Retake Camera Image
-        </Button>
       </Row>
+      <div className="govuk-section-break--m" />
+      <div className="govuk-grid-row reverse-row-direction">
+        <Column size="one-third">
+          <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
+            Retake Camera Image
+          </Button>
+        </Column>
+      </div>
     </div>
   );
 };

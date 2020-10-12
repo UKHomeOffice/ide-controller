@@ -9,7 +9,7 @@ const Header = () => (
   >
     <div className="govuk-header__container govuk-width-container">
       <div className="govuk-header__content">
-        <span className="govuk-header__link govuk-header__link--service-name">
+        <span className="govuk-header__link govuk-header__link--service-name font--xl">
           Imposter detection equipment
         </span>
       </div>

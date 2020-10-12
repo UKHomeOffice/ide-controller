@@ -40,7 +40,6 @@ body {
 }
 
 .govuk-width-container {
-  margin: 0 auto 0 auto;
   max-width: $max-body-width;
   &--align-centre {
     margin-top: 200px;
@@ -67,8 +66,8 @@ body {
   &--photo {
     background-repeat: no-repeat;
     margin-bottom: 0;
-    height: 450px;
-    width: calc(453.484px - 62px);
+    height: 637.5px;
+    width: 425px;
     background-size: cover;
     background-position: center;
   }
@@ -80,12 +79,6 @@ body {
 }
 
 /*** Helpers ***/
-.padding {
-  &-5 {
-    padding: 5px;
-  }
-}
-
 .bg {
   &--neutral {
     background-color: $neutral-color;
@@ -100,4 +93,37 @@ body {
     background-color: $warning-color;
   }
 }
+
+.font {
+  &--26 {
+    font-size: 26px;
+  }
+  &--28 {
+    font-size: 28px;
+  }
+  &--30 {
+    font-size: 30px;
+  }
+  &--32 {
+    font-size: 32px;
+  }
+  &--m {
+    font-size: 1.2rem;
+  }
+  &--l {
+    font-size: 1.8rem;
+  }
+  &--xl {
+    font-size: 2.5rem;
+  }
+  &--xxl {
+    font-size: 4.5rem;
+  }
+ }
 /*** End Helpers ***/
+
+.reverse-row-direction {
+  display: flex;
+  flex-direction: row-reverse;
+}
+

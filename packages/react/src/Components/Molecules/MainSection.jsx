@@ -21,7 +21,7 @@ const MainSection = () => {
           role="presentation"
         >
           <a
-            className="govuk-tabs__tab"
+            className="govuk-tabs__tab font--26"
             href="#image-tab"
             onClick={() => setActive({ imagePanel: true, MRZPanel: false })}
           >
@@ -35,7 +35,7 @@ const MainSection = () => {
           role="presentation"
         >
           <a
-            className="govuk-tabs__tab"
+            className="govuk-tabs__tab font--26"
             href="#image-tab"
             onClick={() => setActive({ imagePanel: false, MRZPanel: true })}
           >
