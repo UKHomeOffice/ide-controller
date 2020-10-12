@@ -16,7 +16,7 @@ const Index = () => (
   <>
     <Header />
     <main
-      className="govuk-width-container govuk-main-wrapper--auto-spacing"
+      className="govuk-width-container govuk-width-container--align-centre"
       role="main"
     >
       <Row>

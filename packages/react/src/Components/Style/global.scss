@@ -7,7 +7,11 @@ html {
   cursor: default;
 }
 
-input, textarea, select, button, img {
+input,
+textarea,
+select,
+button,
+img {
   -webkit-user-drag: none;
 }
 
@@ -38,6 +42,9 @@ body {
 .govuk-width-container {
   margin: 0 auto 0 auto;
   max-width: $max-body-width;
+  &--align-centre {
+    margin-top: 200px;
+  }
 }
 
 .neutral {
