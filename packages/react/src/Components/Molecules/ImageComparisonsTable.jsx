@@ -41,7 +41,7 @@ const ImageComparisonsTable = () => {
   const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
 
   return (
-    <table className="govuk-table">
+    <table className="govuk-table font--30">
       <caption className="govuk-table__caption">Image comparisons</caption>
       <tbody className="govuk-table__body">
         <TableRow

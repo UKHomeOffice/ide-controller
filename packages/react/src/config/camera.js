@@ -1,6 +1,6 @@
 export const livePhotoConfig = {
   video: {
-    width: 926,
+    width: 720,
     height: 1080,
     sourceModel: 'C920',
   },

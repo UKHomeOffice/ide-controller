@@ -22,9 +22,11 @@ const MatchValue = () => {
 
   return (
     <>
-      <span className="govuk-caption-m">Facial likeness between images</span>
+      <span className="govuk-caption-m font--30">
+        Facial likeness between images
+      </span>
       <h1
-        className={`govuk-heading-xl govuk-!-font-size-48 ${headerStateClass(
+        className={`govuk-heading-xl font--xxl ${headerStateClass(
           percentageScore
         )}`}
       >
