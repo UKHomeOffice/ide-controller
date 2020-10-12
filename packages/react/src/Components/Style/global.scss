@@ -38,6 +38,13 @@ body {
 .govuk-width-container {
   margin: 0 auto 0 auto;
   max-width: $max-body-width;
+  &--align-centre {
+    height: 100vh;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .neutral {
