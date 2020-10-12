@@ -12,6 +12,7 @@ const path = require('path');
 
 // Local imports
 const ideMenu = require('./menu');
+const Store = require('./store');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -101,4 +102,13 @@ ipcMain.on('webCamDevices', (event, list) => {
 
 ipcMain.on('online-status-changed', (event, status) => {
   onlineStatusWindow = status; // eslint-disable-line
+});
+
+const userStore = new Store();
+ipcMain.handle('addToStore', (event, data) => {
+  try {
+    userStore.set(data);
+  } catch (e) {
+    userStore.set({ error: e });
+  }
 });

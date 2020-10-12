@@ -14,7 +14,7 @@ class Store {
     fs.appendFile(
       this.path,
       `${JSON.stringify({
-        [key]: value,
+        [key]: JSON.stringify(value),
         timestamp: Date.now(),
       })}\n`,
       function (err) {
