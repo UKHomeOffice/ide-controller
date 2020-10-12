@@ -18,7 +18,7 @@ const TableRow = ({ rowLabel, cellText, tagText, type, tagStatus }) => {
       <th className={`govuk-table__${type}`} scope="row">
         {rowLabel}
       </th>
-      <td className="govuk-table__cell govuk-!-width-one-half">
+      <td className="govuk-table__cell govuk-!-width-one-quarter">
         {cellContent()}
       </td>
     </tr>

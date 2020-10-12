@@ -25,7 +25,7 @@ const Index = () => (
           <ImageComparisonsTable />
           <hr className="govuk-section-break govuk-section-break--m" />
           <DataReadTable />
-          <p>
+          <p className="govuk-body font--26">
             This data will automatically be deleted when another document is
             scanned or after 15 minutes.
           </p>
