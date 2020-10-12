@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { livePhotoConfig } from '../../config/camera';
 import {
   getCroppedImageCoordination,
-  isBelowThreshold,
+  isGoodPicture,
 } from '../../helpers/camera';
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
@@ -33,7 +33,8 @@ const LiveImage = ({ cameraId }) => {
       videoRef.current
     );
     setSourceImageOptions(croppedImageCoordination);
-    if (isBelowThreshold()) {
+    const isBadQuality = !isGoodPicture(croppedImageCoordination);
+    if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
       videoRef.current.pause();
@@ -53,17 +54,18 @@ const LiveImage = ({ cameraId }) => {
   }, []);
 
   return (
-    <Column size="one-third" className="padding-5 position-relative">
-      <ImageCard>
+    <Column size="one-third" className="padding-5">
+      <ImageCard className="position-relative">
         {showVideo && (
           <>
             <Video
               ref={videoRef}
               cameraId={cameraId}
               captureOptions={livePhotoConfig}
+              className="photoContainer--photo"
             />
             <CanvasRect
-              className="position-absolute"
+              className="photoContainer--photo position-absolute"
               ref={guidCanvasRef}
               width={livePhotoConfig.video.width}
               height={livePhotoConfig.video.height}
@@ -78,6 +80,7 @@ const LiveImage = ({ cameraId }) => {
         )}
         {showCanvas && (
           <CanvasImage
+            className="photoContainer--photo"
             sourceImage={{
               image: videoRef.current,
               x: sourceImageOptions.sourceX,

@@ -7,7 +7,7 @@ import { isEmpty } from '../../helpers/common';
 import { drawImage } from '../../helpers/canvas';
 
 const CanvasImage = forwardRef(
-  ({ sourceImage, destinationImage }, canvasRef) => {
+  ({ sourceImage, destinationImage, className }, canvasRef) => {
     useEffect(() => {
       if (isEmpty(sourceImage.image)) return;
       const context = canvasRef.current.getContext('2d');
@@ -19,6 +19,7 @@ const CanvasImage = forwardRef(
         ref={canvasRef}
         width={destinationImage.width}
         height={destinationImage.height}
+        className={className}
       />
     );
   }
@@ -38,6 +39,7 @@ CanvasImage.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
   }),
+  className: PropTypes.string,
 };
 
 CanvasImage.defaultProps = {
@@ -53,6 +55,7 @@ CanvasImage.defaultProps = {
     width: 100,
     height: 100,
   },
+  className: null,
 };
 
 export default CanvasImage;

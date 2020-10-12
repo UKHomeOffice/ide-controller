@@ -1,5 +1,26 @@
 @import './variables.scss';
 
+/*** Electron reset ***/
+html {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  cursor: default;
+}
+
+input, textarea, select, button, img {
+  -webkit-user-drag: none;
+}
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.selectable {
+  -webkit-user-select: auto;
+  cursor: auto;
+}
+/*** End Electron reset ***/
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,17 +28,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  max-width: $screen-width;
+  max-height: $screen-height;
+  width: 100vw;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.responsive {
-  width: 100%;
-  height: auto;
-  column-width: auto;
+.govuk-width-container {
+  margin: 0 auto 0 auto;
+  max-width: $max-body-width;
 }
 
 .neutral {
@@ -36,24 +56,14 @@ code {
   color: #f47738;
 }
 
-.header-width {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
-.govuk-width-container {
-  max-width: 95%;
-}
-
 .photoContainer {
   &--photo {
     background-repeat: no-repeat;
     margin-bottom: 0;
     height: 450px;
-    width: 100%;
+    width: calc(453.484px - 62px);
     background-size: cover;
     background-position: center;
-    box-shadow: inset 0 0 0 10px #fff;
   }
 }
 

@@ -73,7 +73,7 @@ Video.defaultProps = {
     defaultDevice: '',
   },
   cameraId: null,
-  className: '',
+  className: null,
 };
 
 export default Video;

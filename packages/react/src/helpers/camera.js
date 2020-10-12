@@ -9,6 +9,7 @@ const {
   video,
   zoomFactor: defaultZoomFactor,
   threshold: defaulThreshold,
+  imageResolution,
 } = livePhotoConfig;
 
 let net;
@@ -18,15 +19,12 @@ let keypoints;
  * tfjs-models
  * https://github.com/tensorflow/tfjs-models/tree/master/posenet
  */
-const loadPosenet = (width = video.width, height = video.height) =>
+const loadPosenet = () =>
   posenet.load({
     architecture: 'ResNet50',
-    outputStride: 16,
-    inputResolution: {
-      width,
-      height,
-    },
-    quantBytes: 2,
+    outputStride: 32,
+    multiplier: 1,
+    quantBytes: 1,
   });
 
 export const estimateSinglePose = async (frame) => {
@@ -47,6 +45,33 @@ export const getCameraDevices = async () => {
 export const isBelowThreshold = (threshold = defaulThreshold) => {
   if (!keypoints) return true;
   return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
+};
+
+const isAboveThreshold = (threshold = defaulThreshold) =>
+  !isBelowThreshold(threshold);
+const isGoodRatio = ({
+  sourceX,
+  sourceY,
+  calculatedWidth,
+  calculatedHeight,
+}) => {
+  const isYInsideFrame =
+    sourceY >= 0 && sourceY + calculatedHeight <= video.height;
+  const isXInsideFrame =
+    sourceX >= 0 && sourceX + calculatedWidth <= video.height;
+  return isYInsideFrame && isXInsideFrame;
+};
+const isGoodResolution = (width) => {
+  const resolutionPercentage = Math.round((width / video.width) * 100);
+  return resolutionPercentage > imageResolution;
+};
+
+export const isGoodPicture = (croppedImageCoordination) => {
+  return (
+    isAboveThreshold() &&
+    isGoodRatio(croppedImageCoordination) &&
+    isGoodResolution(croppedImageCoordination.calculatedWidth)
+  );
 };
 
 const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {

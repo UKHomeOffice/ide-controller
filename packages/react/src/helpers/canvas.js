@@ -13,9 +13,9 @@ export const drawImage = (context, sourceImage, destinationImage) => {
   );
 };
 
-export const paintRec = (context, coordinate, color = '#2ea44f') => {
+export const paintRec = (context, coordinate, color = '#cb2431') => {
   context.strokeStyle = color;
-  context.lineWidth = 4;
+  context.lineWidth = 8;
   context.strokeRect(
     coordinate.x,
     coordinate.y,
