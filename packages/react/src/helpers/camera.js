@@ -56,9 +56,9 @@ const isGoodRatio = ({
   calculatedHeight,
 }) => {
   const isYInsideFrame =
-    sourceY >= 0 && sourceY + calculatedHeight <= video.height;
+    sourceY >= 0 && sourceY + calculatedHeight < video.height;
   const isXInsideFrame =
-    sourceX >= 0 && sourceX + calculatedWidth <= video.height;
+    sourceX >= 0 && sourceX + calculatedWidth < video.width;
   return isYInsideFrame && isXInsideFrame;
 };
 const isGoodResolution = (width) => {
