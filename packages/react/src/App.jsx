@@ -37,11 +37,13 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
+      sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
+      sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
         setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
@@ -63,6 +65,7 @@ const App = () => {
 
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
+      sendToElectronStore('deviceStatus', messageData);
       setStatusContext({
         ...messageData,
       });
