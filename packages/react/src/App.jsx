@@ -16,6 +16,7 @@ import {
 import { initOnlineStatus } from './helpers/electron';
 import { post } from './helpers/common';
 import { sendToElectronStore } from './helpers/ipcMainEvents';
+import './helpers/globalError';
 
 initOnlineStatus();
 const eventSourceData = {};
