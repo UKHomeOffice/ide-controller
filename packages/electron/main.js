@@ -113,3 +113,15 @@ ipcMain.handle('addToStore', (event, key, value) => {
     userStore.set('ERROR', 'CAN NOT LOG');
   }
 });
+
+process.on('exit', (code) => {
+  userStore.set('ApplicationExit', 'Process exit event');
+});
+
+process.on('uncaughtException', (err, origin) => {
+  userStore.set('ERROR', { error: err, origin: origin });
+});
+process.on('warning', (warning) => {
+  userStore.set('WARNING', { warning });
+});
+userStore.set('ApplicationStart', 'Success');
