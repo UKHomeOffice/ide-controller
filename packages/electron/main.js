@@ -110,5 +110,6 @@ ipcMain.handle('addToStore', (event, key, value) => {
     userStore.set(key, value);
   } catch (e) {
     userStore.set({ error: e });
+    userStore.set('ERROR', 'CAN NOT LOG');
   }
 });
