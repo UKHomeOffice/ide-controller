@@ -13,8 +13,9 @@ import {
   READER_STATUS,
   START_OF_DOCUMENT_DATA,
 } from './config/EventSource';
-import { post } from './helpers/common';
 import { initOnlineStatus } from './helpers/electron';
+import { post } from './helpers/common';
+import { sendToElectronStore } from './helpers/ipcMainEvents';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -79,6 +80,7 @@ const App = () => {
       liveImage: image.replace('data:image/jpeg;base64,', ''),
     })
       .then((res) => {
+        sendToElectronStore('matchingScore', JSON.parse(res));
         setScoreContext(JSON.parse(res));
       })
       .catch(() =>
