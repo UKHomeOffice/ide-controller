@@ -10,6 +10,7 @@ import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
+import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -32,6 +33,7 @@ const ImagePanel = ({ isActive }) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
+    sendToElectronStore('Livephoto', 'Retake Camera Image');
   };
 
   useEffect(() => {
