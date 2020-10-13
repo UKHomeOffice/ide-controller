@@ -6,7 +6,7 @@ import TableRow from './TableRow';
 
 const DataReadTable = () => {
   return (
-    <table className="govuk-table">
+    <table className="govuk-table font--32">
       <caption className="govuk-table__caption">Data read</caption>
       <tbody className="govuk-table__body">
         <TableRow

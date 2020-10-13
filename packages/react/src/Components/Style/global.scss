@@ -1,5 +1,30 @@
 @import './variables.scss';
 
+/*** Electron reset ***/
+html {
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  cursor: default;
+}
+
+input,
+textarea,
+select,
+button,
+img {
+  -webkit-user-drag: none;
+}
+
+.draggable {
+  -webkit-app-region: drag;
+}
+
+.selectable {
+  -webkit-user-select: auto;
+  cursor: auto;
+}
+/*** End Electron reset ***/
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,17 +32,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  max-width: $screen-width;
+  max-height: $screen-height;
+  width: 100vw;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.responsive {
-  width: 100%;
-  height: auto;
-  column-width: auto;
+.govuk-width-container {
+  max-width: $max-body-width;
+  &--align-centre {
+    margin-top: 90px;
+  }
 }
 
 .neutral {
@@ -36,39 +62,24 @@ code {
   color: #f47738;
 }
 
-.header-width {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
-.govuk-width-container {
-  max-width: 95%;
-}
-
 .photoContainer {
   &--photo {
     background-repeat: no-repeat;
     margin-bottom: 0;
-    height: 450px;
-    width: 100%;
+    height: 637.5px;
+    width: 425px;
     background-size: cover;
     background-position: center;
-    box-shadow: inset 0 0 0 10px #fff;
   }
 }
 
 .shadow {
   box-shadow: 0px 2px 6px 2px #bfc1c3;
   display: block;
+  height: 100%;
 }
 
 /*** Helpers ***/
-.padding {
-  &-5 {
-    padding: 5px;
-  }
-}
-
 .bg {
   &--neutral {
     background-color: $neutral-color;
@@ -83,4 +94,36 @@ code {
     background-color: $warning-color;
   }
 }
+
+.font {
+  &--26 {
+    font-size: 26px;
+  }
+  &--28 {
+    font-size: 28px;
+  }
+  &--30 {
+    font-size: 30px;
+  }
+  &--32 {
+    font-size: 32px;
+  }
+  &--m {
+    font-size: 1.2rem;
+  }
+  &--l {
+    font-size: 1.8rem;
+  }
+  &--xl {
+    font-size: 2.5rem;
+  }
+  &--xxl {
+    font-size: 4.5rem;
+  }
+}
 /*** End Helpers ***/
+
+.flex-direction-row-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}

@@ -1,22 +1,27 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Local imports
 import { livePhotoConfig } from '../../config/camera';
 import {
   getCroppedImageCoordination,
-  isBelowThreshold,
+  isGoodPicture,
 } from '../../helpers/camera';
-import { CanvasRect, CanvasImage, Video } from '../Atoms';
+import { CanvasImage, CanvasRect, Video } from '../Atoms';
+import { LivePhotoContext } from '../Context/LivePhoto';
+import { ScoreContext } from '../Context/Score';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
-import { withContext } from '../Context';
 
-const LiveImage = ({ cameraId, value }) => {
+const LiveImage = ({ cameraId }) => {
+  const { setLivePhotoContext } = useContext(LivePhotoContext);
+  const { setScoreContext } = useContext(ScoreContext);
+
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
   const videoRef = useRef();
+
   const [showVideo, setShowVideo] = useState(true);
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
@@ -28,15 +33,14 @@ const LiveImage = ({ cameraId, value }) => {
       videoRef.current
     );
     setSourceImageOptions(croppedImageCoordination);
-    if (isBelowThreshold()) {
+    const isBadQuality = !isGoodPicture(croppedImageCoordination);
+    if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
-      const { context, setContext } = value;
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
-      setContext({
-        ...context,
+      setLivePhotoContext({
         image: canvasRef.current.toDataURL('image/jpeg'),
       });
     }
@@ -46,20 +50,22 @@ const LiveImage = ({ cameraId, value }) => {
     videoRef.current.addEventListener('canplay', async () => {
       estimate();
     });
+    setScoreContext({});
   }, []);
 
   return (
-    <Column size="one-third" className="padding-5 position-relative">
-      <ImageCard>
+    <Column size="one-third">
+      <ImageCard className="position-relative">
         {showVideo && (
           <>
             <Video
               ref={videoRef}
               cameraId={cameraId}
               captureOptions={livePhotoConfig}
+              className="photoContainer--photo"
             />
             <CanvasRect
-              className="position-absolute"
+              className="photoContainer--photo position-absolute"
               ref={guidCanvasRef}
               width={livePhotoConfig.video.width}
               height={livePhotoConfig.video.height}
@@ -74,6 +80,7 @@ const LiveImage = ({ cameraId, value }) => {
         )}
         {showCanvas && (
           <CanvasImage
+            className="photoContainer--photo"
             sourceImage={{
               image: videoRef.current,
               x: sourceImageOptions.sourceX,
@@ -95,17 +102,12 @@ const LiveImage = ({ cameraId, value }) => {
   );
 };
 
-export default withContext(LiveImage);
+export default LiveImage;
 
 LiveImage.propTypes = {
   cameraId: PropTypes.string,
-  value: PropTypes.shape({
-    context: PropTypes.shape({}),
-    setContext: PropTypes.func,
-  }),
 };
 
 LiveImage.defaultProps = {
   cameraId: null,
-  value: {},
 };

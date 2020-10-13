@@ -1,10 +1,10 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Local imports
 import TableRow from './TableRow';
-import { withContext } from '../Context';
+import { ScoreContext } from '../Context/Score';
 
 const calculatePercentage = (score) => (score / 8000) * 100;
 
@@ -36,12 +36,12 @@ const resultClassName = (score) => {
   return 'neutral';
 };
 
-const ImageComparisonsTable = ({ value }) => {
-  const { liveBioScore, bioChipScore, liveChipScore } =
-    value.context?.match || {};
+const ImageComparisonsTable = () => {
+  const { scoreContext } = useContext(ScoreContext);
+  const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
 
   return (
-    <table className="govuk-table">
+    <table className="govuk-table font--30">
       <caption className="govuk-table__caption">Image comparisons</caption>
       <tbody className="govuk-table__body">
         <TableRow
@@ -77,4 +77,4 @@ ImageComparisonsTable.defaultProps = {
   value: {},
 };
 
-export default withContext(ImageComparisonsTable);
+export default ImageComparisonsTable;

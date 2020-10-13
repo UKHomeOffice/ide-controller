@@ -5,7 +5,7 @@ import React from 'react';
 const Button = ({ buttonVariant, onClick, children, disabled }) => {
   return (
     <button
-      className={`govuk-button govuk-button--${buttonVariant}`}
+      className={`govuk-button font--26 govuk-button--${buttonVariant}`}
       data-module="govuk-button"
       type="button"
       onClick={onClick}
