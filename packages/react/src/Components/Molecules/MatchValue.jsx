@@ -14,10 +14,8 @@ const headerStateClass = (averageScore) => {
 
 const MatchValue = () => {
   const { scoreContext } = useContext(ScoreContext);
-  const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
-  const totalScore = liveBioScore + bioChipScore + liveChipScore;
-  const divideBy = bioChipScore > 0 ? 3 : 2;
-  const averageScore = totalScore / divideBy;
+  const { liveBioScore, liveChipScore } = scoreContext;
+  const averageScore = liveChipScore || liveBioScore;
   const percentageScore = Math.round((averageScore / 8000) * 100);
 
   return (
