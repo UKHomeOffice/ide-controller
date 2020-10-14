@@ -1,5 +1,5 @@
 // Global imports
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
@@ -18,8 +18,13 @@ import {
   StatusContext,
 } from '../Context';
 
+const FIFTEEN_MINS = 900000;
+let timer;
+
 const Index = () => {
-  const { setEventSourceContext } = useContext(EventSourceContext);
+  const { eventSourceContext, setEventSourceContext } = useContext(
+    EventSourceContext
+  );
   const { setLivePhotoContext } = useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
   const { setStatusContext } = useContext(StatusContext);
@@ -30,6 +35,11 @@ const Index = () => {
     setScoreContext({});
     setStatusContext({});
   };
+
+  useEffect(() => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(emptyAllContext, FIFTEEN_MINS);
+  }, [eventSourceContext.timestamp]);
 
   return (
     <>
