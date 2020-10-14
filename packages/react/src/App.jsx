@@ -88,10 +88,15 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext.image]);
+  }, [livePhotoContext?.image]);
 
   return (
-    <EventSourceProvider value={eventSourceContext}>
+    <EventSourceProvider
+      value={{
+        eventSourceContext,
+        setEventSourceContext,
+      }}
+    >
       <LivePhotoProvider
         value={{
           livePhotoContext,
@@ -104,7 +109,12 @@ const App = () => {
             setScoreContext,
           }}
         >
-          <StatusProvider value={statusContext}>
+          <StatusProvider
+            value={{
+              statusContext,
+              setStatusContext,
+            }}
+          >
             <Index />
           </StatusProvider>
         </ScoreProvider>
