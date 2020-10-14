@@ -2,7 +2,8 @@
 import React from 'react';
 
 // Local imports
-import { MRZTableRow, MRZTableHeading } from '../Atoms';
+import MRZTableRow from './MRZTableRow';
+import MRZTableHeading from './MRZTableHeading';
 
 const MRZTable = () => (
   <table className="govuk-table">
