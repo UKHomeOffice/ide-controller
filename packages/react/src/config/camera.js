@@ -13,4 +13,6 @@ export const livePhotoConfig = {
   imageResolution: 60,
 };
 
+export const clearDataTimeout = 900000;
+
 export default livePhotoConfig;
