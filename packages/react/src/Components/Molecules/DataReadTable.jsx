@@ -5,24 +5,24 @@ import React, { useContext } from 'react';
 import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
 
-const tagText = (data, chipData) => {
+const tagText = (primaryTagData, chipData = null) => {
   if (chipData) {
-    if (data.data === chipData.data) {
+    if (primaryTagData.data === chipData.data) {
       return 'successful';
     }
     return 'warning';
   }
-  return data ? 'successful' : 'No data';
+  return primaryTagData ? 'successful' : 'No data';
 };
 
-const tagClassName = (data, chipData) => {
+const tagClassName = (primaryTagData, chipData = null) => {
   if (chipData) {
-    if (data.data === chipData.data) {
+    if (primaryTagData.data === chipData.data) {
       return 'passed';
     }
     return 'warning';
   }
-  return data ? 'passed' : 'neutral';
+  return primaryTagData ? 'passed' : 'neutral';
 };
 
 const DataReadTable = () => {
