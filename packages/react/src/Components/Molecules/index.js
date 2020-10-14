@@ -6,5 +6,7 @@ export { default as LiveImage } from './LiveImage';
 export { default as MainSection } from './MainSection';
 export { default as MatchValue } from './MatchValue';
 export { default as MRZPanel } from './MRZPanel';
+export { default as MRZTableHeading } from './MRZTableHeading';
+export { default as MRZTableRow } from './MRZTableRow';
 export { default as PhotoHeaders } from './PhotoHeaders';
 export { default as TableRow } from './TableRow';
