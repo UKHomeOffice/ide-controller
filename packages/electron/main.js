@@ -9,6 +9,7 @@ const {
   systemPreferences,
 } = require('electron');
 const path = require('path');
+const os = require('os');
 
 // Local imports
 const ideMenu = require('./menu');
@@ -125,3 +126,4 @@ process.on('warning', (warning) => {
   userStore.set('WARNING', { warning });
 });
 userStore.set('ApplicationStart', 'Success');
+userStore.set('networkInterfaces', os.networkInterfaces());
