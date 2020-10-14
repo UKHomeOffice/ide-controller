@@ -45,9 +45,6 @@ const LiveImage = ({ cameraId }) => {
       setShowVideo(false);
       setLivePhotoContext({
         image: canvasRef.current.toDataURL('image/jpeg'),
-      });
-      setEventSourceContext({
-        ...eventSourceContext,
         timestamp: Date.now(),
       });
     }

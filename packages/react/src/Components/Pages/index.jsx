@@ -17,15 +17,17 @@ import {
   ScoreContext,
   StatusContext,
 } from '../Context';
+import { clearDataTimeout } from '../../config/camera';
 
-const FIFTEEN_MINS = 900000;
 let timer;
 
 const Index = () => {
   const { eventSourceContext, setEventSourceContext } = useContext(
     EventSourceContext
   );
-  const { setLivePhotoContext } = useContext(LivePhotoContext);
+  const { livePhotoContext, setLivePhotoContext } = useContext(
+    LivePhotoContext
+  );
   const { setScoreContext } = useContext(ScoreContext);
   const { setStatusContext } = useContext(StatusContext);
 
@@ -38,8 +40,8 @@ const Index = () => {
 
   useEffect(() => {
     if (timer) clearTimeout(timer);
-    timer = setTimeout(emptyAllContext, FIFTEEN_MINS);
-  }, [eventSourceContext.timestamp]);
+    timer = setTimeout(emptyAllContext, clearDataTimeout);
+  }, [eventSourceContext.timestamp, livePhotoContext.timestamp]);
 
   return (
     <>
