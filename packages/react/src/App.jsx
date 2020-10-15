@@ -41,6 +41,9 @@ const App = () => {
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
+      if (messageData.event) {
+        eventSourceData[messageData.event] = messageData;
+      }
       if (messageData.event === START_OF_DOCUMENT_DATA) {
         setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
