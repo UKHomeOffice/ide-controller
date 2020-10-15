@@ -17,9 +17,6 @@ import ImageCard from './ImageCard';
 const LiveImage = ({ cameraId }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
-  const { eventSourceContext, setEventSourceContext } = useContext(
-    EventSourceContext
-  );
 
   const canvasRef = useRef('canvas');
   const guidCanvasRef = useRef('guidCanvas');
