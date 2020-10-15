@@ -6,23 +6,21 @@ import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
 
 const tagText = (primaryTagData, chipData = null) => {
-  if (chipData) {
-    if (primaryTagData.data === chipData.data) {
-      return 'successful';
-    }
-    return 'warning';
-  }
-  return primaryTagData ? 'successful' : 'No data';
+  const noData = !chipData && !primaryTagData;
+  if (noData) return 'No Data';
+  const checForChip = chipData === null;
+  if (checForChip) return 'successful';
+  const primaryMatchChip = primaryTagData.data === chipData.data;
+  return primaryMatchChip ? 'successful' : 'warning';
 };
 
 const tagClassName = (primaryTagData, chipData = null) => {
-  if (chipData) {
-    if (primaryTagData.data === chipData.data) {
-      return 'passed';
-    }
-    return 'warning';
-  }
-  return primaryTagData ? 'passed' : 'neutral';
+  const noData = !chipData && !primaryTagData;
+  if (noData) return 'neutral';
+  const checForChip = chipData === null;
+  if (checForChip) return 'passed';
+  const primaryMatchChip = primaryTagData.data === chipData.data;
+  return primaryMatchChip ? 'passed' : 'warning';
 };
 
 const DataReadTable = () => {
