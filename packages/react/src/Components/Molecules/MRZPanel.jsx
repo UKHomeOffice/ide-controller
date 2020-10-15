@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // Local imports
-import MRZTable from './MRZTable';
+import { MRZTable } from '../Organisms';
 import { Column, Row } from '../Layout';
 
 const MRZPanel = ({ isActive }) => (
