@@ -8,7 +8,7 @@ import {
   DataReadTable,
   ImageComparisonsTable,
   MainSection,
-  MatchValue,
+  MatchCard,
 } from '../Molecules';
 import { Header } from '../Organisms';
 import {
@@ -52,7 +52,7 @@ const Index = () => {
       >
         <Row>
           <Column size="one-quarter">
-            <MatchValue />
+            <MatchCard />
             <ImageComparisonsTable />
             <hr className="govuk-section-break govuk-section-break--m" />
             <DataReadTable />
