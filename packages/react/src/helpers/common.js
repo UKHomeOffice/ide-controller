@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export const isEmpty = (object) => {
   if (!object) return true;
 
@@ -10,5 +12,7 @@ export const post = (url, data) =>
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' },
   }).then((response) => response.text());
+
+export const generateUUID = () => crypto.randomBytes(16).toString('hex');
 
 export default {};
