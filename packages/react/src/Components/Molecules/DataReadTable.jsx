@@ -4,15 +4,7 @@ import React, { useContext } from 'react';
 // Local imports
 import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
-
-const tagText = (primaryTagData, chipData = null) => {
-  const noData = !chipData && !primaryTagData;
-  if (noData) return 'No Data';
-  const checForChip = chipData === null;
-  if (checForChip) return 'successful';
-  const primaryMatchChip = primaryTagData.data === chipData.data;
-  return primaryMatchChip ? 'successful' : 'warning';
-};
+import { END_OF_DOCUMENT_DATA } from '../../config/EventSource';
 
 const tagClassName = (primaryTagData, chipData = null) => {
   const noData = !chipData && !primaryTagData;
@@ -24,9 +16,27 @@ const tagClassName = (primaryTagData, chipData = null) => {
 };
 
 const DataReadTable = () => {
-  const { CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA } = useContext(
-    EventSourceContext
-  );
+  const {
+    CD_SCDG1_CODELINE_DATA,
+    CD_CODELINE_DATA,
+    RF_CHIP_OPENED_SUCCESSFULLY,
+    CD_CODELINE,
+    eventSourceEvent,
+  } = useContext(EventSourceContext);
+
+  const didFinishScan = eventSourceEvent === END_OF_DOCUMENT_DATA;
+
+  const handelNoChipScan = () => {
+    const failedToScan = !RF_CHIP_OPENED_SUCCESSFULLY;
+
+    return didFinishScan && failedToScan ? 'warning' : 'No data';
+  };
+
+  const handelNoMRZ = () => {
+    const noMRZData = !CD_CODELINE?.data;
+
+    return didFinishScan && noMRZData ? 'warning' : 'No data';
+  };
 
   return (
     <table className="govuk-table font--32">
@@ -35,12 +45,14 @@ const DataReadTable = () => {
         <TableRow
           rowLabel="Open chip"
           tagStatus={tagClassName(CD_SCDG1_CODELINE_DATA)}
-          tagText={tagText(CD_SCDG1_CODELINE_DATA)}
+          tagText={
+            RF_CHIP_OPENED_SUCCESSFULLY ? 'successful' : handelNoChipScan()
+          }
         />
         <TableRow
           rowLabel="Read MRZ"
           tagStatus={tagClassName(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
-          tagText={tagText(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
+          tagText={CD_CODELINE?.data ? 'successful' : handelNoMRZ()}
         />
       </tbody>
     </table>
