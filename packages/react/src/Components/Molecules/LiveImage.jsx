@@ -10,7 +10,7 @@ import {
 } from '../../helpers/camera';
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
-import { EventSourceContext, ScoreContext } from '../Context';
+import { ScoreContext } from '../Context';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 
