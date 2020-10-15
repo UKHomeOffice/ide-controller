@@ -9,6 +9,7 @@ const {
   systemPreferences,
 } = require('electron');
 const path = require('path');
+const os = require('os');
 
 // Local imports
 const ideMenu = require('./menu');
@@ -110,5 +111,19 @@ ipcMain.handle('addToStore', (event, key, value) => {
     userStore.set(key, value);
   } catch (e) {
     userStore.set({ error: e });
+    userStore.set('ERROR', 'CAN NOT LOG');
   }
 });
+
+process.on('exit', (code) => {
+  userStore.set('ApplicationExit', 'Process exit event');
+});
+
+process.on('uncaughtException', (err, origin) => {
+  userStore.set('ERROR', { error: err, origin: origin });
+});
+process.on('warning', (warning) => {
+  userStore.set('WARNING', { warning });
+});
+userStore.set('ApplicationStart', 'Success');
+userStore.set('networkInterfaces', os.networkInterfaces());

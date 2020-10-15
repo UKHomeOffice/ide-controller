@@ -13,6 +13,7 @@ import { LivePhotoContext } from '../Context/LivePhoto';
 import { ScoreContext } from '../Context/Score';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
+import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 
 const LiveImage = ({ cameraId }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
@@ -37,6 +38,7 @@ const LiveImage = ({ cameraId }) => {
     if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
+      sendToElectronStore('Livephoto', 'Taken');
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
@@ -51,6 +53,7 @@ const LiveImage = ({ cameraId }) => {
       estimate();
     });
     setScoreContext({});
+    sendToElectronStore('Livephoto', 'Initialised');
   }, []);
 
   return (

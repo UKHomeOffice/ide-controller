@@ -14,8 +14,9 @@ import {
   START_OF_DOCUMENT_DATA,
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
-import { post } from './helpers/common';
+import { post, generateUUID } from './helpers/common';
 import { sendToElectronStore } from './helpers/ipcMainEvents';
+import './helpers/globalError';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -37,12 +38,15 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
+      sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
+      sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
+        sendToElectronStore('uuid', generateUUID());
         setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
 
@@ -63,6 +67,7 @@ const App = () => {
 
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
+      sendToElectronStore('deviceStatus', messageData);
       setStatusContext({
         ...messageData,
       });
