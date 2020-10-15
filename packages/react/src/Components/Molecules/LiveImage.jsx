@@ -10,7 +10,7 @@ import {
 } from '../../helpers/camera';
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
-import { ScoreContext } from '../Context/Score';
+import { ScoreContext } from '../Context';
 import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 import { sendToElectronStore } from '../../helpers/ipcMainEvents';
@@ -44,6 +44,7 @@ const LiveImage = ({ cameraId }) => {
       setShowVideo(false);
       setLivePhotoContext({
         image: canvasRef.current.toDataURL('image/jpeg'),
+        timestamp: Date.now(),
       });
     }
   };

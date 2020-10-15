@@ -46,8 +46,11 @@ const App = () => {
       const messageData = JSON.parse(e.data);
       sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
+        setEventSourceContext({
+          timestamp: Date.now(),
+          eventSourceEvent: START_OF_DOCUMENT_DATA,
+        });
         sendToElectronStore('uuid', generateUUID());
-        setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
       }
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
@@ -93,10 +96,15 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext.image]);
+  }, [livePhotoContext?.image]);
 
   return (
-    <EventSourceProvider value={eventSourceContext}>
+    <EventSourceProvider
+      value={{
+        eventSourceContext,
+        setEventSourceContext,
+      }}
+    >
       <LivePhotoProvider
         value={{
           livePhotoContext,
@@ -109,7 +117,12 @@ const App = () => {
             setScoreContext,
           }}
         >
-          <StatusProvider value={statusContext}>
+          <StatusProvider
+            value={{
+              statusContext,
+              setStatusContext,
+            }}
+          >
             <Index />
           </StatusProvider>
         </ScoreProvider>
