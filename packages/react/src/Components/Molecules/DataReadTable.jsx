@@ -10,15 +10,11 @@ const DataReadTable = () => {
       <caption className="govuk-table__caption">Data read</caption>
       <tbody className="govuk-table__body">
         <TableRow
-          rowLabel="Live to chip"
+          rowLabel="Chip opened"
           tagStatus="neutral"
           tagText="No Data"
         />
-        <TableRow
-          rowLabel="Live to document"
-          tagStatus="neutral"
-          tagText="No Data"
-        />
+        <TableRow rowLabel="MRZ read" tagStatus="neutral" tagText="No Data" />
       </tbody>
     </table>
   );
