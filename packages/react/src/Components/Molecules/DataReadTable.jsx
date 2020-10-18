@@ -1,42 +1,48 @@
 // Global imports
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Local imports
 import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
 import { END_OF_DOCUMENT_DATA } from '../../config/EventSource';
 
-const tagClassName = (primaryTagData, chipData = null) => {
-  const noData = !chipData && !primaryTagData;
-  if (noData) return 'neutral';
-  const checForChip = chipData === null;
-  if (checForChip) return 'passed';
-  const primaryMatchChip = primaryTagData.data === chipData.data;
-  return primaryMatchChip ? 'passed' : 'warning';
+const tagClassMap = {
+  successful: 'passed',
+  warning: 'warning',
+  'No data': 'neutral',
 };
 
 const DataReadTable = () => {
   const {
-    CD_SCDG1_CODELINE_DATA,
-    CD_CODELINE_DATA,
     RF_CHIP_OPENED_SUCCESSFULLY,
     CD_CODELINE,
     eventSourceEvent,
-  } = useContext(EventSourceContext);
+  } = useContext(EventSourceContext).eventSourceContext;
 
-  const didFinishScan = eventSourceEvent === END_OF_DOCUMENT_DATA;
+  const [MRZTagText, setMRZTagText] = useState('No data');
+  const [chipTagText, setChipTagText] = useState('No data');
+  const [didFinishScan, setDidFinishScan] = useState(
+    eventSourceEvent === END_OF_DOCUMENT_DATA
+  );
+
+  const updateMRZText = () => {
+    const noMRZData = !CD_CODELINE?.data;
+    const text = noMRZData ? 'warning' : 'successful';
+    setMRZTagText(text);
+  };
 
   const handelNoChipScan = () => {
-    const failedToScan = !RF_CHIP_OPENED_SUCCESSFULLY;
-
-    return didFinishScan && failedToScan ? 'warning' : 'No data';
+    const text = RF_CHIP_OPENED_SUCCESSFULLY ? 'successful' : 'warning';
+    setChipTagText(text);
   };
 
-  const handelNoMRZ = () => {
-    const noMRZData = !CD_CODELINE?.data;
-
-    return didFinishScan && noMRZData ? 'warning' : 'No data';
-  };
+  useEffect(() => {
+    setDidFinishScan(eventSourceEvent === END_OF_DOCUMENT_DATA);
+    if (didFinishScan) {
+      updateMRZText();
+      handelNoChipScan();
+    }
+  }, [eventSourceEvent, didFinishScan]);
 
   return (
     <table className="govuk-table font--32">
@@ -44,15 +50,13 @@ const DataReadTable = () => {
       <tbody className="govuk-table__body">
         <TableRow
           rowLabel="Open chip"
-          tagStatus={tagClassName(CD_SCDG1_CODELINE_DATA)}
-          tagText={
-            RF_CHIP_OPENED_SUCCESSFULLY ? 'successful' : handelNoChipScan()
-          }
+          tagStatus={tagClassMap[chipTagText]}
+          tagText={didFinishScan ? chipTagText : 'No data'}
         />
         <TableRow
           rowLabel="Read MRZ"
-          tagStatus={tagClassName(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
-          tagText={CD_CODELINE?.data ? 'successful' : handelNoMRZ()}
+          tagStatus={tagClassMap[MRZTagText]}
+          tagText={didFinishScan ? MRZTagText : 'No data'}
         />
       </tbody>
     </table>
