@@ -25,7 +25,7 @@ const resultText = (score) => {
 const resultClassName = (score) => {
   const percent = calculatePercentage(score);
   if (percent < 45 && percent > 0) {
-    return 'fail';
+    return 'failed';
   }
   if (percent === 0) {
     return 'warning';
