@@ -10,6 +10,7 @@ import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
+import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -22,7 +23,7 @@ const makeImageCard = (key, event) => {
 const ImagePanel = ({ isActive }) => {
   const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
     EventSourceContext
-  );
+  ).eventSourceContext;
 
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const [canRetakeImage, setCanRetakeImage] = useState(true);
@@ -32,6 +33,7 @@ const ImagePanel = ({ isActive }) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
+    sendToElectronStore('Livephoto', 'Retake Camera Image');
   };
 
   useEffect(() => {
@@ -42,7 +44,10 @@ const ImagePanel = ({ isActive }) => {
   }, []);
 
   useEffect(() => {
-    if (eventSourceEvent === 'START_OF_DOCUMENT_DATA') {
+    if (
+      eventSourceEvent === 'START_OF_DOCUMENT_DATA' ||
+      eventSourceEvent?.startsWith('RESTART')
+    ) {
       restartLiveImage();
     }
   }, [eventSourceEvent]);

@@ -13,8 +13,10 @@ import {
   READER_STATUS,
   START_OF_DOCUMENT_DATA,
 } from './config/EventSource';
-import { post } from './helpers/common';
 import { initOnlineStatus } from './helpers/electron';
+import { post, generateUUID } from './helpers/common';
+import { sendToElectronStore } from './helpers/ipcMainEvents';
+import './helpers/globalError';
 
 initOnlineStatus();
 const eventSourceData = {};
@@ -36,6 +38,7 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
+      sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
@@ -44,8 +47,13 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
+      sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
-        setEventSourceContext({ eventSourceEvent: START_OF_DOCUMENT_DATA });
+        setEventSourceContext({
+          timestamp: Date.now(),
+          eventSourceEvent: START_OF_DOCUMENT_DATA,
+        });
+        sendToElectronStore('uuid', generateUUID());
       }
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
@@ -65,6 +73,7 @@ const App = () => {
 
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
+      sendToElectronStore('deviceStatus', messageData);
       setStatusContext({
         ...messageData,
       });
@@ -82,6 +91,7 @@ const App = () => {
       liveImage: image.replace('data:image/jpeg;base64,', ''),
     })
       .then((res) => {
+        sendToElectronStore('matchingScore', JSON.parse(res));
         setScoreContext(JSON.parse(res));
       })
       .catch(() =>
@@ -89,10 +99,15 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext.image]);
+  }, [livePhotoContext?.image]);
 
   return (
-    <EventSourceProvider value={eventSourceContext}>
+    <EventSourceProvider
+      value={{
+        eventSourceContext,
+        setEventSourceContext,
+      }}
+    >
       <LivePhotoProvider
         value={{
           livePhotoContext,
@@ -105,7 +120,12 @@ const App = () => {
             setScoreContext,
           }}
         >
-          <StatusProvider value={statusContext}>
+          <StatusProvider
+            value={{
+              statusContext,
+              setStatusContext,
+            }}
+          >
             <Index />
           </StatusProvider>
         </ScoreProvider>

@@ -9,9 +9,11 @@ const {
   systemPreferences,
 } = require('electron');
 const path = require('path');
+const os = require('os');
 
 // Local imports
 const ideMenu = require('./menu');
+const Store = require('./store');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -102,3 +104,26 @@ ipcMain.on('webCamDevices', (event, list) => {
 ipcMain.on('online-status-changed', (event, status) => {
   onlineStatusWindow = status; // eslint-disable-line
 });
+
+const userStore = new Store();
+ipcMain.handle('addToStore', (event, key, value) => {
+  try {
+    userStore.set(key, value);
+  } catch (e) {
+    userStore.set({ error: e });
+    userStore.set('ERROR', 'CAN NOT LOG');
+  }
+});
+
+process.on('exit', (code) => {
+  userStore.set('ApplicationExit', 'Process exit event');
+});
+
+process.on('uncaughtException', (err, origin) => {
+  userStore.set('ERROR', { error: err, origin: origin });
+});
+process.on('warning', (warning) => {
+  userStore.set('WARNING', { warning });
+});
+userStore.set('ApplicationStart', 'Success');
+userStore.set('networkInterfaces', os.networkInterfaces());
