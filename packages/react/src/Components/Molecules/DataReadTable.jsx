@@ -54,11 +54,10 @@ const DataReadTable = () => {
           tagText={didFinishScan ? chipTagText : 'No data'}
         />
         <TableRow
-          rowLabel="Read MRZ"
+          rowLabel="MRZ read"
           tagStatus={tagStatusMap[MRZTagText]}
           tagText={didFinishScan ? MRZTagText : 'No data'}
         />
-        <TableRow rowLabel="MRZ read" tagStatus="neutral" tagText="No Data" />
       </tbody>
     </table>
   );
