@@ -36,8 +36,6 @@ const resultClassName = (score) => {
   return 'neutral';
 };
 
-// govuk-table__cell govuk-!-font-weight-regular
-
 const ImageComparisonsTable = () => {
   const { scoreContext } = useContext(ScoreContext);
   const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
