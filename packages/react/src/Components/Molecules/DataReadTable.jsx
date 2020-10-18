@@ -6,7 +6,7 @@ import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
 import { END_OF_DOCUMENT_DATA } from '../../config/EventSource';
 
-const tagClassMap = {
+const tagStatusMap = {
   successful: 'passed',
   warning: 'warning',
   'No data': 'neutral',
@@ -31,7 +31,7 @@ const DataReadTable = () => {
     setMRZTagText(text);
   };
 
-  const handelNoChipScan = () => {
+  const updateChipText = () => {
     const text = RF_CHIP_OPENED_SUCCESSFULLY ? 'successful' : 'warning';
     setChipTagText(text);
   };
@@ -40,7 +40,7 @@ const DataReadTable = () => {
     setDidFinishScan(eventSourceEvent === END_OF_DOCUMENT_DATA);
     if (didFinishScan) {
       updateMRZText();
-      handelNoChipScan();
+      updateChipText();
     }
   }, [eventSourceEvent, didFinishScan]);
 
@@ -50,12 +50,12 @@ const DataReadTable = () => {
       <tbody className="govuk-table__body">
         <TableRow
           rowLabel="Open chip"
-          tagStatus={tagClassMap[chipTagText]}
+          tagStatus={tagStatusMap[chipTagText]}
           tagText={didFinishScan ? chipTagText : 'No data'}
         />
         <TableRow
           rowLabel="Read MRZ"
-          tagStatus={tagClassMap[MRZTagText]}
+          tagStatus={tagStatusMap[MRZTagText]}
           tagText={didFinishScan ? MRZTagText : 'No data'}
         />
       </tbody>
