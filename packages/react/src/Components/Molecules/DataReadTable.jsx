@@ -49,12 +49,12 @@ const DataReadTable = () => {
       <caption className="govuk-table__caption">Data read</caption>
       <tbody className="govuk-table__body">
         <TableRow
-          rowLabel="Open chip"
+          rowLabel="Chip opened"
           tagStatus={tagStatusMap[chipTagText]}
           tagText={didFinishScan ? chipTagText : 'No data'}
         />
         <TableRow
-          rowLabel="Read MRZ"
+          rowLabel="MRZ read"
           tagStatus={tagStatusMap[MRZTagText]}
           tagText={didFinishScan ? MRZTagText : 'No data'}
         />

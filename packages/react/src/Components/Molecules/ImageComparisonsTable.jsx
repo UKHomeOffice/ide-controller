@@ -45,19 +45,20 @@ const ImageComparisonsTable = () => {
       <caption className="govuk-table__caption">Image comparisons</caption>
       <tbody className="govuk-table__body">
         <TableRow
-          rowLabel="Live to chip"
+          rowLabel="Chip to document"
+          tagStatus={resultClassName(bioChipScore)}
+          tagText={resultText(bioChipScore)}
+        />
+        <TableRow
+          type="cell"
+          rowLabel="Chip to camera"
           tagStatus={resultClassName(liveChipScore)}
           tagText={resultText(liveChipScore)}
         />
         <TableRow
-          rowLabel="Live to document"
+          rowLabel="Document to camera"
           tagStatus={resultClassName(liveBioScore)}
           tagText={resultText(liveBioScore)}
-        />
-        <TableRow
-          rowLabel="Chip to document"
-          tagStatus={resultClassName(bioChipScore)}
-          tagText={resultText(bioChipScore)}
         />
       </tbody>
     </table>
