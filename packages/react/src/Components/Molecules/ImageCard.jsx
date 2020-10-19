@@ -6,10 +6,8 @@ import React from 'react';
 import Image from '../Atoms/Image';
 
 const ImageCard = ({ image, imageAlt, children, className }) => (
-  <div className={`photoContainer--photo ${className}`}>
-    <span className="shadow">
-      {image ? <Image image={image} imageAlt={imageAlt} /> : children}
-    </span>
+  <div className={`${className}`}>
+    {image ? <Image image={image} imageAlt={imageAlt} /> : children}
   </div>
 );
 

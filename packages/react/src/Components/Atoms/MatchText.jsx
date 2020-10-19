@@ -12,7 +12,7 @@ const resultText = (averageScore) => {
 
 const MatchText = ({ percentage, passState }) => {
   return (
-    <h1 className={`govuk-heading-xl font--xxl ${passState}`}>
+    <h1 className={`govuk-heading-xl ${passState}`}>
       {resultText(percentage)}
     </h1>
   );
