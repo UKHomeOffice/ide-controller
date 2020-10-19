@@ -2,3 +2,14 @@
   -webkit-app-region: drag;
   padding-top: 10px;
 }
+
+// @code debt
+.govuk-table__row {
+  .padding {
+    &-right {
+      &-20 {
+        padding-right: 20px;
+      }
+    }
+  }
+}

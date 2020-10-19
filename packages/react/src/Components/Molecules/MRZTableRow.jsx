@@ -14,7 +14,7 @@ const MRZTableRow = ({ heading, chipData, MRZData }) => {
       <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
         {chipData}
       </td>
-      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
+      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all padding-right-20">
         {MRZData}
       </td>
     </tr>
