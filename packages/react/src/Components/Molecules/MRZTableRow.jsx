@@ -5,13 +5,16 @@ import React from 'react';
 const MRZTableRow = ({ heading, chipData, MRZData }) => {
   return (
     <tr className="govuk-table__row">
-      <th className="govuk-table__cell font--19pt " scope="row">
+      <th
+        className="govuk-table__cell font--19pt govuk-!-width-one-third"
+        scope="row"
+      >
         {heading}
       </th>
-      <td className="govuk-table__cell font--19pt  word-break-all">
+      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
         {chipData}
       </td>
-      <td className="govuk-table__cell font--19pt  word-break-all">
+      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
         {MRZData}
       </td>
     </tr>

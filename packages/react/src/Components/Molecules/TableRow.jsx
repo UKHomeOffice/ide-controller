@@ -21,7 +21,9 @@ const TableRow = ({ rowLabel, cellText, tagText, type, tagStatus }) => {
       >
         {rowLabel}
       </th>
-      <td className="govuk-table__cell ">{cellContent()}</td>
+      <td className="govuk-table__cell govuk-!-width-one-third">
+        {cellContent()}
+      </td>
     </tr>
   );
 };
