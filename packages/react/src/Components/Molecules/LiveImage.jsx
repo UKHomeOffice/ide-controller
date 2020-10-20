@@ -30,13 +30,14 @@ const LiveImage = ({ cameraId }) => {
   const estimate = async () => {
     console.log('estimage');
     const isCameraOffline = !videoRef.current;
-    let interval;
+    // let interval;
     console.log('isCameraOffline ', isCameraOffline);
-    if (isCameraOffline) {
-      interval = setInterval(() => estimate(), 2000);
-      return;
-    }
-    clearInterval(interval);
+    // if (isCameraOffline) {
+    //   interval = setInterval(() => estimate(), 2000);
+    //   return;
+    // }
+    setInterval(() => estimate(), 2000);
+    // clearInterval(interval);
 
     const croppedImageCoordination = await getCroppedImageCoordination(
       videoRef.current
