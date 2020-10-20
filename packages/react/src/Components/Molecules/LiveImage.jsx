@@ -38,11 +38,13 @@ const LiveImage = ({ cameraId }) => {
     // }
     setInterval(() => estimate(), 2000);
     // clearInterval(interval);
-
+    console.log('before TF');
     const croppedImageCoordination = await getCroppedImageCoordination(
       videoRef.current
     );
+    console.log('after TF');
     setSourceImageOptions(croppedImageCoordination);
+    console.log('before Quality check');
     const isBadQuality = !isGoodPicture(croppedImageCoordination);
     console.log('isBadQuality ', isBadQuality);
     if (isBadQuality) {
