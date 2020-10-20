@@ -28,6 +28,7 @@ const LiveImage = ({ cameraId }) => {
   const [sourceImageOptions, setSourceImageOptions] = useState({});
 
   const estimate = async () => {
+    console.log('estimage');
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
     const croppedImageCoordination = await getCroppedImageCoordination(
@@ -35,7 +36,9 @@ const LiveImage = ({ cameraId }) => {
     );
     setSourceImageOptions(croppedImageCoordination);
     const isBadQuality = !isGoodPicture(croppedImageCoordination);
+    console.log('isBadQuality ', isBadQuality);
     if (isBadQuality) {
+      console.log('try again ');
       setTimeout(() => estimate(), 50);
     } else {
       sendToElectronStore('Livephoto', 'Taken');
