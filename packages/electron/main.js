@@ -49,6 +49,7 @@ function createWindow() {
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
   } else {
+    mainWindow.setFullScreen(true);
     mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
   }
 
