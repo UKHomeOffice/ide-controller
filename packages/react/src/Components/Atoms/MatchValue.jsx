@@ -4,7 +4,7 @@ import React from 'react';
 
 const MatchValue = ({ percentage, passState }) => {
   return (
-    <h1 className={`govuk-heading-xl ${passState}`}>
+    <h1 className={`govuk-heading-xl font--xxl ${passState}`}>
       {percentage ? `${percentage}%` : 'No data'}
     </h1>
   );

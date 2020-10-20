@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const resultText = (averageScore) => {
-  const acceptablePercentage = 45;
-  if (averageScore >= acceptablePercentage) return 'PASS';
-  if (averageScore < acceptablePercentage) return 'FAIL';
+  const acceptableScore = 2800;
+  if (averageScore >= acceptableScore) return 'PASS';
+  if (averageScore < acceptableScore) return 'FAIL';
 
   return '';
 };
