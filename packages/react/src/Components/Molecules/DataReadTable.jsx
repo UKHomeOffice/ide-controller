@@ -45,7 +45,7 @@ const DataReadTable = () => {
   }, [eventSourceEvent, didFinishScan]);
 
   return (
-    <table className="govuk-table font--32">
+    <table className="govuk-table font--19pt">
       <caption className="govuk-table__caption">Data read</caption>
       <tbody className="govuk-table__body">
         <TableRow

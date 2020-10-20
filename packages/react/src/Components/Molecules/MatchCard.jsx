@@ -23,14 +23,14 @@ const MatchCard = () => {
   return (
     <Row>
       <Column size="one-half">
-        <span className="govuk-caption-m font--26">Image likeness</span>
+        <span className="govuk-caption-m font--19pt">Image likeness</span>
         <MatchValue
           percentage={percentageScore}
           passState={headerStateClass(percentageScore)}
         />
       </Column>
       <Column size="one-half">
-        <span className="govuk-caption-m font--26">Result</span>
+        <span className="govuk-caption-m font--19pt">Result</span>
         <MatchText
           percentage={percentageScore}
           passState={headerStateClass(percentageScore)}

@@ -56,12 +56,12 @@ const Index = () => {
             <ImageComparisonsTable />
             <hr className="govuk-section-break govuk-section-break--m" />
             <DataReadTable />
-            <p className="govuk-body font--26">
+            <p className="govuk-body font--16pt">
               This data will automatically be deleted when another document is
               scanned or after 15 minutes.
             </p>
             <Button onClick={() => emptyAllContext()} buttonVariant="warning">
-              Clear Data Now
+              Clear data immediately
             </Button>
           </Column>
           <Column size="three-quarters">

@@ -5,7 +5,7 @@ import React from 'react';
 const Image = ({ image, imageAlt }) => {
   return (
     <div
-      className="photoContainer--photo medium"
+      className="photoContainer--photo"
       alt={imageAlt}
       style={{ backgroundImage: `url(${image})` }}
     />
