@@ -2,12 +2,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// move to config
-const acceptableScore = 2800;
+// Local imports
+import { ACCEPTABLESCORE } from '../../config/score';
 
 const resultText = (score) => {
-  if (score >= acceptableScore) return 'PASS';
-  if (score < acceptableScore) return 'FAIL';
+  if (score >= ACCEPTABLESCORE) return 'PASS';
+  if (score < ACCEPTABLESCORE) return 'FAIL';
 
   return '';
 };
