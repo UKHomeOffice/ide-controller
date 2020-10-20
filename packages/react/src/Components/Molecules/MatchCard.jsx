@@ -40,7 +40,7 @@ const MatchCard = () => {
       </Column>
       <Column size="one-half">
         <span className="govuk-caption-m font--19pt">Result</span>
-        <MatchText percentage={score} passState={headerStateClass(score)} />
+        <MatchText score={score} passState={headerStateClass(score)} />
       </Column>
     </Row>
   );
