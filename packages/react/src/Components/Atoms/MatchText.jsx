@@ -2,29 +2,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const resultText = (averageScore) => {
-  const acceptablePercentage = 45;
-  if (averageScore >= acceptablePercentage) return 'PASS';
-  if (averageScore < acceptablePercentage) return 'FAIL';
+// Local imports
+import { ACCEPTABLESCORE } from '../../config/score';
+
+const resultText = (score) => {
+  if (score >= ACCEPTABLESCORE) return 'PASS';
+  if (score < ACCEPTABLESCORE) return 'FAIL';
 
   return '';
 };
 
-const MatchText = ({ percentage, passState }) => {
+const MatchText = ({ score, passState }) => {
   return (
-    <h1 className={`govuk-heading-xl ${passState}`}>
-      {resultText(percentage)}
-    </h1>
+    <h1 className={`govuk-heading-xl ${passState}`}>{resultText(score)}</h1>
   );
 };
 
 MatchText.propTypes = {
-  percentage: PropTypes.number,
+  score: PropTypes.number,
   passState: PropTypes.string,
 };
 
 MatchText.defaultProps = {
-  percentage: NaN,
+  score: NaN,
   passState: 'neutral',
 };
 
