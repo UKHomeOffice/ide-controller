@@ -29,4 +29,23 @@ steps:
     event:
     - push
 
+services:
+- name: docker
+  image: quay.io/ukhomeofficedigital/drone-docker
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+- name: anchore-submission-server
+  image: quay.io/ukhomeofficedigital/anchore-submission:latest
+  commands:
+  - /anchore-submission server
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
+
 ...
