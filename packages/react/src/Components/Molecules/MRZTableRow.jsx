@@ -6,15 +6,15 @@ const MRZTableRow = ({ heading, chipData, MRZData }) => {
   return (
     <tr className="govuk-table__row">
       <th
-        className="govuk-table__cell font--19pt govuk-!-width-one-third"
+        className="govuk-table__cell font--19pt govuk-!-width-one-quarter"
         scope="row"
       >
         {heading}
       </th>
-      <td className="govuk-table__cell font--19pt govuk-!-width-one-third">
+      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
         {chipData}
       </td>
-      <td className="govuk-table__cell font--19pt govuk-!-width-one-third">
+      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all padding-right-20">
         {MRZData}
       </td>
     </tr>
