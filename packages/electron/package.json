@@ -16,7 +16,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "ENV=development nodemon --exec electron .",
-    "build": "rm -rf dist && ENV=production electron-builder -mw",
+    "build": "rm -rf dist && ELECTRON_BUILDER_CACHE='/' ENV=production electron-builder -mw",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js . --fix"
   },
