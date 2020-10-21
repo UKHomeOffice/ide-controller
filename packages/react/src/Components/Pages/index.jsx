@@ -60,7 +60,7 @@ const Index = () => {
               This data will automatically be deleted when another document is
               scanned or after 15 minutes.
             </p>
-            <Button onClick={() => emptyAllContext()} buttonVariant="warning">
+            <Button onClick={emptyAllContext} buttonVariant="warning">
               Clear data immediately
             </Button>
           </Column>

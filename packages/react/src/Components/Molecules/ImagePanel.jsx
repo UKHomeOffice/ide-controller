@@ -15,11 +15,6 @@ import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const makeImageCard = (key, event) => {
-  const image = event && `data:image/jpeg;base64,${event.image}`;
-  return <ImageCard image={image || blankAvatar} imageAlt={key} />;
-};
-
 const ImagePanel = ({ isActive }) => {
   const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
     EventSourceContext
@@ -34,6 +29,11 @@ const ImagePanel = ({ isActive }) => {
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
     sendToElectronStore('Livephoto', 'Retake Camera Image');
+  };
+
+  const makeImageCard = (key, event) => {
+    const image = event && `data:image/jpeg;base64,${event.image}`;
+    return <ImageCard image={image || blankAvatar} imageAlt={key} />;
   };
 
   useEffect(() => {
