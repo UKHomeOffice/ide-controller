@@ -120,7 +120,7 @@ ipcMain.handle('addToStore', (event, key, value) => {
 ipcMain.handle('saveToDesktop', (_, object) => {
   fs.appendFileSync(
     `${app.getPath('desktop')}/data.json`,
-    JSON.stringify(object)
+    `${JSON.stringify(object)},`
   );
 });
 
