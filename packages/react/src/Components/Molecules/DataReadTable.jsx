@@ -4,7 +4,10 @@ import React, { useContext, useEffect, useState } from 'react';
 // Local imports
 import TableRow from './TableRow';
 import { EventSourceContext } from '../Context/EventSource';
-import { END_OF_DOCUMENT_DATA } from '../../config/EventSource';
+import {
+  END_OF_DOCUMENT_DATA,
+  START_OF_DOCUMENT_DATA,
+} from '../../config/EventSource';
 
 const tagStatusMap = {
   successful: 'passed',
@@ -43,6 +46,15 @@ const DataReadTable = () => {
       updateChipText();
     }
   }, [eventSourceEvent, didFinishScan]);
+
+  useEffect(() => {
+    const newScanTriggered = eventSourceEvent === START_OF_DOCUMENT_DATA;
+    const clearDataButtonTriggered = eventSourceEvent?.startsWith('RESTART');
+    if (newScanTriggered || clearDataButtonTriggered) {
+      setMRZTagText('No data');
+      setChipTagText('No data');
+    }
+  }, [eventSourceEvent]);
 
   return (
     <table className="govuk-table font--19pt">
