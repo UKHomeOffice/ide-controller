@@ -31,8 +31,9 @@ const ImagePanel = ({ isActive }) => {
     sendToElectronStore('Livephoto', 'Retake Camera Image');
   };
 
+  let image;
   const makeImageCard = (key, event) => {
-    const image = event && `data:image/jpeg;base64,${event.image}`;
+    image = event && `data:image/jpeg;base64,${event.image}`;
     return <ImageCard image={image || blankAvatar} imageAlt={key} />;
   };
 
