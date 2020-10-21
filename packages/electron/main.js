@@ -128,3 +128,7 @@ process.on('warning', (warning) => {
 });
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
+
+ipcMain.handle('restart', (event, key, value) => {
+  mainWindow.reload();
+});

@@ -21,6 +21,9 @@ import { clearDataTimeout } from '../../config/camera';
 
 let timer;
 
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
 const Index = () => {
   const { eventSourceContext, setEventSourceContext } = useContext(
     EventSourceContext
@@ -32,10 +35,11 @@ const Index = () => {
   const { setStatusContext } = useContext(StatusContext);
 
   const emptyAllContext = () => {
-    setEventSourceContext({ eventSourceEvent: `RESTART-${Date.now()}` });
-    setLivePhotoContext({});
-    setScoreContext({});
-    setStatusContext({});
+    // setEventSourceContext({ eventSourceEvent: `RESTART-${Date.now()}` });
+    // setLivePhotoContext({});
+    // setScoreContext({});
+    // setStatusContext({});
+    ipcRenderer.invoke('restart');
   };
 
   useEffect(() => {
