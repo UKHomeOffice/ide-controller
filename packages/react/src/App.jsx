@@ -19,7 +19,6 @@ import { sendToElectronStore } from './helpers/ipcMainEvents';
 import './helpers/globalError';
 
 initOnlineStatus();
-const eventSourceData = {};
 
 const App = () => {
   const [eventSourceContext, setEventSourceContext] = useState({});
@@ -29,6 +28,7 @@ const App = () => {
 
   // Doc reader
   useEffect(() => {
+    let eventSourceData = {};
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
@@ -61,6 +61,7 @@ const App = () => {
           ...eventSourceData,
           eventSourceEvent: END_OF_DOCUMENT_DATA,
         });
+        eventSourceData = {};
       }
 
       if (messageData.event === READER_STATUS) {
