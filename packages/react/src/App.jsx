@@ -15,7 +15,7 @@ import {
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
-import { sendToElectronStore } from './helpers/ipcMainEvents';
+import { sendToElectronStore, saveToDesktop } from './helpers/ipcMainEvents';
 import './helpers/globalError';
 
 initOnlineStatus();
@@ -32,6 +32,7 @@ const App = () => {
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
+      saveToDesktop(messageData);
       const datatype = messageData.dataType;
       const datadata = {
         data: messageData.data,
@@ -44,6 +45,7 @@ const App = () => {
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
+      saveToDesktop(messageData);
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
@@ -73,6 +75,7 @@ const App = () => {
 
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
+      saveToDesktop(messageData);
       sendToElectronStore('deviceStatus', messageData);
       setStatusContext({
         ...messageData,

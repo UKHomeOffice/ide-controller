@@ -10,6 +10,7 @@ const {
 } = require('electron');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 
 // Local imports
 const ideMenu = require('./menu');
@@ -114,6 +115,13 @@ ipcMain.handle('addToStore', (event, key, value) => {
     userStore.set({ error: e });
     userStore.set('ERROR', 'CAN NOT LOG');
   }
+});
+
+ipcMain.handle('saveToDesktop', (_, object) => {
+  fs.appendFileSync(
+    `${app.getPath('desktop')}/data.json`,
+    JSON.stringify(object)
+  );
 });
 
 process.on('exit', (code) => {
