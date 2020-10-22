@@ -81,8 +81,8 @@ const App = () => {
     });
   }, []);
 
+  const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
   useEffect(() => {
-    const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
     const { image } = livePhotoContext;
     if (!CD_IMAGEPHOTO?.image || !image) return;
 
@@ -100,7 +100,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext?.image]);
+  }, [livePhotoContext?.image, CD_IMAGEPHOTO, CD_SCDG2_PHOTO]);
 
   return (
     <EventSourceProvider
