@@ -53,13 +53,13 @@ const readerServer = http.createServer((req, res) => {
     };
 
     readerServer.triggerWithChipSlow = () => {
-      const delay = 500;
+      const delay = 400;
       withChip.forEach((response, i) => {
         const data = JSON.stringify(response);
         const message = `event: event\ndata: ${data}\n\n`;
-        setTimeout(() => res.write(message), i * 500 + delay);
+        setTimeout(() => res.write(message), i * 400 + delay);
         const message2 = `event: data\ndata: ${data}\n\n`;
-        setTimeout(() => res.write(message2), i * 500 + delay);
+        setTimeout(() => res.write(message2), i * 400 + delay);
         const randomIndex = Math.round(Math.random());
         const status = ['OK', 'FAILED'];
         const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
