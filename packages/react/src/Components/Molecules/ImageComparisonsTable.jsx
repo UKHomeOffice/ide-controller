@@ -5,8 +5,24 @@ import React, { useContext } from 'react';
 // Local imports
 import TableRow from './TableRow';
 import { ScoreContext } from '../Context/Score';
+import { MINSCORE, MAXSCORE, ACCEPTABLESCORE } from '../../config/score';
 
-const calculatePercentage = (score) => (score / 8000) * 100;
+const headerStateClass = (score) => {
+  if (score >= ACCEPTABLESCORE) return 'passed';
+  if (score < ACCEPTABLESCORE) return 'failed';
+
+  return 'neutral';
+};
+
+const calculatePercentage = (score) => {
+  if (score < MINSCORE) {
+    return 0;
+  }
+  if (score > MAXSCORE) {
+    return 100;
+  }
+  return Math.round((score / MAXSCORE) * 100);
+};
 
 const resultText = (score) => {
   const percent = calculatePercentage(score);
@@ -22,20 +38,6 @@ const resultText = (score) => {
   return 'No Data';
 };
 
-const resultClassName = (score) => {
-  const percent = calculatePercentage(score);
-  if (percent < 45 && percent > 0) {
-    return 'failed';
-  }
-  if (percent === 0) {
-    return 'warning';
-  }
-  if (percent >= 45) {
-    return 'passed';
-  }
-  return 'neutral';
-};
-
 const ImageComparisonsTable = () => {
   const { scoreContext } = useContext(ScoreContext);
   const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
@@ -46,18 +48,18 @@ const ImageComparisonsTable = () => {
       <tbody className="govuk-table__body">
         <TableRow
           rowLabel="Chip to document"
-          tagStatus={resultClassName(bioChipScore)}
+          tagStatus={headerStateClass(bioChipScore)}
           tagText={resultText(bioChipScore)}
         />
         <TableRow
           type="cell"
           rowLabel="Chip to camera"
-          tagStatus={resultClassName(liveChipScore)}
+          tagStatus={headerStateClass(liveChipScore)}
           tagText={resultText(liveChipScore)}
         />
         <TableRow
           rowLabel="Document to camera"
-          tagStatus={resultClassName(liveBioScore)}
+          tagStatus={headerStateClass(liveBioScore)}
           tagText={resultText(liveBioScore)}
         />
       </tbody>
