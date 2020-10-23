@@ -34,6 +34,18 @@ const devMenu = [
           }, 1000);
         },
       },
+      {
+        label: 'Trigger Scan Document With Chip Slow',
+        accelerator: 'F3',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithChipSlow) {
+              readerServer.triggerWithChipSlow();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
     ],
   },
 ];
