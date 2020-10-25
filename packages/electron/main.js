@@ -29,7 +29,7 @@ function createWindow() {
     width: 1920,
     height: 1280,
     resizable: isDev,
-    titleBarStyle: 'hidden',
+    titleBarStyle: isDev ? '' : 'hidden',
     backgroundColor: '#fff',
     webPreferences: { nodeIntegration: true },
   });
@@ -55,7 +55,7 @@ function createWindow() {
   }
 
   // Open DevTools - Remove for PRODUCTION!
-  // mainWindow.webContents.openDevTools();
+  if (isDev) mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on('closed', app.quit);
