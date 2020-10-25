@@ -1,15 +1,3 @@
-const prodMenu = [
-  {
-    label: 'Developer',
-    submenu: [
-      {
-        role: 'services',
-      },
-      {
-        role: 'toggledevtools',
-      },
-    ],
-  },
-];
+const prodMenu = [];
 
 module.exports = prodMenu;
