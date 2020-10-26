@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // Local imports
-import Image from '../Atoms/Image';
+import { Image } from '../Atoms';
 
 const ImageCard = ({ image, imageAlt, children, className }) => (
   <div className={`${className}`}>
