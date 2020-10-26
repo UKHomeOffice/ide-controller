@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 // Local imports
 import { blankAvatar } from '../../images';
-import { Button } from '../Atoms';
+import { Button, StatusBar } from '../Atoms';
 import { EventSourceContext } from '../Context/EventSource';
 import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
@@ -68,6 +68,14 @@ const ImagePanel = ({ isActive }) => {
       <PhotoHeaders />
       <Row>
         <Column size="one-third">
+          <StatusBar text="Scanner connected" visible status="passed" />
+        </Column>
+        <Column size="one-third">
+          <StatusBar text="Scanner connected" visible status="passed" />
+        </Column>
+      </Row>
+      <Row>
+        <Column size="one-third">
           {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO)}
         </Column>
         <Column size="one-third">
@@ -79,7 +87,9 @@ const ImagePanel = ({ isActive }) => {
         */}
         {useMemo(
           () => (
-            <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+            <Column size="one-third">
+              <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+            </Column>
           ),
           [liveImageKey]
         )}
