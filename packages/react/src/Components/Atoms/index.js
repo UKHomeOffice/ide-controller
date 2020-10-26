@@ -6,3 +6,4 @@ export { default as MatchText } from './MatchText';
 export { default as MatchValue } from './MatchValue';
 export { default as Video } from './Video';
 export { default as Tag } from './Tag';
+export { default as StatusBar } from './StatusBar';
