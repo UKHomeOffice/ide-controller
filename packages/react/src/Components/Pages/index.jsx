@@ -1,5 +1,5 @@
 // Global imports
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Local imports
 import { Button } from '../Atoms';
@@ -30,12 +30,15 @@ const Index = () => {
   );
   const { setScoreContext } = useContext(ScoreContext);
   const { setStatusContext } = useContext(StatusContext);
+  const [canRetakeImage, setCanRetakeImage] = useState(true);
 
   const emptyAllContext = () => {
+    setCanRetakeImage(false);
     setEventSourceContext({ eventSourceEvent: `RESTART-${Date.now()}` });
     setLivePhotoContext({});
     setScoreContext({});
     setStatusContext({});
+    setTimeout(() => setCanRetakeImage(true), 1000);
   };
 
   useEffect(() => {
@@ -60,7 +63,11 @@ const Index = () => {
               This data will automatically be deleted when another document is
               scanned or after 15 minutes.
             </p>
-            <Button onClick={() => emptyAllContext()} buttonVariant="warning">
+            <Button
+              disabled={!canRetakeImage}
+              onClick={emptyAllContext}
+              buttonVariant="warning"
+            >
               Clear data immediately
             </Button>
           </Column>
