@@ -15,26 +15,18 @@ const headerStateClass = (score) => {
 };
 
 const calculatePercentage = (score) => {
-  if (score < MINSCORE) {
-    return 0;
-  }
-  if (score > MAXSCORE) {
-    return 100;
-  }
+  if (score < MINSCORE) return 0;
+  if (score > MAXSCORE) return 100;
+
   return Math.round((score / MAXSCORE) * 100);
 };
 
 const resultText = (score) => {
   const percent = calculatePercentage(score);
-  if (percent < 45 && percent > 0) {
-    return 'FAIL';
-  }
-  if (percent === 0) {
-    return 'No Data';
-  }
-  if (percent >= 45) {
-    return 'PASS';
-  }
+  if (percent < 45 && percent > 0) return 'FAIL';
+  if (percent === 0) return 'No Data';
+  if (percent >= 45) return 'PASS';
+
   return 'No Data';
 };
 
