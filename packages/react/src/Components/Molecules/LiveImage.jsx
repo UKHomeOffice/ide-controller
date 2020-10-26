@@ -11,7 +11,6 @@ import {
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
 import { ScoreContext } from '../Context';
-import { Column } from '../Layout';
 import ImageCard from './ImageCard';
 import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 
@@ -58,51 +57,49 @@ const LiveImage = ({ cameraId }) => {
   }, []);
 
   return (
-    <Column size="one-third">
-      <ImageCard className="position-relative">
-        {showVideo && (
-          <>
-            <Video
-              ref={videoRef}
-              cameraId={cameraId}
-              captureOptions={livePhotoConfig}
-              className="photoContainer--photo"
-            />
-            <CanvasRect
-              className="photoContainer--photo position-absolute"
-              ref={guidCanvasRef}
-              width={livePhotoConfig.video.width}
-              height={livePhotoConfig.video.height}
-              coordinate={{
-                x: sourceImageOptions.sourceX,
-                y: sourceImageOptions.sourceY,
-                width: sourceImageOptions.calculatedWidth,
-                height: sourceImageOptions.calculatedHeight,
-              }}
-            />
-          </>
-        )}
-        {showCanvas && (
-          <CanvasImage
+    <ImageCard>
+      {showVideo && (
+        <>
+          <Video
+            ref={videoRef}
+            cameraId={cameraId}
+            captureOptions={livePhotoConfig}
             className="photoContainer--photo"
-            sourceImage={{
-              image: videoRef.current,
+          />
+          <CanvasRect
+            className="photoContainer--photo position-absolute"
+            ref={guidCanvasRef}
+            width={livePhotoConfig.video.width}
+            height={livePhotoConfig.video.height}
+            coordinate={{
               x: sourceImageOptions.sourceX,
               y: sourceImageOptions.sourceY,
               width: sourceImageOptions.calculatedWidth,
               height: sourceImageOptions.calculatedHeight,
             }}
-            ref={canvasRef}
-            destinationImage={{
-              x: 0,
-              y: 0,
-              width: livePhotoConfig.video.width,
-              height: livePhotoConfig.video.height,
-            }}
           />
-        )}
-      </ImageCard>
-    </Column>
+        </>
+      )}
+      {showCanvas && (
+        <CanvasImage
+          className="photoContainer--photo"
+          sourceImage={{
+            image: videoRef.current,
+            x: sourceImageOptions.sourceX,
+            y: sourceImageOptions.sourceY,
+            width: sourceImageOptions.calculatedWidth,
+            height: sourceImageOptions.calculatedHeight,
+          }}
+          ref={canvasRef}
+          destinationImage={{
+            x: 0,
+            y: 0,
+            width: livePhotoConfig.video.width,
+            height: livePhotoConfig.video.height,
+          }}
+        />
+      )}
+    </ImageCard>
   );
 };
 
