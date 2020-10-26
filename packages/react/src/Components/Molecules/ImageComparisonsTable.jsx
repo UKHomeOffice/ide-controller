@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 // Local imports
 import TableRow from './TableRow';
 import { ScoreContext } from '../Context/Score';
-import { MINSCORE, MAXSCORE, ACCEPTABLESCORE } from '../../config/score';
+import { ACCEPTABLESCORE } from '../../config/score';
 
 const headerStateClass = (score) => {
   if (score >= ACCEPTABLESCORE) return 'passed';
@@ -14,18 +14,9 @@ const headerStateClass = (score) => {
   return 'neutral';
 };
 
-const calculatePercentage = (score) => {
-  if (score < MINSCORE) return 0;
-  if (score > MAXSCORE) return 100;
-
-  return Math.round((score / MAXSCORE) * 100);
-};
-
 const resultText = (score) => {
-  const percent = calculatePercentage(score);
-  if (percent < 45 && percent > 0) return 'FAIL';
-  if (percent === 0) return 'No Data';
-  if (percent >= 45) return 'PASS';
+  if (score < ACCEPTABLESCORE) return 'Fail';
+  if (score >= ACCEPTABLESCORE) return 'Pass';
 
   return 'No Data';
 };
