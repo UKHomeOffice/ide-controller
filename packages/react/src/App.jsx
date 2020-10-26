@@ -38,7 +38,8 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      sendToElectronStore(eventSourceData[datatype], datadata);
+      if (eventSourceData[datatype])
+        sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
@@ -47,8 +48,10 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
-      sendToElectronStore(messageData.event, messageData);
+      if (messageData.event)
+        sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
+        setLivePhotoContext({});
         setEventSourceContext({
           timestamp: Date.now(),
           eventSourceEvent: START_OF_DOCUMENT_DATA,
@@ -82,8 +85,8 @@ const App = () => {
   }, []);
 
   const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
+  const { image } = livePhotoContext;
   useEffect(() => {
-    const { image } = livePhotoContext;
     if (!CD_IMAGEPHOTO?.image || !image) return;
 
     post(IMAGE_MATCH, {
@@ -100,7 +103,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext?.image, CD_IMAGEPHOTO, CD_SCDG2_PHOTO]);
+  }, [image, CD_IMAGEPHOTO, CD_SCDG2_PHOTO]);
 
   return (
     <EventSourceProvider
