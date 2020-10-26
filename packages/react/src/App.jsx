@@ -38,7 +38,8 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      sendToElectronStore(eventSourceData[datatype], datadata);
+      if (eventSourceData[datatype])
+        sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
@@ -47,7 +48,8 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
-      sendToElectronStore(messageData.event, messageData);
+      if (messageData.event)
+        sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
         setLivePhotoContext({});
         setEventSourceContext({
