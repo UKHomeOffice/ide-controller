@@ -19,12 +19,14 @@ const MatchCard = () => {
   const { liveBioScore, liveChipScore } = scoreContext;
   const score = liveChipScore || liveBioScore;
 
+  const range = MAXSCORE - MINSCORE;
+
   const percentageScore =
     score < MINSCORE
       ? 0
       : score > MAXSCORE
       ? 100
-      : Math.round((score / MAXSCORE) * 100);
+      : Math.round(((score - MINSCORE) / range) * 100);
 
   return (
     <Row>
