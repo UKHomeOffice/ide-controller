@@ -57,7 +57,7 @@ const LiveImage = ({ cameraId }) => {
   }, []);
 
   return (
-    <ImageCard>
+    <ImageCard className="position-relative">
       {showVideo && (
         <>
           <Video
