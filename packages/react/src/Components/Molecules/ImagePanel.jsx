@@ -1,29 +1,41 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState, useRef } from 'react';
 
 // Local imports
 import { blankAvatar } from '../../images';
 import { Button, StatusBar } from '../Atoms';
 import { EventSourceContext } from '../Context/EventSource';
+import { StatusContext } from '../Context/Status';
 import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import { sendToElectronStore } from '../../helpers/ipcMainEvents';
+import {
+  END_OF_DOCUMENT_DATA,
+  START_OF_DOCUMENT_DATA,
+} from '../../config/EventSource';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 
-const makeImageCard = (key, event) => {
+const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
-  return <ImageCard image={image || blankAvatar} imageAlt={key} />;
+  return (
+    <ImageCard
+      image={image || blankAvatar}
+      imageAlt={key}
+      className={statusBar && 'photoContainer--with-status-bar'}
+    />
+  );
 };
 
 const ImagePanel = ({ isActive }) => {
   const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
     EventSourceContext
   ).eventSourceContext;
+  const { statusContext } = useContext(StatusContext);
 
   const [cameraDeviceId, setCameraDeviceId] = useState();
   const [canRetakeImage, setCanRetakeImage] = useState(true);
@@ -45,12 +57,44 @@ const ImagePanel = ({ isActive }) => {
 
   useEffect(() => {
     if (
-      eventSourceEvent === 'START_OF_DOCUMENT_DATA' ||
+      eventSourceEvent === START_OF_DOCUMENT_DATA ||
       eventSourceEvent?.startsWith('RESTART')
     ) {
       restartLiveImage();
     }
   }, [eventSourceEvent]);
+
+  const [chipStatus, setChipStatus] = useState();
+  const [chipStatusBarText, setChipStatusBarText] = useState('');
+
+  const chipStatusTextMap = {
+    failed: 'Scanner not connected',
+    success: 'Scanner connected',
+    loading: 'Reading ID document',
+    noData: 'No chip found in document',
+  };
+
+  // watch chip image
+  useEffect(() => {
+    const isDocReaderOk = statusContext === 'OK';
+    const isDocReaderNotOk = statusContext === 'FAILURE';
+    const isScanFinish = eventSourceEvent === END_OF_DOCUMENT_DATA;
+    const isScanStart = eventSourceEvent === START_OF_DOCUMENT_DATA;
+    const noChipImage = !CD_SCDG2_PHOTO;
+
+    const status = isDocReaderNotOk
+      ? 'failed'
+      : isDocReaderOk && !isScanFinish && !isScanStart && noChipImage
+      ? 'success'
+      : isDocReaderOk && isScanStart
+      ? 'loading'
+      : isDocReaderOk && isScanFinish && noChipImage
+      ? 'noData'
+      : 'failed';
+
+    setChipStatus(status);
+    setChipStatusBarText(chipStatusTextMap[status]);
+  }, [eventSourceEvent, CD_SCDG2_PHOTO, useRef()]);
 
   return (
     <div
@@ -68,17 +112,19 @@ const ImagePanel = ({ isActive }) => {
       <PhotoHeaders />
       <Row>
         <Column size="one-third">
-          <StatusBar text="Scanner connected" visible status="passed" />
-        </Column>
-        <Column size="one-third">
-          <StatusBar text="Scanner connected" visible status="passed" />
-        </Column>
-      </Row>
-      <Row>
-        <Column size="one-third">
+          <StatusBar
+            text={chipStatusBarText}
+            visible={!CD_SCDG2_PHOTO}
+            status={chipStatus}
+          />
           {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO)}
         </Column>
         <Column size="one-third">
+          {/* <StatusBar
+            text="Scanner connected"
+            visible={!CD_IMAGEPHOTO}
+            status={statusContext === 'OK' ? 'success' : 'failed'}
+          /> */}
           {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO)}
         </Column>
         {/*

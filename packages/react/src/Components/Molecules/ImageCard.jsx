@@ -5,27 +5,20 @@ import React from 'react';
 // Local imports
 import { Image } from '../Atoms';
 
-const ImageCard = ({ image, imageAlt, children, className }) => (
-  <div className={`${className}`}>
-    {image ? <Image image={image} imageAlt={imageAlt} /> : children}
-  </div>
+const ImageCard = ({ image, imageAlt, className }) => (
+  <Image image={image} imageAlt={imageAlt} className={className} />
 );
 
 ImageCard.propTypes = {
   image: PropTypes.string,
   imageAlt: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
   className: PropTypes.string,
 };
 
 ImageCard.defaultProps = {
   image: '',
   imageAlt: '',
-  children: [],
-  className: null,
+  className: '',
 };
 
 export default ImageCard;
