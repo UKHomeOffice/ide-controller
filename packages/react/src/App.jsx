@@ -24,7 +24,7 @@ const App = () => {
   const [eventSourceContext, setEventSourceContext] = useState({});
   const [livePhotoContext, setLivePhotoContext] = useState({});
   const [scoreContext, setScoreContext] = useState({});
-  const [statusContext, setStatusContext] = useState({});
+  const [statusContext, setStatusContext] = useState();
   const [uuid, setUuid] = useState('');
 
   // Doc reader
@@ -80,9 +80,7 @@ const App = () => {
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
       sendToElectronStore('deviceStatus', messageData);
-      setStatusContext({
-        ...messageData,
-      });
+      setStatusContext(messageData.status);
     });
   }, []);
 
