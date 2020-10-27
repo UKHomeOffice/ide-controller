@@ -32,7 +32,7 @@ const readerServer = http.createServer((req, res) => {
         const message2 = `event: data\ndata: ${data}\n\n`;
         res.write(message2);
         const randomIndex = Math.round(Math.random());
-        const status = ['OK', 'FAILED'];
+        const status = ['OK', 'FAILURE'];
         const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
         res.write(`event: status\ndata: ${statusMessage}\n\n`);
       });
@@ -46,9 +46,11 @@ const readerServer = http.createServer((req, res) => {
         const message2 = `event: data\ndata: ${data}\n\n`;
         res.write(message2);
         const randomIndex = Math.round(Math.random());
-        const status = ['OK', 'FAILED'];
-        const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
-        res.write(`event: status\ndata: ${statusMessage}\n\n`);
+        const isStatus = data.includes("status");
+        if (isStatus) {
+          res.write(`event: status\ndata: ${data}\n\n`);
+        }
+
       });
     };
 
@@ -57,11 +59,12 @@ const readerServer = http.createServer((req, res) => {
       withChip.forEach((response, i) => {
         const data = JSON.stringify(response);
         const message = `event: event\ndata: ${data}\n\n`;
-        setTimeout(() => res.write(message), i * 400 + delay);
+        setTimeout(() => res.write(message), i * 1000 + delay);
         const message2 = `event: data\ndata: ${data}\n\n`;
-        setTimeout(() => res.write(message2), i * 400 + delay);
+        setTimeout(() => res.write(message2), i * 1000 + delay);
         const randomIndex = Math.round(Math.random());
-        const status = ['OK', 'FAILED'];
+        // const status = ['OK', 'FAILURE'];
+        const status = ['OK', 'OK'];
         const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
         res.write(`event: status\ndata: ${statusMessage}\n\n`);
       });
