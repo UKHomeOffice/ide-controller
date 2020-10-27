@@ -2,11 +2,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+const statusMap = {
+  success: 'passed',
+  failed: 'failed',
+  loading: 'info',
+  noData: 'info',
+};
+
 const StatusBar = ({ visible, status, text, className }) => {
   return (
     visible && (
       <div
-        className={`status-bar ide-status-wrapper-alt status bg--${status} ${className}`}
+        className={`status-bar ide-status-wrapper-alt status bg--${statusMap[status]} ${className}`}
       >
         <h3 className="govuk-heading-s">{text}</h3>
       </div>
@@ -24,7 +31,7 @@ StatusBar.propTypes = {
 StatusBar.defaultProps = {
   text: '',
   visible: false,
-  status: 'neutral',
+  status: 'loading',
   className: '',
 };
 
