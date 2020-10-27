@@ -26,7 +26,7 @@ const makeImageCard = (key, event, statusBar = false) => {
     <ImageCard
       image={image || blankAvatar}
       imageAlt={key}
-      className={statusBar && 'photoContainer--with-status-bar'}
+      className={statusBar ? 'photoContainer--with-status-bar' : ''}
     />
   );
 };
@@ -65,7 +65,9 @@ const ImagePanel = ({ isActive }) => {
   }, [eventSourceEvent]);
 
   const [chipStatus, setChipStatus] = useState();
+  const [documentStatus, setDocumentStatus] = useState();
   const [chipStatusBarText, setChipStatusBarText] = useState('');
+  const [documentStatusBarText, setDocumentStatusBarText] = useState('');
 
   const chipStatusTextMap = {
     failed: 'Scanner not connected',
@@ -81,8 +83,9 @@ const ImagePanel = ({ isActive }) => {
     const isScanFinish = eventSourceEvent === END_OF_DOCUMENT_DATA;
     const isScanStart = eventSourceEvent === START_OF_DOCUMENT_DATA;
     const noChipImage = !CD_SCDG2_PHOTO;
+    const noDocumentImage = !CD_IMAGEPHOTO;
 
-    const status = isDocReaderNotOk
+    const chipStat = isDocReaderNotOk
       ? 'failed'
       : isDocReaderOk && !isScanFinish && !isScanStart && noChipImage
       ? 'success'
@@ -92,8 +95,20 @@ const ImagePanel = ({ isActive }) => {
       ? 'noData'
       : 'failed';
 
-    setChipStatus(status);
-    setChipStatusBarText(chipStatusTextMap[status]);
+    const docStat = isDocReaderNotOk
+      ? 'failed'
+      : isDocReaderOk && !isScanFinish && !isScanStart && noDocumentImage
+      ? 'success'
+      : isDocReaderOk && isScanStart
+      ? 'loading'
+      : isDocReaderOk && isScanFinish && noDocumentImage
+      ? 'noData'
+      : 'failed';
+
+    setChipStatus(chipStat);
+    setDocumentStatus(docStat);
+    setChipStatusBarText(chipStatusTextMap[chipStat]);
+    setDocumentStatusBarText(chipStatusTextMap[docStat]);
   }, [eventSourceEvent, CD_SCDG2_PHOTO, useRef()]);
 
   return (
@@ -117,15 +132,15 @@ const ImagePanel = ({ isActive }) => {
             visible={!CD_SCDG2_PHOTO}
             status={chipStatus}
           />
-          {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO)}
+          {makeImageCard('CD_SCDG2_PHOTO', CD_SCDG2_PHOTO, !CD_SCDG2_PHOTO)}
         </Column>
         <Column size="one-third">
-          {/* <StatusBar
-            text="Scanner connected"
+          <StatusBar
+            text={documentStatusBarText}
             visible={!CD_IMAGEPHOTO}
-            status={statusContext === 'OK' ? 'success' : 'failed'}
-          /> */}
-          {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO)}
+            status={documentStatus}
+          />
+          {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO, !CD_IMAGEPHOTO)}
         </Column>
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.
