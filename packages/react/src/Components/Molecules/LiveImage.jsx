@@ -11,7 +11,6 @@ import {
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
 import { ScoreContext } from '../Context';
-import ImageCard from './ImageCard';
 import { sendToElectronStore } from '../../helpers/ipcMainEvents';
 
 const LiveImage = ({ cameraId }) => {
