@@ -37,7 +37,6 @@ const Index = () => {
     setEventSourceContext({ eventSourceEvent: `RESTART-${Date.now()}` });
     setLivePhotoContext({});
     setScoreContext({});
-    setStatusContext({});
     setTimeout(() => setCanRetakeImage(true), 1000);
   };
 
