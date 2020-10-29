@@ -109,7 +109,7 @@ const ImagePanel = ({ isActive }) => {
     setDocumentStatus(docStat);
     setChipStatusBarText(chipStatusTextMap[chipStat]);
     setDocumentStatusBarText(chipStatusTextMap[docStat]);
-  }, [eventSourceEvent, CD_SCDG2_PHOTO, useRef()]);
+  }, [eventSourceEvent, CD_SCDG2_PHOTO, statusContext, useRef()]);
 
   return (
     <div
