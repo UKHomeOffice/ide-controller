@@ -2,6 +2,9 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect } from 'react';
 
+// Local imports
+import { getCameraDevices } from '../../helpers/camera';
+
 const Video = forwardRef(
   ({ captureOptions, cameraId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
@@ -22,16 +25,21 @@ const Video = forwardRef(
       );
     };
 
-    const findDefaultCamera = (cameraDevices) =>
-      cameraDevices.find((device) =>
-        device.label.includes(captureOptions.video.sourceModel)
+    const findDefaultCamera = async (defaultDeviceName) => {
+      const cameraDevices = await getCameraDevices();
+      return cameraDevices.find((device) =>
+        device.label.includes(defaultDeviceName)
       );
+    };
+
     useEffect(() => {
       (async () => {
-        const { defaultDevice } = captureOptions;
+        const { sourceModel } = captureOptions.video;
         const selectedDeviceId =
           cameraId ||
-          (defaultDevice ? findDefaultCamera(defaultDevice).cameraId : null);
+          (sourceModel
+            ? (await findDefaultCamera(sourceModel)).deviceId
+            : null);
         const videoOptions = selectedDeviceId
           ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
           : captureOptions;
