@@ -22,4 +22,9 @@ module.exports = {
   win: {
     target: ['nsis'],
   },
+  nsis: {
+    installerIcon: 'build/icon.ico',
+    uninstallerIcon: 'build/icon.ico',
+    runAfterFinish: 'false',
+  },
 };
