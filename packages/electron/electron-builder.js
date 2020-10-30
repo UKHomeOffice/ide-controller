@@ -20,6 +20,6 @@ module.exports = {
     },
   },
   win: {
-    target: 'zip',
+    target: ['nsis'],
   },
 };

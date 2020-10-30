@@ -5,35 +5,20 @@ import React, { useContext } from 'react';
 // Local imports
 import TableRow from './TableRow';
 import { ScoreContext } from '../Context/Score';
+import { ACCEPTABLESCORE } from '../../config/score';
 
-const calculatePercentage = (score) => (score / 8000) * 100;
+const headerStateClass = (score) => {
+  if (score >= ACCEPTABLESCORE) return 'passed';
+  if (score < ACCEPTABLESCORE) return 'failed';
 
-const resultText = (score) => {
-  const percent = calculatePercentage(score);
-  if (percent < 45 && percent > 0) {
-    return 'FAIL';
-  }
-  if (percent === 0) {
-    return 'No Data';
-  }
-  if (percent >= 45) {
-    return 'PASS';
-  }
-  return 'No Data';
+  return 'neutral';
 };
 
-const resultClassName = (score) => {
-  const percent = calculatePercentage(score);
-  if (percent < 45 && percent > 0) {
-    return 'fail';
-  }
-  if (percent === 0) {
-    return 'warning';
-  }
-  if (percent >= 45) {
-    return 'passed';
-  }
-  return 'neutral';
+const resultText = (score) => {
+  if (score < ACCEPTABLESCORE) return 'Fail';
+  if (score >= ACCEPTABLESCORE) return 'Pass';
+
+  return 'No Data';
 };
 
 const ImageComparisonsTable = () => {
@@ -41,23 +26,24 @@ const ImageComparisonsTable = () => {
   const { liveBioScore, bioChipScore, liveChipScore } = scoreContext;
 
   return (
-    <table className="govuk-table font--30">
+    <table className="govuk-table font--19pt">
       <caption className="govuk-table__caption">Image comparisons</caption>
       <tbody className="govuk-table__body">
         <TableRow
-          rowLabel="Live to chip"
-          tagStatus={resultClassName(liveChipScore)}
+          rowLabel="Chip to document"
+          tagStatus={headerStateClass(bioChipScore)}
+          tagText={resultText(bioChipScore)}
+        />
+        <TableRow
+          type="cell"
+          rowLabel="Chip to camera"
+          tagStatus={headerStateClass(liveChipScore)}
           tagText={resultText(liveChipScore)}
         />
         <TableRow
-          rowLabel="Live to document"
-          tagStatus={resultClassName(liveBioScore)}
+          rowLabel="Document to camera"
+          tagStatus={headerStateClass(liveBioScore)}
           tagText={resultText(liveBioScore)}
-        />
-        <TableRow
-          rowLabel="Chip to document"
-          tagStatus={resultClassName(bioChipScore)}
-          tagText={resultText(bioChipScore)}
         />
       </tbody>
     </table>

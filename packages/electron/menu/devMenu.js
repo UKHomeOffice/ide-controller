@@ -11,12 +11,36 @@ const devMenu = [
         role: 'toggledevtools',
       },
       {
-        label: 'Trigger Scan Document',
+        label: 'Trigger Scan Document With Chip',
         accelerator: 'F1',
         click: () => {
           const tryAgain = setInterval(() => {
-            if (readerServer.triggerScanEvents) {
-              readerServer.triggerScanEvents();
+            if (readerServer.triggerWithChip) {
+              readerServer.triggerWithChip();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
+        label: 'Trigger Scan Document Without Chip',
+        accelerator: 'F2',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.triggerWithoutChip();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
+        label: 'Trigger Scan Document With Chip Slow',
+        accelerator: 'F3',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithChipSlow) {
+              readerServer.triggerWithChipSlow();
               clearInterval(tryAgain);
             }
           }, 1000);

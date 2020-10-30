@@ -19,7 +19,6 @@ import { sendToElectronStore } from './helpers/ipcMainEvents';
 import './helpers/globalError';
 
 initOnlineStatus();
-const eventSourceData = {};
 
 const App = () => {
   const [eventSourceContext, setEventSourceContext] = useState({});
@@ -29,6 +28,7 @@ const App = () => {
 
   // Doc reader
   useEffect(() => {
+    let eventSourceData = {};
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
@@ -38,14 +38,20 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      sendToElectronStore(eventSourceData[datatype], datadata);
+      if (eventSourceData[datatype])
+        sendToElectronStore(eventSourceData[datatype], datadata);
       eventSourceData[datatype] = datadata;
     });
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
-      sendToElectronStore(messageData.event, messageData);
+      if (messageData.event) {
+        eventSourceData[messageData.event] = messageData;
+      }
+      if (messageData.event)
+        sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
+        setLivePhotoContext({});
         setEventSourceContext({
           timestamp: Date.now(),
           eventSourceEvent: START_OF_DOCUMENT_DATA,
@@ -58,6 +64,7 @@ const App = () => {
           ...eventSourceData,
           eventSourceEvent: END_OF_DOCUMENT_DATA,
         });
+        eventSourceData = {};
       }
 
       if (messageData.event === READER_STATUS) {
@@ -77,9 +84,9 @@ const App = () => {
     });
   }, []);
 
+  const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
+  const { image } = livePhotoContext;
   useEffect(() => {
-    const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
-    const { image } = livePhotoContext;
     if (!CD_IMAGEPHOTO?.image || !image) return;
 
     post(IMAGE_MATCH, {
@@ -96,7 +103,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [livePhotoContext?.image]);
+  }, [image, CD_IMAGEPHOTO, CD_SCDG2_PHOTO]);
 
   return (
     <EventSourceProvider

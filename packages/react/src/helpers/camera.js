@@ -25,6 +25,7 @@ const loadPosenet = () =>
     outputStride: 32,
     multiplier: 1,
     quantBytes: 1,
+    modelUrl: './model-stride32.json',
   });
 
 export const estimateSinglePose = async (frame) => {

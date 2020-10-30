@@ -10,6 +10,7 @@ const {
 } = require('electron');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 
 // Local imports
 const ideMenu = require('./menu');
@@ -28,7 +29,7 @@ function createWindow() {
     width: 1920,
     height: 1280,
     resizable: isDev,
-    titleBarStyle: 'hidden',
+    titleBarStyle: isDev ? '' : 'hidden',
     backgroundColor: '#fff',
     webPreferences: { nodeIntegration: true },
   });
@@ -49,11 +50,12 @@ function createWindow() {
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
   } else {
+    mainWindow.setFullScreen(true);
     mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
   }
 
   // Open DevTools - Remove for PRODUCTION!
-  // mainWindow.webContents.openDevTools();
+  if (isDev) mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on('closed', app.quit);
@@ -113,6 +115,13 @@ ipcMain.handle('addToStore', (event, key, value) => {
     userStore.set({ error: e });
     userStore.set('ERROR', 'CAN NOT LOG');
   }
+});
+
+ipcMain.handle('saveToDesktop', (_, object) => {
+  fs.appendFileSync(
+    `${app.getPath('desktop')}/data.json`,
+    `${JSON.stringify(object)},`
+  );
 });
 
 process.on('exit', (code) => {

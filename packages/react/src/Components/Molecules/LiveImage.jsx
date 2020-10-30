@@ -51,7 +51,7 @@ const LiveImage = ({ cameraId }) => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', async () => {
-      estimate();
+      setTimeout(estimate, 1000);
     });
     setScoreContext({});
     sendToElectronStore('Livephoto', 'Initialised');

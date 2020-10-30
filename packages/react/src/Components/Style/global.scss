@@ -64,12 +64,13 @@ body {
 
 .photoContainer {
   &--photo {
+    border: 10px solid rgb(255, 255, 255);
     background-repeat: no-repeat;
-    margin-bottom: 0;
-    height: 637.5px;
-    width: 425px;
+    height: 617.5px;
+    width: 405px;
     background-size: cover;
     background-position: center;
+    box-shadow: 0px 2px 6px 2px #bfc1c3;
   }
 }
 
@@ -96,17 +97,11 @@ body {
 }
 
 .font {
-  &--26 {
-    font-size: 26px;
+  &--16pt {
+    font-size: 16pt;
   }
-  &--28 {
-    font-size: 28px;
-  }
-  &--30 {
-    font-size: 30px;
-  }
-  &--32 {
-    font-size: 32px;
+  &--19pt {
+    font-size: 19pt;
   }
   &--m {
     font-size: 1.2rem;
@@ -120,6 +115,10 @@ body {
   &--xxl {
     font-size: 4.5rem;
   }
+}
+
+.word-break-all {
+  word-break: break-all;
 }
 /*** End Helpers ***/
 
