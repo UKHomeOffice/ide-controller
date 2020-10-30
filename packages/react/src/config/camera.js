@@ -8,9 +8,9 @@ export const livePhotoConfig = {
     width: 300,
     height: 350,
   },
-  threshold: 0.9,
-  zoomFactor: 1.6,
-  imageResolution: 60,
+  threshold: 0.8,
+  zoomFactor: 0.85,
+  imageResolution: 40,
 };
 
 export const clearDataTimeout = 900000;
