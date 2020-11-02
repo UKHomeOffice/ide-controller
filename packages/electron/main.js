@@ -138,7 +138,7 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
-const biometrics = spawn('javaw.exe', ['-jar', 'biometricsPath']);
+const biometrics = spawn('javaw.exe', ['-jar', '%biometricsPath%']);
 
 biometrics.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
