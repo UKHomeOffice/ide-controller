@@ -138,20 +138,22 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
-const biometrics = spawn('javaw.exe', ['-jar', '%biometricsPath%']);
+if (process.platform === 'win32') {
+  const biometrics = spawn('javaw.exe', ['-jar', '%biometricsPath%']);
 
-biometrics.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+  biometrics.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
 
-biometrics.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
+  biometrics.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
 
-biometrics.on('error', (error) => {
-  console.log(`error: ${error.message}`);
-});
+  biometrics.on('error', (error) => {
+    console.log(`error: ${error.message}`);
+  });
 
-biometrics.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+  biometrics.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+}
