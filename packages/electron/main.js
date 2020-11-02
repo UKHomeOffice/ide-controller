@@ -139,7 +139,7 @@ userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
 if (process.platform === 'win32') {
-  const biometrics = spawn('javaw.exe', ['-jar', '%biometricsPath%']);
+  const biometrics = spawn('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
 
   biometrics.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
