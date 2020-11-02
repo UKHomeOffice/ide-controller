@@ -25,6 +25,7 @@ const App = () => {
   const [livePhotoContext, setLivePhotoContext] = useState({});
   const [scoreContext, setScoreContext] = useState({});
   const [statusContext, setStatusContext] = useState({});
+  const [uuid, setUuid] = useState('');
 
   // Doc reader
   useEffect(() => {
@@ -56,7 +57,8 @@ const App = () => {
           timestamp: Date.now(),
           eventSourceEvent: START_OF_DOCUMENT_DATA,
         });
-        sendToElectronStore('uuid', generateUUID());
+        setUuid(generateUUID());
+        sendToElectronStore('uuid', uuid);
       }
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
@@ -93,6 +95,7 @@ const App = () => {
       chipImage: CD_SCDG2_PHOTO?.image,
       bioImage: CD_IMAGEPHOTO.image,
       liveImage: image.replace('data:image/jpeg;base64,', ''),
+      uuid,
     })
       .then((res) => {
         sendToElectronStore('matchingScore', JSON.parse(res));
