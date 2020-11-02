@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 /*** Generic ***/
 .position-relative {
   position: relative;
@@ -9,3 +11,17 @@
   top: 0;
 }
 /*** End Generic ***/
+
+/*** Status Bar ***/
+.status-bar {
+  color: $white-color;
+  padding: 16px;
+  width: 395px;
+
+  h3 {
+    color: inherit;
+    padding: 0;
+    margin: 0;
+  }
+}
+/*** End Status Bar ***/

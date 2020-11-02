@@ -72,6 +72,10 @@ body {
     background-position: center;
     box-shadow: 0px 2px 6px 2px #bfc1c3;
   }
+
+  &--with-status-bar {
+    max-height: 561.5px;
+  }
 }
 
 .shadow {
@@ -93,6 +97,9 @@ body {
   }
   &--warning {
     background-color: $warning-color;
+  }
+  &--info {
+    background-color: $info-color;
   }
 }
 

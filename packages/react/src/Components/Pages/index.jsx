@@ -11,12 +11,7 @@ import {
   MatchCard,
 } from '../Molecules';
 import { Header } from '../Organisms';
-import {
-  EventSourceContext,
-  LivePhotoContext,
-  ScoreContext,
-  StatusContext,
-} from '../Context';
+import { EventSourceContext, LivePhotoContext, ScoreContext } from '../Context';
 import { clearDataTimeout } from '../../config/camera';
 
 let timer;
@@ -29,7 +24,6 @@ const Index = () => {
     LivePhotoContext
   );
   const { setScoreContext } = useContext(ScoreContext);
-  const { setStatusContext } = useContext(StatusContext);
   const [canRetakeImage, setCanRetakeImage] = useState(true);
 
   const emptyAllContext = () => {
@@ -37,7 +31,6 @@ const Index = () => {
     setEventSourceContext({ eventSourceEvent: `RESTART-${Date.now()}` });
     setLivePhotoContext({});
     setScoreContext({});
-    setStatusContext({});
     setTimeout(() => setCanRetakeImage(true), 1000);
   };
 

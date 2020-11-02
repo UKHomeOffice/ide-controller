@@ -2,10 +2,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Image = ({ image, imageAlt }) => {
+const Image = ({ image, imageAlt, className }) => {
   return (
     <div
-      className="photoContainer--photo"
+      className={`photoContainer--photo ${className}`}
       alt={imageAlt}
       style={{ backgroundImage: `url(${image})` }}
     />
@@ -15,10 +15,12 @@ const Image = ({ image, imageAlt }) => {
 Image.propTypes = {
   image: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
+  className: PropTypes.string,
 };
 
 Image.defaultProps = {
   imageAlt: '',
+  className: '',
 };
 
 export default Image;
