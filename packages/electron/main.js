@@ -11,11 +11,11 @@ const {
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const { spawn } = require('child_process');
 
 // Local imports
 const ideMenu = require('./menu');
 const Store = require('./store');
+const executeWindowsCommand = require('./util/windows');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -138,22 +138,4 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
-if (process.platform === 'win32') {
-  const biometrics = spawn('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
-
-  biometrics.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  biometrics.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
-
-  biometrics.on('error', (error) => {
-    console.log(`error: ${error.message}`);
-  });
-
-  biometrics.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-}
+executeWindowsCommand('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
