@@ -2,7 +2,7 @@
 const { spawn } = require('child_process');
 
 // Local imports
-const Store = require('./store');
+const Store = require('../store');
 
 const userStore = new Store();
 

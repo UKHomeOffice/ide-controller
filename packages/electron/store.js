@@ -16,7 +16,7 @@ class Store {
       `${JSON.stringify({
         [key]: typeof value === 'object' ? JSON.stringify(value) : value,
         timestamp: Date.now(),
-      })}\n`,
+      })},\n`,
       function (err) {
         if (err) throw err;
       }
