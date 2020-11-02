@@ -140,7 +140,7 @@ userStore.set('networkInterfaces', os.networkInterfaces());
 
 const biometrics = spawn('javaw.exe', [
   '-jar',
-  'ide-biometrics-0.0.1-exec.jar',
+  'C:\Morpho\MorphoKit\Bin\64-Bits\ide-dbiometrics-0.0.1.jar',
 ]);
 
 biometrics.stdout.on('data', (data) => {
