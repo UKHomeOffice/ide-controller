@@ -26,5 +26,8 @@ module.exports = {
     installerIcon: 'build/icon.ico',
     uninstallerIcon: 'build/icon.ico',
     runAfterFinish: 'false',
+    oneClick: false,
+    allowToChangeInstallationDirectory: true,
+    perMachine: true,
   },
 };
