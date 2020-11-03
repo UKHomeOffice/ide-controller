@@ -15,4 +15,11 @@ export const post = (url, data) =>
 
 export const generateUUID = () => crypto.randomBytes(16).toString('hex');
 
+export const sha256hash = async (message) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return hash;
+};
+
 export default {};
