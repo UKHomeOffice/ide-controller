@@ -139,3 +139,4 @@ userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
 executeWindowsCommand('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
+executeWindowsCommand('javaw.exe', ['-jar', '%IDE_document_reader%']);
