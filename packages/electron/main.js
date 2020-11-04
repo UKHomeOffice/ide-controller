@@ -15,6 +15,7 @@ const fs = require('fs');
 // Local imports
 const ideMenu = require('./menu');
 const Store = require('./store');
+const executeWindowsCommand = require('./util/windows');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -136,3 +137,6 @@ process.on('warning', (warning) => {
 });
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
+
+executeWindowsCommand('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
+executeWindowsCommand('javaw.exe', ['-jar', '%IDE_DOCUMENT_READER%']);
