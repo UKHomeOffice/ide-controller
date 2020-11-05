@@ -24,10 +24,11 @@ module.exports = {
   },
   nsis: {
     installerIcon: 'build/icon.ico',
-    uninstallerIcon: 'build/icon.ico',
+    uninstallerIcon: 'build/uninstallerIcon.ico',
     runAfterFinish: 'false',
-    oneClick: false,
-    allowToChangeInstallationDirectory: true,
+    oneClick: true,
+    include: 'build/installer.nsh',
+    deleteAppDataOnUninstall: true,
     perMachine: true,
   },
 };
