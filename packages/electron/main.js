@@ -138,5 +138,5 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
-executeWindowsCommand('javaw.exe', ['-jar', '%IDE_BIOMETRICS%']);
-executeWindowsCommand('javaw.exe', ['-jar', '%IDE_DOCUMENT_READER%']);
+executeWindowsCommand('javaw.exe -jar "%IDE_BIOMETRICS%"');
+executeWindowsCommand('javaw.exe -jar "%IDE_DOCUMENT_READER%"');
