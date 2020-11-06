@@ -138,5 +138,11 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success');
 userStore.set('networkInterfaces', os.networkInterfaces());
 
-executeWindowsCommand('javaw.exe -jar "%IDE_BIOMETRICS%"');
-executeWindowsCommand('javaw.exe -jar "%IDE_DOCUMENT_READER%"');
+/* eslint-disable */
+executeWindowsCommand(
+  '"c:\program files\Java\jdk-11.0.9\bin\javaw.exe" -jar "%IDE_BIOMETRICS%"'
+);
+executeWindowsCommand(
+  '"c:\program files\Java\jdk-11.0.9\bin\javaw.exe" -jar "%IDE_DOCUMENT_READER%"'
+);
+/* eslint-enable */
