@@ -57,8 +57,9 @@ const App = () => {
           timestamp: Date.now(),
           eventSourceEvent: START_OF_DOCUMENT_DATA,
         });
-        setUuid(generateUUID());
-        sendToElectronStore('uuid', uuid);
+        const generatedUUID = generateUUID();
+        setUuid(generatedUUID);
+        sendToElectronStore('uuid', generatedUUID);
       }
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
