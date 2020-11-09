@@ -140,9 +140,9 @@ userStore.set('networkInterfaces', os.networkInterfaces());
 
 /* eslint-disable */
 executeWindowsCommand(
-  '"%JAVA_HOME%" -jar "%IDE_BIOMETRICS%"'
+  'Start "Doc Reader" /b "%java_home%\javaw.exe" -jar "%IDE_Document_Reader%"'
 );
 executeWindowsCommand(
-  '"%JAVA_HOME%" -jar "%IDE_DOCUMENT_READER%"'
+  'Start "MorphoKit" /D "%Morpho_Home%" /b "%java_home%\javaw.exe" -jar "%IDE_Biometrics%"'
 );
 /* eslint-enable */
