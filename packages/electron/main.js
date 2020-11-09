@@ -140,9 +140,9 @@ userStore.set('networkInterfaces', os.networkInterfaces());
 
 /* eslint-disable */
 executeWindowsCommand(
-  '"c:\program files\Java\jdk-11.0.9\bin\javaw.exe" -jar "%IDE_BIOMETRICS%"'
+  '"%JAVA_HOME%" -jar "%IDE_BIOMETRICS%"'
 );
 executeWindowsCommand(
-  '"c:\program files\Java\jdk-11.0.9\bin\javaw.exe" -jar "%IDE_DOCUMENT_READER%"'
+  '"%JAVA_HOME%" -jar "%IDE_DOCUMENT_READER%"'
 );
 /* eslint-enable */
