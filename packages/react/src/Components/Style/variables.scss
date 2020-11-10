@@ -13,3 +13,9 @@ $screen-height: 1280px;
 $body-margin: 48px;
 $max-body-width: calc(#{$screen-width} - #{$body-margin * 2});
 /*** End Resolution ***/
+
+/*** Camera Resolution ***/
+$cam-resolution-width: 1920;
+$cam-resolution-height: 1080;
+$live-image-width: 405;
+/*** End Camera Resolution ***/
