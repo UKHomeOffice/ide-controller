@@ -59,13 +59,15 @@ const LiveImage = ({ cameraId }) => {
     <div className="position-relative">
       {showVideo && (
         <>
-          <Video
-            ref={videoRef}
-            cameraId={cameraId}
-            captureOptions={livePhotoConfig}
-            className="photoContainer--photo"
-          />
-          <CanvasRect
+          <div className="photoContainer--photo">
+            <Video
+              ref={videoRef}
+              cameraId={cameraId}
+              captureOptions={livePhotoConfig}
+              className="live-image"
+            />
+          </div>
+          {/* <CanvasRect
             className="photoContainer--photo position-absolute"
             ref={guidCanvasRef}
             width={livePhotoConfig.video.width}
@@ -76,7 +78,7 @@ const LiveImage = ({ cameraId }) => {
               width: sourceImageOptions.calculatedWidth,
               height: sourceImageOptions.calculatedHeight,
             }}
-          />
+          /> */}
         </>
       )}
       {showCanvas && (

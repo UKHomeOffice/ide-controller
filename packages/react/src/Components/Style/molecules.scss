@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .dragable {
   -webkit-app-region: drag;
   padding-top: 10px;
@@ -13,3 +15,13 @@
     }
   }
 }
+
+/*** LiveImage ***/
+.live-image {
+  transform: rotate(90deg);
+  margin-left: calc(
+    (-#{$cam-resolution-width}px / 2) - (-#{$live-image-width}px / 2)
+  );
+  // margin-left: -405px;
+}
+/*** End LiveImage ***/
