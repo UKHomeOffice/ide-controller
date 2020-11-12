@@ -16,6 +16,7 @@ import {
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
 import { sendToElectronStore } from './helpers/ipcMainEvents';
+import { logDataEvent } from './helpers/log';
 import './helpers/globalError';
 
 initOnlineStatus();
@@ -39,8 +40,7 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      if (eventSourceData[datatype])
-        sendToElectronStore(eventSourceData[datatype], datadata);
+      logDataEvent(messageData, datadata);
       eventSourceData[datatype] = datadata;
     });
 
