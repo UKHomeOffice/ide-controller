@@ -1,6 +1,6 @@
 {
   "name": "IDE",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "electron app",
   "keywords": [
     "electron",
@@ -21,7 +21,7 @@
     "lint:fix": "eslint --ext .js . --fix"
   },
   "devDependencies": {
-    "@ide-controller/react-app": "^0.0.5",
+    "@ide-controller/react-app": "^0.0.6",
     "electron": "^10.1.1",
     "electron-builder": "^22.8.0",
     "eslint": "^7.9.0",
