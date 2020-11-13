@@ -16,7 +16,6 @@ class Store {
   }
 
   setExact(value) {
-    console.log(value);
     this.writeToLogFile(value);
   }
 
