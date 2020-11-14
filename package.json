@@ -7,7 +7,9 @@
     "lint": "lerna run lint --stream",
     "test": "lerna run test",
     "dev": "lerna bootstrap && lerna run dev --stream --parallel",
-    "build": "lerna run build --stream"
+    "build": "lerna run build --stream",
+    "build:react": "lerna run --scope React build --stream",
+    "build:electron": "lerna run --scope IDE build --stream"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
