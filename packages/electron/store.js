@@ -11,16 +11,34 @@ class Store {
   }
 
   set(key, value) {
-    fs.appendFile(
-      this.path,
-      `${JSON.stringify({
-        [key]: typeof value === 'object' ? JSON.stringify(value) : value,
-        timestamp: Date.now(),
-      })},\n`,
-      function (err) {
-        if (err) throw err;
-      }
-    );
+    const stringifiedEntry = this.stringifyEntry(key, value);
+    this.writeToLogFile(stringifiedEntry, true);
+  }
+
+  setExact(value) {
+    this.writeToLogFile(value);
+  }
+
+  stringifyEntry(key, value) {
+    const stringifiedEntry = JSON.stringify({
+      [key]: value,
+      timestamp: Date.now(),
+    });
+
+    return stringifiedEntry;
+  }
+
+  writeToLogFile(data, withComma = false) {
+    const includeComma = withComma ? ',' : '';
+    const strData = `${data}${includeComma}\n`;
+    fs.appendFile(this.path, strData, function (error) {
+      if (error) this.failedToLog(error);
+    });
+  }
+
+  failedToLog(error) {
+    this.set({ error: error });
+    this.set('ERROR', 'CAN NOT LOG');
   }
 }
 

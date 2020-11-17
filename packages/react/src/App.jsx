@@ -15,7 +15,11 @@ import {
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
-import { sendToElectronStore } from './helpers/ipcMainEvents';
+import {
+  sendToElectronStore,
+  sendExactToElectronStore,
+} from './helpers/ipcMainEvents';
+import { logDataEvent } from './helpers/log';
 import './helpers/globalError';
 
 initOnlineStatus();
@@ -39,8 +43,7 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      if (eventSourceData[datatype])
-        sendToElectronStore(eventSourceData[datatype], datadata);
+      logDataEvent(messageData, datadata);
       eventSourceData[datatype] = datadata;
     });
 
@@ -52,6 +55,7 @@ const App = () => {
       if (messageData.event)
         sendToElectronStore(messageData.event, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
+        sendExactToElectronStore('[');
         setLivePhotoContext({});
         setEventSourceContext({
           timestamp: Date.now(),
@@ -68,6 +72,7 @@ const App = () => {
           eventSourceEvent: END_OF_DOCUMENT_DATA,
         });
         eventSourceData = {};
+        sendExactToElectronStore(']');
       }
 
       if (messageData.event === READER_STATUS) {

@@ -13,7 +13,7 @@ const idemiaServer = http.createServer((req, res) => {
   res.statusCode = 404;
   res.end('Not found!')
 });
-idemiaServer.listen(8081);
+idemiaServer.listen(1111);
 
 const readerServer = http.createServer((req, res) => {
   allowAllOrigins(res);
@@ -77,6 +77,6 @@ const readerServer = http.createServer((req, res) => {
     res.end('Not found!')
   }
 });
-readerServer.listen(8080);
+readerServer.listen(1110);
 
 module.exports = readerServer;

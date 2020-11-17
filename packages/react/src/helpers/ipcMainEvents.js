@@ -9,9 +9,11 @@ const { ipcRenderer } = electron;
 })();
 
 export const sendToElectronStore = (key, value) => {
-  const strKey = typeof key === 'object' ? JSON.stringify(key) : key;
-  const strValue = typeof value === 'object' ? JSON.stringify(value) : value;
-  ipcRenderer.invoke('addToStore', strKey, strValue);
+  ipcRenderer.invoke('addToStore', key, value);
+};
+
+export const sendExactToElectronStore = (value) => {
+  ipcRenderer.invoke('addExactToStore', value);
 };
 
 export const saveToDesktop = (object) => {
