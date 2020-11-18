@@ -1,11 +1,9 @@
-const path = require('path');
-
 module.exports = {
   appId: 'com.homeoffice.ide-controller',
   copyright: 'Copyright Home Office',
   extraFiles: [
     {
-      from: path.resolve(__dirname, '../react/build/'),
+      from: 'react/build/',
       to: 'Resources/react/build/',
     },
   ],
