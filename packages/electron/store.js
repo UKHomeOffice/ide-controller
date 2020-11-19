@@ -1,36 +1,16 @@
 const electron = require('electron');
 const path = require('path');
-const fs = require('fs');
-
+const Logger = require('nedb-logger');
 class Store {
   constructor(fileName = 'ide-controller-data') {
     const appDataPath = electron.app.getPath('appData');
     this.path = path.join(appDataPath, fileName);
+    this.logger = new Logger({ filename: this.path });
   }
 
   set(key, value) {
-    const stringifiedEntry = this.stringifyEntry(key, value);
-    this.writeToLogFile(stringifiedEntry, true);
-  }
-
-  setExact(value) {
-    this.writeToLogFile(value);
-  }
-
-  stringifyEntry(key, value) {
-    const stringifiedEntry = JSON.stringify({
+    this.logger.insert({
       [key]: value,
-      timestamp: Date.now(),
-    });
-
-    return stringifiedEntry;
-  }
-
-  writeToLogFile(data, withComma = false) {
-    const includeComma = withComma ? ',' : '';
-    const strData = `${data}${includeComma}\n`;
-    fs.appendFile(this.path, strData, function (error) {
-      if (error) this.failedToLog(error);
     });
   }
 

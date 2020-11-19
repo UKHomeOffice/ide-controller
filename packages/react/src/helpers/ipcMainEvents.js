@@ -12,10 +12,6 @@ export const sendToElectronStore = (key, value) => {
   ipcRenderer.invoke('addToStore', key, value);
 };
 
-export const sendExactToElectronStore = (value) => {
-  ipcRenderer.invoke('addExactToStore', value);
-};
-
 export const saveToDesktop = (object) => {
   ipcRenderer.invoke('saveToDesktop', object);
 };
