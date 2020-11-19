@@ -3,11 +3,9 @@ const path = require('path');
 const fs = require('fs');
 
 class Store {
-  constructor(fileName = 'ide-controller') {
-    const userDataPath = (electron.app || electron.remote.app).getPath(
-      'userData'
-    );
-    this.path = path.join(userDataPath, `${fileName}.db`);
+  constructor(fileName = 'ide-controller-data') {
+    const appDataPath = electron.app.getPath('appData');
+    this.path = path.join(appDataPath, fileName);
   }
 
   set(key, value) {
