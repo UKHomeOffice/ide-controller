@@ -10,6 +10,7 @@ const Button = ({ buttonVariant, onClick, children, disabled }) => {
       type="button"
       onClick={onClick}
       disabled={disabled}
+      data-testid="atoms-button"
     >
       {children}
     </button>
