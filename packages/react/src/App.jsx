@@ -48,7 +48,6 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
-      logDataEvent(messageData.dataType, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
         setLivePhotoContext({});
         setEventSourceContext({
@@ -59,6 +58,7 @@ const App = () => {
         setUuid(generatedUUID);
         logDataEvent('uuid', generatedUUID);
       }
+      logDataEvent(messageData.dataType, messageData);
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
         setEventSourceContext({

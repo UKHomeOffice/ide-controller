@@ -1,4 +1,6 @@
+// Local imports
 import { sendToElectronStore } from './ipcMainEvents';
+import { START_OF_DOCUMENT_DATA } from '../config/EventSource';
 
 const ALLOWED_KEYS = [
   'DateOfBirth',
@@ -21,17 +23,12 @@ resetCurrentData();
 
 const CD_CODELINE_DATA = (data) => {
   Object.keys(data.codelineData).forEach((entry) => {
-    if (!data.codelineData[entry]) return;
-    try {
-      if (ALLOWED_KEYS.includes(entry)) {
-        if (entry === 'DateOfBirth') {
-          currentData.YearOfBirth = data.codelineData[entry].Year;
-        } else {
-          currentData[entry] = data.codelineData[entry];
-        }
+    if (ALLOWED_KEYS.includes(entry)) {
+      if (entry === 'DateOfBirth') {
+        currentData.YearOfBirth = data.codelineData[entry].Year;
+      } else {
+        currentData[entry] = data.codelineData[entry];
       }
-    } catch (error) {
-      sendToElectronStore('Error', error);
     }
   });
 };
@@ -44,6 +41,10 @@ export const logDataEvent = (key, data) => {
       currentData.deviceStatus.push(data.status);
       break;
     case 'uuid':
+      if (currentData.uuid && currentData.uuid !== data) {
+        sendToElectronStore(currentData);
+        resetCurrentData();
+      }
       currentData.uuid = data;
       break;
     case 'PAGE_READER_EVENT':
