@@ -6,6 +6,7 @@
   "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
   "license": "ISC",
   "main": "index.js",
+  "author": "Viable Data",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/UKHomeOffice/ide-controller.git"

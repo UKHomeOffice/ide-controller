@@ -3,6 +3,7 @@
   "version": "0.0.7",
   "private": true,
   "homepage": "./",
+  "author": "Viable Data",
   "scripts": {
     "dev": "BROWSER=none CI=true react-scripts start",
     "build": "react-scripts build",
