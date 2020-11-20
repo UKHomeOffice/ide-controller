@@ -9,9 +9,8 @@ class Store {
   }
 
   set(key, value) {
-    this.logger.insert({
-      [key]: value,
-    });
+    const logData = value ? { [key]: value } : key;
+    this.logger.insert({ ...logData, created_at: Date.now() });
   }
 
   failedToLog(error) {

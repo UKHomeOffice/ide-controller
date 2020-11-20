@@ -11,7 +11,7 @@ import {
 import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
 import { ScoreContext } from '../Context';
-import { sendToElectronStore } from '../../helpers/ipcMainEvents';
+import { logDataEvent } from '../../helpers/log';
 
 const LiveImage = ({ cameraId }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
@@ -36,7 +36,7 @@ const LiveImage = ({ cameraId }) => {
     if (isBadQuality) {
       setTimeout(() => estimate(), 50);
     } else {
-      sendToElectronStore('Livephoto', 'Taken');
+      logDataEvent('Livephoto', 'Taken');
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
@@ -52,7 +52,7 @@ const LiveImage = ({ cameraId }) => {
       setTimeout(estimate, 1000);
     });
     setScoreContext({});
-    sendToElectronStore('Livephoto', 'Initialised');
+    logDataEvent('Livephoto', 'Initialised');
   }, []);
 
   return (

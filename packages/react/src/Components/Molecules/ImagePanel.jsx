@@ -11,7 +11,7 @@ import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
-import { sendToElectronStore } from '../../helpers/ipcMainEvents';
+import { logDataEvent } from '../../helpers/log';
 import {
   END_OF_DOCUMENT_DATA,
   START_OF_DOCUMENT_DATA,
@@ -45,7 +45,7 @@ const ImagePanel = ({ isActive }) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     setTimeout(() => setCanRetakeImage(true), 1000);
-    sendToElectronStore('Livephoto', 'Retake Camera Image');
+    logDataEvent('Livephoto', 'Retake Camera Image');
   };
 
   useEffect(() => {

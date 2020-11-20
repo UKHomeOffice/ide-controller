@@ -15,7 +15,6 @@ import {
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
-import { sendToElectronStore } from './helpers/ipcMainEvents';
 import { logDataEvent } from './helpers/log';
 import './helpers/globalError';
 
@@ -40,7 +39,7 @@ const App = () => {
         codelineData: messageData.codelineData,
         image: messageData.image,
       };
-      logDataEvent(messageData, datadata);
+      logDataEvent(messageData.dataType, messageData);
       eventSourceData[datatype] = datadata;
     });
 
@@ -49,8 +48,7 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
-      if (messageData.event)
-        sendToElectronStore(messageData.event, messageData);
+      logDataEvent(messageData.dataType, messageData);
       if (messageData.event === START_OF_DOCUMENT_DATA) {
         setLivePhotoContext({});
         setEventSourceContext({
@@ -59,7 +57,7 @@ const App = () => {
         });
         const generatedUUID = generateUUID();
         setUuid(generatedUUID);
-        sendToElectronStore('uuid', generatedUUID);
+        logDataEvent('uuid', generatedUUID);
       }
 
       if (messageData.event === END_OF_DOCUMENT_DATA) {
@@ -80,7 +78,7 @@ const App = () => {
 
     events.addEventListener('status', (e) => {
       const messageData = JSON.parse(e.data);
-      sendToElectronStore('deviceStatus', messageData);
+      logDataEvent('deviceStatus', messageData);
       setStatusContext(messageData.status);
     });
   }, []);
@@ -97,7 +95,7 @@ const App = () => {
       uuid,
     })
       .then((res) => {
-        sendToElectronStore('matchingScore', JSON.parse(res));
+        logDataEvent('matchingScore', JSON.parse(res));
         setScoreContext(JSON.parse(res));
       })
       .catch(() =>
