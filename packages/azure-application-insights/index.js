@@ -1,19 +1,20 @@
+// Global imports
 const path = require('path');
+const appInsights = require('applicationinsights');
+
+// Local imports
+const DB = require('./db');
+
 require('dotenv').config({
   path: path.resolve(__dirname, '.env'),
 });
-const Datastore = require('nedb');
-const appInsights = require('applicationinsights');
 appInsights.setup(process.env.IKEY).setUseDiskRetryCaching(true).start();
-
 const client = appInsights.defaultClient;
 
 class ApplicationInsightsLogger {
-  constructor(dbFullPath, trackEventName) {
-    this.dbFullPath = dbFullPath;
+  constructor(tableFullPath, trackEventName) {
     this.trackEventName = trackEventName || 'Unnamed Event';
-    this.dbTable = new Datastore({ filename: dbFullPath });
-    this.dbTable.loadDatabase();
+    this.dbTable = new DB(tableFullPath);
     this.isSyncing = false;
     this.error = '';
     this.isOnline = false;
@@ -71,6 +72,7 @@ class ApplicationInsightsLogger {
 
   setIsOnline(isOnline) {
     this.isOnline = isOnline;
+
     if (isOnline) this.sync();
   }
 }
