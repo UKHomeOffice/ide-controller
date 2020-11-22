@@ -2,9 +2,9 @@ const electron = require('electron');
 const path = require('path');
 const Logger = require('nedb-logger');
 class Store {
-  constructor(fileName = 'ide-controller-data') {
+  constructor(fileName = 'ide-controller-log.db') {
     const appDataPath = electron.app.getPath('appData');
-    this.path = path.join(appDataPath, fileName);
+    this.path = path.join(appDataPath, `IDE/${fileName}`);
     this.logger = new Logger({ filename: this.path });
   }
 
