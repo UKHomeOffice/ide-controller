@@ -1,5 +1,5 @@
 {
-  "name": "azure-monitor-publisher",
+  "name": "@ide-controller/azure-application-insights",
   "version": "0.0.6",
   "description": "Micro service for ide-controller application to handle the log file",
   "keywords": [
@@ -10,7 +10,7 @@
     "API"
   ],
   "author": "Viable Data",
-  "homepage": "https://github.com/UKHomeOffice/ide-controller/tree/master/packages/azure-monitor-publisher",
+  "homepage": "https://github.com/UKHomeOffice/ide-controller/tree/master/packages/azure-application-insights",
   "license": "ISC",
   "main": "index.js",
   "repository": {

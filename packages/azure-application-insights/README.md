@@ -1,4 +1,4 @@
-# `azure-monitor-publisher`
+# `azure-application-insights`
 
 This package is micro service for ide-controller application to handle the log file. 
 

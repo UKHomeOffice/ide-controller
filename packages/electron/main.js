@@ -11,6 +11,7 @@ const {
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const ApplicationInsightsLogger = require('@ide-controller/azure-application-insights');
 
 // Local imports
 const ideMenu = require('./menu');
@@ -104,13 +105,22 @@ ipcMain.on('webCamDevices', (event, list) => {
   Menu.setApplicationMenu(ideMenu);
 });
 
+const logFilePath = `${app.getPath('appData')}/IDE/ide-controller-log.db`;
+const applicationInsightsLogger = new ApplicationInsightsLogger(
+  logFilePath,
+  'Document Scan Event'
+);
+
 ipcMain.on('online-status-changed', (event, status) => {
   onlineStatusWindow = status; // eslint-disable-line
+  const isOnline = status === 'online';
+  applicationInsightsLogger.setIsOnline(isOnline);
 });
 
 const userStore = new Store();
 ipcMain.handle('addToStore', (event, value) => {
   userStore.set(value);
+  applicationInsightsLogger.sync();
 });
 
 ipcMain.handle('saveToDesktop', (_, object) => {
