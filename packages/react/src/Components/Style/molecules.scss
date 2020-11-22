@@ -18,10 +18,7 @@
 
 /*** LiveImage ***/
 .live-image {
-  transform: rotate(90deg);
-  margin-left: calc(
-    (-#{$cam-resolution-width}px / 2) - (-#{$live-image-width}px / 2)
-  );
-  // margin-left: -405px;
+  /* height is now width */
+  transform: rotate(90deg) scale(0.379) translate(-700px, 2000px);
 }
 /*** End LiveImage ***/
