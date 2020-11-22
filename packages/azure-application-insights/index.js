@@ -1,20 +1,21 @@
-const Datastore = require('nedb')
+const Datastore = require('nedb');
 const appInsights = require('applicationinsights');
-appInsights.setup('64e048ce-66b2-4bf2-ad99-68e9263cb760').setUseDiskRetryCaching(true).start();
+appInsights
+  .setup('64e048ce-66b2-4bf2-ad99-68e9263cb760')
+  .setUseDiskRetryCaching(true)
+  .start();
 
 const client = appInsights.defaultClient;
 
 class ApplicationInsightsLogger {
-  isOnline = false;
-  error = '';
-  trackEventName = 'Unnamed Event';
-  isSyncing = false;
-
   constructor(dbFullPath, trackEventName) {
     this.dbFullPath = dbFullPath;
-    this.trackEventName = trackEventName;
+    this.trackEventName = trackEventName || 'Unnamed Event';
     this.dbTable = new Datastore({ filename: dbFullPath });
     this.dbTable.loadDatabase();
+    this.isSyncing = false;
+    this.error = '';
+    this.isOnline = false;
   }
 
   sync() {
@@ -26,28 +27,33 @@ class ApplicationInsightsLogger {
     this.isSyncing = true;
 
     this.dbTable.loadDatabase();
-    this.dbTable.find({}).limit(100).exec((err, entries) => {
-      const noLogs = entries.length === 0;
-      if (noLogs) {
-        this.isSyncing = false;
-        return
-      };
+    this.dbTable
+      .find({})
+      .limit(100)
+      .exec((error, entries) => {
+        if (error) throw error;
 
-      this.sendTrackEvent(entries);
-      this.confirmSync(entries);
-    });
+        const noLogs = entries.length === 0;
+        if (noLogs) {
+          this.isSyncing = false;
+          return;
+        }
+
+        this.sendTrackEvent(entries);
+        this.confirmSync(entries);
+      });
   }
 
   sendTrackEvent(entries) {
-    entries.forEach(entry => {
-      client.trackEvent({name: this.trackEventName, properties: entry});
-    })
+    entries.forEach((entry) => {
+      client.trackEvent({ name: this.trackEventName, properties: entry });
+    });
   }
 
   confirmSync(entries) {
     const bufferInterval = setInterval(() => {
       const isBufferEmpty = client.channel._buffer.length === 0;
-      if (!isBufferEmpty) return; 
+      if (!isBufferEmpty) return;
 
       this.removeSyncedEntries(entries);
       this.isSyncing = false;
@@ -57,8 +63,8 @@ class ApplicationInsightsLogger {
   }
 
   removeSyncedEntries(entries) {
-    entries.forEach(entry => {
-      this.dbTable.remove({ _id: entry._id})
+    entries.forEach((entry) => {
+      this.dbTable.remove({ _id: entry._id });
     });
   }
 
