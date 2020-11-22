@@ -1,9 +1,10 @@
+const path = require('path');
+require('dotenv').config({
+  path: path.resolve(__dirname, '.env'),
+});
 const Datastore = require('nedb');
 const appInsights = require('applicationinsights');
-appInsights
-  .setup('64e048ce-66b2-4bf2-ad99-68e9263cb760')
-  .setUseDiskRetryCaching(true)
-  .start();
+appInsights.setup(process.env.IKEY).setUseDiskRetryCaching(true).start();
 
 const client = appInsights.defaultClient;
 
