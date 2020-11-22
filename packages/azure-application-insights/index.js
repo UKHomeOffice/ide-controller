@@ -1,20 +1,11 @@
-// Global imports
-const path = require('path');
-const appInsights = require('applicationinsights');
-
 // Local imports
 const DB = require('./db');
-
-require('dotenv').config({
-  path: path.resolve(__dirname, '.env'),
-});
-appInsights.setup(process.env.IKEY).setUseDiskRetryCaching(true).start();
-const client = appInsights.defaultClient;
-
+const ApplicationInsights = require('./applicationInsights');
 class ApplicationInsightsLogger {
   constructor(tableFullPath, trackEventName) {
     this.trackEventName = trackEventName || 'Unnamed Event';
     this.dbTable = new DB(tableFullPath);
+    this.applicationInsights = new ApplicationInsights();
     this.isSyncing = false;
     this.error = '';
     this.isOnline = false;
@@ -48,20 +39,20 @@ class ApplicationInsightsLogger {
 
   sendTrackEvent(entries) {
     entries.forEach((entry) => {
-      client.trackEvent({ name: this.trackEventName, properties: entry });
+      this.applicationInsights.trackEvent(this.trackEventName, entry);
     });
   }
 
   confirmSync(entries) {
     const bufferInterval = setInterval(() => {
-      const isBufferEmpty = client.channel._buffer.length === 0;
-      if (!isBufferEmpty) return;
+      const bufferIsNotEmpty = !this.applicationInsights.isEmptyBuffer();
+      if (bufferIsNotEmpty) return;
 
       this.removeSyncedEntries(entries);
       this.isSyncing = false;
       this.sync();
       clearInterval(bufferInterval);
-    }, 5000);
+    }, 1000);
   }
 
   removeSyncedEntries(entries) {
