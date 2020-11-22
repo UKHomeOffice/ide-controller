@@ -1,6 +1,5 @@
 // Local imports
 import { sendToElectronStore } from './ipcMainEvents';
-import { START_OF_DOCUMENT_DATA } from '../config/EventSource';
 
 const ALLOWED_KEYS = [
   'DateOfBirth',
