@@ -19,6 +19,12 @@
 /*** LiveImage ***/
 .live-image {
   /* height is now width */
-  transform: rotate(90deg) scale(0.379) translate(-700px, 2000px);
+  &__video {
+    transform: rotate(90deg) scale($scale-factor) translate(-700px, 2000px);
+  }
+
+  &__canvas {
+    transform: scale($scale-factor) translate(-865px, -1782px);
+  }
 }
 /*** End LiveImage ***/
