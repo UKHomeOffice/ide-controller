@@ -42,13 +42,14 @@ export const getCameraDevices = async () => {
     }));
 };
 
-export const isBelowThreshold = (threshold = defaulThreshold) => {
+const isBelowThreshold = (threshold = defaulThreshold) => {
   if (!keypoints) return true;
   return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
 };
 
 const isAboveThreshold = (threshold = defaulThreshold) =>
   !isBelowThreshold(threshold);
+
 const isGoodRatio = ({
   sourceX,
   sourceY,
@@ -56,13 +57,14 @@ const isGoodRatio = ({
   calculatedHeight,
 }) => {
   const isYInsideFrame =
-    sourceY >= 0 && sourceY + calculatedHeight < video.height;
+    sourceY >= 0 && sourceY + calculatedHeight < video.width;
   const isXInsideFrame =
-    sourceX >= 0 && sourceX + calculatedWidth < video.width;
+    sourceX >= 0 && sourceX + calculatedWidth < video.height;
   return isYInsideFrame && isXInsideFrame;
 };
+
 const isGoodResolution = (width) => {
-  const resolutionPercentage = Math.round((width / video.width) * 100);
+  const resolutionPercentage = Math.round((width / video.height) * 100);
   return resolutionPercentage > imageResolution;
 };
 
