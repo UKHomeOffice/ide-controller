@@ -91,7 +91,14 @@ const extractKeypointsPosition = () => ({
 
 const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
+  /* 
+  This used to be calculated dynamically like this 👇
   const ratio = video.height / video.width;
+  But now because the image is rotated and part of it is hidden, we just calculate the visible box ratio 
+  To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
+  To calculate the ratio  = $live-image-height / $live-image-width
+  */
+  const ratio = 1.53;
   const xStart = Math.floor(rightEar.x) - margin / 2;
   const xEnd = Math.ceil(leftEar.x) + margin / 2;
   const sWidth = xEnd - xStart;
