@@ -1,3 +1,6 @@
+const uuid = require('uuid');
+const guid = `{${uuid.v4()}}`.toUpperCase();
+
 module.exports = {
   appId: 'com.homeoffice.ide-controller',
   copyright: 'Copyright Home Office',
@@ -21,6 +24,7 @@ module.exports = {
     target: ['nsis'],
   },
   nsis: {
+    guid: guid,
     installerIcon: 'build/icon.ico',
     uninstallerIcon: 'build/uninstallerIcon.ico',
     runAfterFinish: 'false',
