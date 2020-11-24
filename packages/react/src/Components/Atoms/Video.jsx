@@ -18,11 +18,13 @@ const Video = forwardRef(
     const setupCamera = async (options) => {
       const stream = await navigator.mediaDevices.getUserMedia(options);
       const video = videoRef.current;
-      video.srcObject = stream;
-      video.play();
-      video.addEventListener('pause', () =>
-        stream.getTracks().forEach((track) => track.stop())
-      );
+      if (video) {
+        video.srcObject = stream;
+        video.play();
+        video.addEventListener('pause', () =>
+          stream.getTracks().forEach((track) => track.stop())
+        );
+      }
     };
 
     const findDefaultCamera = async (defaultDeviceName) => {
@@ -53,6 +55,7 @@ const Video = forwardRef(
         width={captureOptions.video.width}
         height={captureOptions.video.height}
         className={className}
+        data-testid="atoms-video"
       />
     );
   }
