@@ -109,11 +109,8 @@ ipcMain.on('online-status-changed', (event, status) => {
 });
 
 const userStore = new Store();
-ipcMain.handle('addToStore', (event, key, value) => {
-  userStore.set(key, value);
-});
-ipcMain.handle('addExactToStore', (event, value) => {
-  userStore.setExact(value);
+ipcMain.handle('addToStore', (event, value) => {
+  userStore.set(value);
 });
 
 ipcMain.handle('saveToDesktop', (_, object) => {
