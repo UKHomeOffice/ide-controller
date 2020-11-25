@@ -1,6 +1,6 @@
 {
   "name": "idemia-reader-mock",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Idemia software reader mock response",
   "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
   "main": "index.js",
