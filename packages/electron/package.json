@@ -37,9 +37,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "nedb-logger": "^0.1.0",
     "nodemon": "^2.0.4",
-    "prettier": "^2.1.2"
-  },
-  "dependencies": {
+    "prettier": "^2.1.2",
     "uuid": "^8.3.1"
   }
 }
