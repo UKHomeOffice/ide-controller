@@ -1,6 +1,6 @@
 {
   "name": "IDE",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "electron app",
   "keywords": [
     "electron",
@@ -21,8 +21,11 @@
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js . --fix"
   },
+  "dependencies": {
+    "nedb-logger": "^0.1.0"
+  },
   "devDependencies": {
-    "React": "^0.0.6",
+    "React": "^0.0.7",
     "electron": "^10.1.1",
     "electron-builder": "^22.8.0",
     "eslint": "^7.9.0",
@@ -37,6 +40,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
-    "nedb-logger": "^0.1.0"
+    "uuid": "^8.3.1"
   }
 }
