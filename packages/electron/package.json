@@ -1,6 +1,6 @@
 {
   "name": "IDE",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "electron app",
   "keywords": [
     "electron",
@@ -27,11 +27,11 @@
     "lint:fix": "eslint --ext .js . --fix"
   },
   "dependencies": {
-    "nedb-logger": "^0.1.0",
-    "@ide-controller/azure-application-insights": "^0.0.7"
+    "@ide-controller/azure-application-insights": "^0.0.7",
+    "nedb-logger": "^0.1.0"
   },
   "devDependencies": {
-    "React": "^0.0.7",
+    "React": "^0.0.8",
     "electron": "^10.1.1",
     "electron-builder": "^22.8.0",
     "eslint": "^7.9.0",
