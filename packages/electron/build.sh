@@ -7,4 +7,4 @@ docker run --rm \
  -v ${PWD}:/project \
  -v ${PWD}/node_modules:/project/node_modules \
  -v ~/.cache/electron:/root/.cache/electron \
- electronuserland/builder:wine /bin/bash -c "yarn dist"
+ electronuserland/builder:wine /bin/bash -c "npm run dist"
