@@ -16,10 +16,7 @@ const fs = require('fs');
 const ideMenu = require('./menu');
 const Store = require('./store');
 const executeWindowsCommand = require('./util/windows');
-const azureApplicationInsights = path.resolve(
-  __dirname,
-  '../azure-application-insights'
-);
+const azureApplicationInsights = require('@ide-controller/azure-application-insights');
 const ApplicationInsightsLogger = require(azureApplicationInsights);
 
 // Keep a global reference of the window object, if you don't, the window will

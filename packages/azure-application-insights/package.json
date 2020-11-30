@@ -12,7 +12,7 @@
   "author": "Viable Data",
   "homepage": "https://github.com/UKHomeOffice/ide-controller/tree/master/packages/azure-application-insights",
   "license": "ISC",
-  "main": "index.js",
+  "main": "index",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
