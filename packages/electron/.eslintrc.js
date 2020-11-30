@@ -11,7 +11,12 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['prettier'],
-  ignorePatterns: ['/node_modules', '/dist', '/build'],
+  ignorePatterns: [
+    '/node_modules',
+    '/dist',
+    '/build',
+    '/azure-application-insights',
+  ],
   rules: {
     quotes: ['error', 'single'],
     eqeqeq: 'error',
