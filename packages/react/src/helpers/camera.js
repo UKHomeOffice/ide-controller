@@ -100,9 +100,10 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
   To calculate the ratio  = $live-image-height / $live-image-width
   */
-  const ratio = 1.53;
-  const xStart = Math.floor(rightEar.x) - margin / 2;
-  const xEnd = Math.ceil(leftEar.x) + margin / 2;
+  const ratio = 1.525;
+  const xOneSideMargin = margin / 2;
+  const xStart = Math.floor(rightEar.x) - xOneSideMargin;
+  const xEnd = Math.ceil(leftEar.x) + xOneSideMargin;
   const sWidth = xEnd - xStart;
   const sHeight = sWidth * ratio;
   const yStart = Math.floor(nose.y) - sHeight / 1.7;
