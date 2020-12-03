@@ -10,6 +10,10 @@
   "author": "Viable Data",
   "license": "ISC",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
+  },
   "files": [
     "dist"
   ],
@@ -18,6 +22,7 @@
     "dev": "ENV=development nodemon --exec electron .",
     "build": "bash build.sh",
     "dist": "rm -rf dist && ENV=production electron-builder -w",
+    "release": "rm -rf dist && ENV=production electron-builder -w -p onTagOrDraft",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js . --fix"
   },
@@ -42,4 +47,4 @@
     "prettier": "^2.1.2",
     "uuid": "^8.3.1"
   }
-}
+} 
