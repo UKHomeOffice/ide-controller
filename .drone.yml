@@ -11,6 +11,7 @@ pipeline:
   unit_tests:
     image: quay.io/ukhomeofficedigital/node-10
     commands:
+      - npm install
       - npm run lint
       - npm run test
     when:
