@@ -1,6 +1,6 @@
 // Global imports
 import React from 'react';
-import { render, screen, fireEvent, wait } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-canvas-mock';
 
