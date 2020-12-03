@@ -4,7 +4,7 @@ pipeline:
     commands:
       - node -v
       - npm -v
-      - npm ci --silent
+      - npm install
     when:
       event: push
 
