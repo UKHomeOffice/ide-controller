@@ -93,7 +93,7 @@ const LiveImage = ({ cameraId }) => {
       )}
       {showCanvas && (
         <CanvasImage
-          className="live-image__canvas position-absolute"
+          className="position-absolute"
           sourceImage={{
             image: rotatedCanvas,
             x: sourceImageOptions.sourceX,
@@ -103,8 +103,8 @@ const LiveImage = ({ cameraId }) => {
           }}
           ref={canvasRef}
           destinationImage={{
-            width: livePhotoConfig.video.height,
-            height: livePhotoConfig.video.width,
+            width: livePhotoConfig.canvas.width,
+            height: livePhotoConfig.canvas.height,
           }}
         />
       )}
