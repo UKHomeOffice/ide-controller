@@ -16,7 +16,7 @@ const fs = require('fs');
 const ideMenu = require('./menu');
 const Store = require('./store');
 const executeWindowsCommand = require('./util/windows');
-const ApplicationInsightsLogger = require('./azure-application-insights');
+const ApplicationInsightsLogger = require('azure-application-insights');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
