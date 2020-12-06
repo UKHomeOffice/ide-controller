@@ -1,7 +1,7 @@
 {
-  "name": "ide-controller-azure-application-insights",
+  "name": "azure-application-insights",
   "version": "0.0.8",
-  "description": "Micro service for ide-controller application to handle the log file",
+  "description": "Micro service for ide-controller application to sync log file to Azure Monitor",
   "keywords": [
     "Azure",
     "Monitor",

@@ -1,6 +1,7 @@
 // Local imports
 const DB = require('./db');
-const ApplicationInsights = require('./applicationInsights');
+const ApplicationInsights = require('./appInsights');
+
 class ApplicationInsightsLogger {
   constructor(tableFullPath, trackEventName) {
     this.trackEventName = trackEventName || 'Unnamed Event';
