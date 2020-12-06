@@ -1,5 +1,5 @@
 {
-  "name": "IDE",
+  "name": "ide",
   "version": "0.0.8",
   "description": "electron app",
   "keywords": [
@@ -21,15 +21,14 @@
     "start": "electron .",
     "dev": "ENV=development nodemon --exec electron .",
     "build": "bash build.sh",
-    "dist": "rm -rf dist && ENV=production electron-builder -w",
-    "release": "rm -rf dist && ENV=production electron-builder -w -p onTagOrDraft",
+    "dist": "ENV=production electron-builder -w",
+    "release": "ENV=production electron-builder -w -p onTagOrDraft",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --ext .js . --fix"
   },
   "dependencies": {
-    "nedb-logger": "^0.1.0",
-    "applicationinsights": "^1.8.8",
-    "dotenv": "^8.2.0"
+    "azure-application-insights": "^0.0.8",
+    "nedb-logger": "^0.1.0"
   },
   "devDependencies": {
     "@ide-controller/react": "^0.0.8",
