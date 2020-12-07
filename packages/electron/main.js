@@ -11,12 +11,13 @@ const {
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const ApplicationInsightsLogger = require('azure-application-insights');
 
 // Local imports
 const ideMenu = require('./menu');
 const Store = require('./store');
 const executeWindowsCommand = require('./util/windows');
-const ApplicationInsightsLogger = require('azure-application-insights');
+const packagejson = require('./package.json');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -119,7 +120,7 @@ ipcMain.on('online-status-changed', (event, status) => {
 
 const userStore = new Store();
 ipcMain.handle('addToStore', (event, value) => {
-  userStore.set(value);
+  userStore.set({ ...value, version: packagejson.version });
   applicationInsightsLogger.sync();
 });
 
