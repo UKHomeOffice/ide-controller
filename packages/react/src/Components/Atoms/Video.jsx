@@ -38,7 +38,7 @@ const Video = forwardRef(
         const selectedDeviceId =
           cameraId ||
           (sourceModel
-            ? (await findDefaultCamera(sourceModel)).deviceId
+            ? (await findDefaultCamera(sourceModel))?.deviceId
             : null);
         const videoOptions = selectedDeviceId
           ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
