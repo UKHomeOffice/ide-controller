@@ -1,5 +1,4 @@
 // Global imports
-import * as tf from '@tensorflow/tfjs'; // eslint-disable-line
 import * as posenet from '@tensorflow-models/posenet';
 
 // Local imports
