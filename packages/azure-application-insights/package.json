@@ -1,0 +1,40 @@
+{
+  "name": "azure-application-insights",
+  "version": "0.0.10",
+  "description": "Micro service for ide-controller application to sync log file to Azure Monitor",
+  "keywords": [
+    "Azure",
+    "Monitor",
+    "Publisher",
+    "REST",
+    "API"
+  ],
+  "author": "Viable Data",
+  "homepage": "https://github.com/UKHomeOffice/ide-controller/tree/master/packages/azure-application-insights",
+  "license": "ISC",
+  "main": "index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/ide-controller/issues"
+  },
+  "dependencies": {
+    "applicationinsights": "^1.8.8",
+    "dotenv": "^8.2.0",
+    "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "^2.2.0"
+  }
+}

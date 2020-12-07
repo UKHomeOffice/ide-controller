@@ -1,8 +1,9 @@
 {
-  "name": "React",
-  "version": "0.0.7",
+  "name": "@ide-controller/react",
+  "version": "0.0.10",
   "private": true,
   "homepage": "./",
+  "author": "Viable Data",
   "scripts": {
     "dev": "BROWSER=none CI=true react-scripts start",
     "build": "react-scripts build",

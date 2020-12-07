@@ -1,11 +1,12 @@
 {
   "name": "@ide-controller/docs",
   "private": true,
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "Documentation for IDE-Controller",
   "homepage": "https://github.com/UKHomeOffice/ide-controller#readme",
   "license": "ISC",
   "main": "index.js",
+  "author": "Viable Data",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/UKHomeOffice/ide-controller.git"
