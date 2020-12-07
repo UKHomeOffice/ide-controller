@@ -1,5 +1,4 @@
 // Global imports
-import * as tf from '@tensorflow/tfjs'; // eslint-disable-line
 import * as posenet from '@tensorflow-models/posenet';
 
 // Local imports
@@ -30,8 +29,7 @@ const loadPosenet = () =>
 
 export const estimateSinglePose = async (frame) => {
   if (!net) net = await loadPosenet();
-  /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
-  return net.estimateSinglePose(frame, 0.5, false, 16);
+  return net.estimateSinglePose(frame);
 };
 
 export const getCameraDevices = async () => {
