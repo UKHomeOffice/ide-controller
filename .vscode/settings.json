@@ -1,5 +1,25 @@
 {
   "cSpell.words": [
     "eqeqeq"
-  ]
+  ],
+  "editor.formatOnSave": true,
+  "eslint.workingDirectories": ["./packages/react", "./packages/electron/", "./packages/azure-application-insights/"],
+  "[javascript]": {
+    // "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // "editor.codeActionsOnSave": {
+    //   "source.organizeImports": true
+    // },
+    "editor.formatOnSave": false
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false
+    // "editor.codeActionsOnSave": {
+    //   "source.organizeImports": true
+    // }
+  },
+  "prettier.disableLanguages": ["javascript", "javascriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+    // "source.fixAll.eslint": false
+  },
 }
