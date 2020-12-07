@@ -34,7 +34,7 @@ const LiveImage = ({ cameraId }) => {
     setSourceImageOptions(croppedImageCoordination);
     const isBadQuality = !isGoodPicture(croppedImageCoordination);
     if (isBadQuality) {
-      setTimeout(() => estimate(), 50);
+      setTimeout(() => estimate(), 500);
     } else {
       logDataEvent('Livephoto', 'Taken');
       videoRef.current.pause();
@@ -49,7 +49,7 @@ const LiveImage = ({ cameraId }) => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', async () => {
-      setTimeout(estimate, 1000);
+      setTimeout(estimate);
     });
     setScoreContext({});
     logDataEvent('Livephoto', 'Initialised');
