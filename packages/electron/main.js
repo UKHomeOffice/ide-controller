@@ -131,17 +131,17 @@ ipcMain.handle('saveToDesktop', (_, object) => {
 });
 
 process.on('exit', (code) => {
-  userStore.set('ApplicationExit', 'Process exit event');
+  userStore.set('ApplicationExit', 'Process exit event', 'Application Status');
 });
 
 process.on('uncaughtException', (err, origin) => {
   userStore.set('ERROR', { error: err, origin: origin });
 });
 process.on('warning', (warning) => {
-  userStore.set('WARNING', { warning });
+  userStore.set('WARNING', { warning }, 'WARNING');
 });
-userStore.set('ApplicationStart', 'Success');
-userStore.set('networkInterfaces', os.networkInterfaces());
+userStore.set('ApplicationStart', 'Success', 'Application Status');
+userStore.set('networkInterfaces', os.networkInterfaces(), 'Network Status');
 
 /* eslint-disable */
 executeWindowsCommand(

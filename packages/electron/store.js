@@ -8,8 +8,9 @@ class Store {
     this.logger = new Logger({ filename: this.path });
   }
 
-  set(key, value) {
-    const logData = value ? { [key]: value } : key;
+  set(key, value, trackEventName) {
+    let logData = value ? { [key]: value } : key;
+    logData = trackEventName ? { ...logData, trackEventName } : logData;
     this.logger.insert({ ...logData, created_at: Date.now() });
   }
 
