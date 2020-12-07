@@ -42,13 +42,14 @@ export const getCameraDevices = async () => {
     }));
 };
 
-export const isBelowThreshold = (threshold = defaulThreshold) => {
+const isBelowThreshold = (threshold = defaulThreshold) => {
   if (!keypoints) return true;
   return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
 };
 
 const isAboveThreshold = (threshold = defaulThreshold) =>
   !isBelowThreshold(threshold);
+
 const isGoodRatio = ({
   sourceX,
   sourceY,
@@ -56,13 +57,14 @@ const isGoodRatio = ({
   calculatedHeight,
 }) => {
   const isYInsideFrame =
-    sourceY >= 0 && sourceY + calculatedHeight < video.height;
+    sourceY >= 0 && sourceY + calculatedHeight < video.width;
   const isXInsideFrame =
-    sourceX >= 0 && sourceX + calculatedWidth < video.width;
+    sourceX >= 0 && sourceX + calculatedWidth < video.height;
   return isYInsideFrame && isXInsideFrame;
 };
+
 const isGoodResolution = (width) => {
-  const resolutionPercentage = Math.round((width / video.width) * 100);
+  const resolutionPercentage = Math.round((width / video.height) * 100);
   return resolutionPercentage > imageResolution;
 };
 
@@ -91,9 +93,17 @@ const extractKeypointsPosition = () => ({
 
 const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
+  /* 
+  This used to be calculated dynamically like this 👇
   const ratio = video.height / video.width;
-  const xStart = Math.floor(rightEar.x) - margin / 2;
-  const xEnd = Math.ceil(leftEar.x) + margin / 2;
+  But now because the image is rotated and part of it is hidden, we just calculate the visible box ratio 
+  To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
+  To calculate the ratio  = $live-image-height / $live-image-width
+  */
+  const ratio = 1.525;
+  const xOneSideMargin = margin / 2;
+  const xStart = Math.floor(rightEar.x) - xOneSideMargin;
+  const xEnd = Math.ceil(leftEar.x) + xOneSideMargin;
   const sWidth = xEnd - xStart;
   const sHeight = sWidth * ratio;
   const yStart = Math.floor(nose.y) - sHeight / 1.7;

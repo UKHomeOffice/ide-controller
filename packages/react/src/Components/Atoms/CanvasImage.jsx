@@ -20,6 +20,7 @@ const CanvasImage = forwardRef(
         width={destinationImage.width}
         height={destinationImage.height}
         className={className}
+        data-testid="atoms-canvas-image"
       />
     );
   }

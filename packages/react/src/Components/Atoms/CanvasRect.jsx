@@ -22,6 +22,7 @@ const CanvasRect = forwardRef(
         width={width}
         height={height}
         className={className}
+        data-testid="atoms-canvas-rect"
       />
     );
   }

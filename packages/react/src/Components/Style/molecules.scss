@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .dragable {
   -webkit-app-region: drag;
   padding-top: 10px;
@@ -13,3 +15,16 @@
     }
   }
 }
+
+/*** LiveImage ***/
+.live-image {
+  /* height is now width */
+  &__video {
+    transform: rotate(90deg) scale($scale-factor) translate(-700px, 2000px);
+  }
+
+  &__canvas {
+    transform: scale($scale-factor) translate(-865px, -1782px);
+  }
+}
+/*** End LiveImage ***/

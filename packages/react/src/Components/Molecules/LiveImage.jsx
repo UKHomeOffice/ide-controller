@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Local imports
-import { livePhotoConfig } from '../../config/camera';
 import {
   getCroppedImageCoordination,
   isGoodPicture,
@@ -12,6 +11,16 @@ import { CanvasImage, CanvasRect, Video } from '../Atoms';
 import { LivePhotoContext } from '../Context/LivePhoto';
 import { ScoreContext } from '../Context';
 import { logDataEvent } from '../../helpers/log';
+import { createAndRotateCanvas } from '../../helpers/canvas';
+
+// Config
+import { livePhotoConfig } from '../../config/camera';
+
+const rotatedCanvas = createAndRotateCanvas(
+  livePhotoConfig.video.height,
+  livePhotoConfig.video.width
+);
+const context = rotatedCanvas.getContext('2d');
 
 const LiveImage = ({ cameraId }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
@@ -28,20 +37,23 @@ const LiveImage = ({ cameraId }) => {
   const estimate = async () => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
+
+    context.drawImage(videoRef.current, 0, 0);
+
     const croppedImageCoordination = await getCroppedImageCoordination(
-      videoRef.current
+      rotatedCanvas
     );
     setSourceImageOptions(croppedImageCoordination);
     const isBadQuality = !isGoodPicture(croppedImageCoordination);
     if (isBadQuality) {
-      setTimeout(() => estimate(), 50);
+      setTimeout(estimate, 50);
     } else {
       logDataEvent('Livephoto', 'Taken');
       videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: canvasRef.current.toDataURL('image/jpeg'),
+        image: rotatedCanvas.toDataURL('image/jpeg'),
         timestamp: Date.now(),
       });
     }
@@ -56,20 +68,20 @@ const LiveImage = ({ cameraId }) => {
   }, []);
 
   return (
-    <div className="position-relative">
+    <div className="live-image photoContainer--photo position-relative">
       {showVideo && (
         <>
           <Video
             ref={videoRef}
             cameraId={cameraId}
             captureOptions={livePhotoConfig}
-            className="photoContainer--photo"
+            className="live-image__video"
           />
           <CanvasRect
-            className="photoContainer--photo position-absolute"
+            className="live-image__canvas position-absolute"
             ref={guidCanvasRef}
-            width={livePhotoConfig.video.width}
-            height={livePhotoConfig.video.height}
+            width={livePhotoConfig.video.height}
+            height={livePhotoConfig.video.width}
             coordinate={{
               x: sourceImageOptions.sourceX,
               y: sourceImageOptions.sourceY,
@@ -81,9 +93,9 @@ const LiveImage = ({ cameraId }) => {
       )}
       {showCanvas && (
         <CanvasImage
-          className="photoContainer--photo"
+          className="position-absolute"
           sourceImage={{
-            image: videoRef.current,
+            image: rotatedCanvas,
             x: sourceImageOptions.sourceX,
             y: sourceImageOptions.sourceY,
             width: sourceImageOptions.calculatedWidth,
@@ -91,10 +103,8 @@ const LiveImage = ({ cameraId }) => {
           }}
           ref={canvasRef}
           destinationImage={{
-            x: 0,
-            y: 0,
-            width: livePhotoConfig.video.width,
-            height: livePhotoConfig.video.height,
+            width: livePhotoConfig.canvas.width,
+            height: livePhotoConfig.canvas.height,
           }}
         />
       )}

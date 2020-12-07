@@ -4,13 +4,14 @@ pipeline:
     commands:
       - node -v
       - npm -v
-      - npm ci --silent
+      - npm install
     when:
       event: push
 
   unit_tests:
     image: quay.io/ukhomeofficedigital/node-10
     commands:
+      - npm install
       - npm run lint
       - npm run test
     when:

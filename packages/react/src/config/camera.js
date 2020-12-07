@@ -1,12 +1,12 @@
 export const livePhotoConfig = {
   video: {
-    width: 708.3,
+    width: 1920,
     height: 1080,
     sourceModel: 'C920',
   },
   canvas: {
-    width: 300,
-    height: 350,
+    width: 405,
+    height: 617.5,
   },
   threshold: 0.8,
   zoomFactor: 0.85,
