@@ -8,7 +8,7 @@ import { ScoreProvider } from './Components/Context/Score';
 import { StatusProvider } from './Components/Context/Status';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
-import { sendCameraDevices } from './helpers/ipcMainEvents';
+import { sendCameraDevices, sendGeolocation } from './helpers/ipcMainEvents';
 import {
   END_OF_DOCUMENT_DATA,
   READER_STATUS,
@@ -31,6 +31,7 @@ const App = () => {
   // On Startup
   useEffect(() => {
     sendCameraDevices();
+    sendGeolocation();
   }, []);
 
   // Doc reader
