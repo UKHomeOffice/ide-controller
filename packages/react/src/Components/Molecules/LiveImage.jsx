@@ -51,7 +51,7 @@ const LiveImage = ({ cameraId }) => {
     setIsGoodQuality(syncedIsGoodQuality);
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
-    if (imageQualityCounter < 10) {
+    if (imageQualityCounter < 20) {
       setTimeout(estimate, 50);
     } else {
       logDataEvent('Livephoto', 'Taken');
