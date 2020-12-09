@@ -40,7 +40,8 @@ class ApplicationInsightsLogger {
 
   sendTrackEvent(entries) {
     entries.forEach((entry) => {
-      this.applicationInsights.trackEvent(this.trackEventName, entry);
+      const trackEventName = entry.trackEventName || this.trackEventName;
+      this.applicationInsights.trackEvent(trackEventName, entry);
     });
   }
 
