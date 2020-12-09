@@ -7,12 +7,13 @@ import { isEmpty } from '../../helpers/common';
 import { paintRec } from '../../helpers/canvas';
 
 const CanvasRect = forwardRef(
-  ({ coordinate, width, height, className }, canvasRef) => {
+  ({ coordinate, width, height, className, isGoodQuality }, canvasRef) => {
     const rePaintRec = () => {
       if (isEmpty(canvasRef)) return;
       const context = canvasRef.current.getContext('2d');
       context.clearRect(0, 0, width, height);
-      paintRec(context, coordinate);
+      const colour = isGoodQuality ? '#cb2431' : '#cb2431';
+      paintRec(context, coordinate, colour);
     };
     useEffect(rePaintRec, [coordinate]);
 
@@ -38,6 +39,7 @@ CanvasRect.propTypes = {
     height: PropTypes.number,
   }),
   className: PropTypes.string,
+  isGoodQuality: PropTypes.bool,
 };
 
 CanvasRect.defaultProps = {
@@ -49,6 +51,7 @@ CanvasRect.defaultProps = {
     width: 100,
     heigh: 100,
   },
+  isGoodQuality: false,
   className: null,
 };
 

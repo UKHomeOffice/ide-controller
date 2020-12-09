@@ -33,6 +33,9 @@ const LiveImage = ({ cameraId }) => {
   const [showVideo, setShowVideo] = useState(true);
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
+  const [isGoodQuality, setIsGoodQuality] = useState(false);
+
+  let imageQualityCounter = 0;
 
   const estimate = async () => {
     const isCameraOffline = !videoRef.current;
@@ -44,8 +47,11 @@ const LiveImage = ({ cameraId }) => {
       rotatedCanvas
     );
     setSourceImageOptions(croppedImageCoordination);
-    const isBadQuality = !isGoodPicture(croppedImageCoordination);
-    if (isBadQuality) {
+    const syncedIsGoodQuality = isGoodPicture(croppedImageCoordination);
+    setIsGoodQuality(syncedIsGoodQuality);
+    imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
+
+    if (imageQualityCounter < 5) {
       setTimeout(estimate, 50);
     } else {
       logDataEvent('Livephoto', 'Taken');
@@ -80,6 +86,7 @@ const LiveImage = ({ cameraId }) => {
           <CanvasRect
             className="live-image__canvas position-absolute"
             ref={guidCanvasRef}
+            isGoodQuality={isGoodQuality}
             width={livePhotoConfig.video.height}
             height={livePhotoConfig.video.width}
             coordinate={{
