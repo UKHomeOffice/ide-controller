@@ -8,6 +8,7 @@ const Image = ({ image, imageAlt, className }) => {
       className={`photoContainer--photo ${className}`}
       alt={imageAlt}
       style={{ backgroundImage: `url(${image})` }}
+      data-testid="atoms-image"
     />
   );
 };
