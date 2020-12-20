@@ -143,11 +143,13 @@ process.on('warning', (warning) => {
 userStore.set('ApplicationStart', 'Success', 'Application Status');
 userStore.set('networkInterfaces', os.networkInterfaces(), 'Network Status');
 
-/* eslint-disable */
-executeWindowsCommand(
-  'Start "Doc Reader" /b "%JAVA_HOME%\javaw.exe" -jar "%IDE_DOCUMENT_READER%"'
-);
-executeWindowsCommand(
-  'Start "MorphoKit" /D "%MORPHO_HOME%" /b "%JAVA_HOME%\javaw.exe" -jar "%IDE_BIOMETRICS%"'
-);
-/* eslint-enable */
+if (!isDev) {
+  /* eslint-disable */
+  executeWindowsCommand(
+    'Start "Doc Reader" /b "%JAVA_HOME%\javaw.exe" -jar "%IDE_DOCUMENT_READER%"'
+  );
+  executeWindowsCommand(
+    'Start "MorphoKit" /D "%MORPHO_HOME%" /b "%JAVA_HOME%\javaw.exe" -jar "%IDE_BIOMETRICS%"'
+  );
+    /* eslint-enable */
+}
