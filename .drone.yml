@@ -1,13 +1,4 @@
 pipeline:
-  install:
-    image: quay.io/ukhomeofficedigital/node-10
-    commands:
-      - node -v
-      - npm -v
-      - npm install
-    when:
-      event: push
-
   unit_tests:
     image: quay.io/ukhomeofficedigital/node-10
     commands:

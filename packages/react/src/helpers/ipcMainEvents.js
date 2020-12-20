@@ -20,7 +20,7 @@ export const sendGeolocation = async () => {
     ipcRenderer.invoke('addToStore', 'Location', crd);
   };
 
-  const error = (error) => {};
+  const error = () => {};
   navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
