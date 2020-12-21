@@ -66,5 +66,4 @@ typings/
 .env
 
 # lockfile
-package-lock.json
 yarn.lock
