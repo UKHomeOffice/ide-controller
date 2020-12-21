@@ -4,7 +4,10 @@ import React from 'react';
 
 const Tag = ({ tagText, tagStatus }) => {
   return (
-    <strong className={`govuk-tag font--19pt bg--${tagStatus}`}>
+    <strong
+      className={`govuk-tag font--19pt bg--${tagStatus}`}
+      data-testid="atoms-tag"
+    >
       {tagText}
     </strong>
   );
