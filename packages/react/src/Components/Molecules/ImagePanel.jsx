@@ -31,6 +31,13 @@ const makeImageCard = (key, event, statusBar = false) => {
   );
 };
 
+const chipStatusTextMap = {
+  failed: 'Scanner not connected',
+  success: 'Scanner connected',
+  loading: 'Reading ID document',
+  noData: 'No chip found in document',
+};
+
 const ImagePanel = ({ isActive }) => {
   const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
     EventSourceContext
@@ -68,13 +75,6 @@ const ImagePanel = ({ isActive }) => {
   const [documentStatus, setDocumentStatus] = useState();
   const [chipStatusBarText, setChipStatusBarText] = useState('');
   const [documentStatusBarText, setDocumentStatusBarText] = useState('');
-
-  const chipStatusTextMap = {
-    failed: 'Scanner not connected',
-    success: 'Scanner connected',
-    loading: 'Reading ID document',
-    noData: 'No chip found in document',
-  };
 
   // watch chip image
   useEffect(() => {
