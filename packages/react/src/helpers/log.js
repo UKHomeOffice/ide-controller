@@ -77,4 +77,4 @@ export const logDataEvent = (key, data) => {
   }
 };
 
-export default {};
+export default () => currentData;
