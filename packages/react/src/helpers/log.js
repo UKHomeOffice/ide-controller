@@ -1,5 +1,6 @@
 // Local imports
 import { sendToElectronStore } from './ipcMainEvents';
+import { sha256hash } from './common';
 
 const ALLOWED_KEYS = [
   'DateOfBirth',
@@ -7,6 +8,7 @@ const ALLOWED_KEYS = [
   'IssuingState',
   'Nationality',
   'Sex',
+  'Data',
 ];
 
 let currentData = {};
@@ -21,10 +23,12 @@ const resetCurrentData = () => {
 resetCurrentData();
 
 const CD_CODELINE_DATA = (data) => {
-  Object.keys(data.codelineData).forEach((entry) => {
+  Object.keys(data.codelineData).forEach(async (entry) => {
     if (ALLOWED_KEYS.includes(entry)) {
       if (entry === 'DateOfBirth') {
         currentData.YearOfBirth = data.codelineData[entry].Year;
+      } else if (entry === 'Data') {
+        currentData.MRZ = await sha256hash(data.codelineData[entry]);
       } else {
         currentData[entry] = data.codelineData[entry];
       }
