@@ -1,4 +1,5 @@
 // Global imports
+// eslint-disable-next-line
 import * as ts from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
 
