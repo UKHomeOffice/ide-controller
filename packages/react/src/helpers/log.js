@@ -28,7 +28,7 @@ const CD_CODELINE_DATA = (data) => {
       if (entry === 'DateOfBirth') {
         currentData.YearOfBirth = data.codelineData[entry].Year;
       } else if (entry === 'Data') {
-        currentData.MRZ = await sha256hash(data.codelineData[entry]);
+        currentData.mrzHash = await sha256hash(data.codelineData[entry]);
       } else {
         currentData[entry] = data.codelineData[entry];
       }
