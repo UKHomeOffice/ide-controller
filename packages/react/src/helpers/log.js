@@ -1,6 +1,10 @@
 // Local imports
 import { sendToElectronStore } from './ipcMainEvents';
 import { sha256hash } from './common';
+import {
+  END_OF_DOCUMENT_DATA,
+  START_OF_DOCUMENT_DATA,
+} from '../config/EventSource';
 
 const ALLOWED_KEYS = [
   'DateOfBirth',
@@ -12,6 +16,7 @@ const ALLOWED_KEYS = [
 ];
 
 let currentData = {};
+let documentStartEventTimestamp;
 
 const resetCurrentData = () => {
   currentData = {
@@ -51,6 +56,12 @@ export const logDataEvent = (key, data) => {
       currentData.uuid = data;
       break;
     case 'PAGE_READER_EVENT':
+      if (data.event === START_OF_DOCUMENT_DATA) {
+        documentStartEventTimestamp = Date.now();
+      } else if (data.event === END_OF_DOCUMENT_DATA) {
+        currentData.scanDuration =
+          (Date.now() - documentStartEventTimestamp) / 1000;
+      }
       currentData.PAGE_READER_EVENT.push(data.event);
       break;
     case 'CD_IMAGEIR':
