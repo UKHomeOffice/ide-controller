@@ -100,7 +100,7 @@ const App = () => {
       bioImage: CD_IMAGEPHOTO.image,
       liveImage: image.replace('data:image/jpeg;base64,', ''),
       uuid,
-      mrzHash: logData().MRZ,
+      mrzHash: logData().mrzHash,
     })
       .then((res) => {
         logDataEvent('matchingScore', JSON.parse(res));
