@@ -5,17 +5,18 @@ module.exports = {
     node: true,
     jest: false,
   },
-  extends: ['standard', 'prettier'],
+  extends: ['standard', 'prettier', 'plugin:testcafe/recommended'],
   parserOptions: {
     ecmaVersion: 10,
     sourceType: 'module',
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'testcafe'],
   ignorePatterns: [
     '/node_modules',
     '/dist',
     '/build',
     '/azure-application-insights',
+    '/output',
   ],
   rules: {
     quotes: ['error', 'single'],

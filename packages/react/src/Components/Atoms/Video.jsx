@@ -16,7 +16,7 @@ const Video = forwardRef(
     });
 
     const setupCamera = async (options) => {
-      const stream = await navigator.mediaDevices.getUserMedia(options);
+      const stream = await navigator.mediaDevices?.getUserMedia(options);
       const video = videoRef.current;
       if (video) {
         video.srcObject = stream;
@@ -29,7 +29,7 @@ const Video = forwardRef(
 
     const findDefaultCamera = async (defaultDeviceName) => {
       const cameraDevices = await getCameraDevices();
-      return cameraDevices.find((device) =>
+      return cameraDevices?.find((device) =>
         device.label.includes(defaultDeviceName)
       );
     };

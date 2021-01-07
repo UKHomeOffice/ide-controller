@@ -16,7 +16,7 @@ import {
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
-import { logDataEvent } from './helpers/log';
+import logData, { logDataEvent } from './helpers/log';
 import './helpers/globalError';
 
 initOnlineStatus();
@@ -100,6 +100,7 @@ const App = () => {
       bioImage: CD_IMAGEPHOTO.image,
       liveImage: image.replace('data:image/jpeg;base64,', ''),
       uuid,
+      mrzHash: logData().mrzHash,
     })
       .then((res) => {
         logDataEvent('matchingScore', JSON.parse(res));

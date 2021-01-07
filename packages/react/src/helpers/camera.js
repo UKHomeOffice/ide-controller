@@ -1,4 +1,6 @@
 // Global imports
+// eslint-disable-next-line
+import * as ts from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
 
 // Local imports
@@ -34,8 +36,10 @@ export const estimateSinglePose = async (frame) => {
 };
 
 export const getCameraDevices = async () => {
-  return (await navigator.mediaDevices.enumerateDevices())
-    .filter((device) => device.kind === 'videoinput')
+  const enumerateDevices = await navigator.mediaDevices?.enumerateDevices();
+
+  return enumerateDevices
+    ?.filter((device) => device.kind === 'videoinput')
     .map((device) => ({
       label: device.label,
       deviceId: device.deviceId,
