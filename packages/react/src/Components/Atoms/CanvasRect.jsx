@@ -12,7 +12,7 @@ const CanvasRect = forwardRef(
       if (isEmpty(canvasRef)) return;
       const context = canvasRef.current.getContext('2d');
       context.clearRect(0, 0, width, height);
-      const colour = isGoodQuality ? '#cb2431' : '#cb2431';
+      const colour = isGoodQuality ? '#2ea44f' : '#cb2431';
       paintRec(context, coordinate, colour);
     };
     useEffect(rePaintRec, [coordinate]);
