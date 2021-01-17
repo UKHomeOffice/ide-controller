@@ -72,8 +72,8 @@ const MRZTable = () => {
         />
         <MRZTableRow
           heading="MRZ"
-          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA)}
-          MRZData={formtMRZData(CD_CODELINE_DATA)}
+          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA)}
+          MRZData={formtMRZData(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
         />
       </tbody>
     </table>
