@@ -11,12 +11,14 @@ const MRZTableRow = ({ heading, chipData, MRZData }) => {
       >
         {heading}
       </th>
-      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all">
-        {chipData}
-      </td>
-      <td className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all padding-right-20">
-        {MRZData}
-      </td>
+      <td
+        className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all"
+        dangerouslySetInnerHTML={{ __html: chipData }}
+      />
+      <td
+        className="govuk-table__cell font--19pt govuk-!-width-one-third word-break-all padding-right-20"
+        dangerouslySetInnerHTML={{ __html: MRZData }}
+      />
     </tr>
   );
 };
