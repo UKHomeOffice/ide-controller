@@ -25,4 +25,17 @@ export const sha256hash = async (message) => {
   return hashHex;
 };
 
+export const findDiff = (str1, str2) => {
+  const diff = [];
+  str2.split('').forEach((val, i) => {
+    if (val !== str1.charAt(i)) diff.push(val);
+    else if (diff[diff.length - 1] === ',');
+    else diff.push(',');
+  });
+  return diff
+    .join('')
+    .split(',')
+    .filter((item) => !!item);
+};
+
 export default {};
