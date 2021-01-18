@@ -84,7 +84,6 @@ export const logDataEvent = (key, data) => {
       currentData.scanToScoreDuration =
         (Date.now() - documentStartEventTimestamp) / 1000;
       sendToElectronStore(currentData);
-      resetCurrentData();
       break;
     default:
   }
