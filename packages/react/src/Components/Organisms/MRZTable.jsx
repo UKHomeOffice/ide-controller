@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 // Local imports
 import { EventSourceContext } from '../Context/EventSource';
 import { MRZTableRow, MRZTableHeading } from '../Molecules';
+import { escapeHtml } from '../../helpers/common';
 
 const getDocNumber = (docData) => {
   return docData ? docData.codelineData.DocNumber : 'No Data';
@@ -46,13 +47,7 @@ const formtMRZData = (docData, chipData) => {
       else diff.push(val);
     });
 
-    docLine = diff
-      .join('')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    docLine = escapeHtml(diff.join(''));
 
     docLine = docLine
       .replace(/{{/g, '<span class="highlight">')
