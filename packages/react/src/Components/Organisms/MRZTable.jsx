@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 // Local imports
 import { EventSourceContext } from '../Context/EventSource';
 import { MRZTableRow, MRZTableHeading } from '../Molecules';
+import { escapeHtml } from '../../helpers/common';
 
 const getDocNumber = (docData) => {
   return docData ? docData.codelineData.DocNumber : 'No Data';
@@ -27,12 +28,32 @@ const getIssuingState = (docData) => {
   return docData ? docData.codelineData.IssuingState : 'No  Data';
 };
 
-const formtMRZData = (docData) => {
+const formtMRZData = (docData, chipData) => {
   if (docData) {
-    const line1 = docData.codelineData.Line1;
-    const line2 = docData.codelineData.Line2;
-    const line3 = docData.codelineData.Line3;
-    return `${line1}\n${line2}\n${line3}`;
+    const docLine1 = docData.codelineData.Line1;
+    const docLine2 = docData.codelineData.Line2;
+    const docLine3 = docData.codelineData.Line3;
+
+    const chipLine1 = chipData.codelineData.Line1;
+    const chipLine2 = chipData.codelineData.Line2;
+    const chipLine3 = chipData.codelineData.Line3;
+
+    let docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
+    const chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
+
+    const diff = [];
+    chipLine.split('').forEach((val, i) => {
+      if (val !== docLine.charAt(i)) diff.push(`{{${val}}}`);
+      else diff.push(val);
+    });
+
+    docLine = escapeHtml(diff.join(''));
+
+    docLine = docLine
+      .replace(/{{/g, '<span class="highlight">')
+      .replace(/}}/g, '</span>');
+
+    return docLine;
   }
   return 'No Data';
 };
@@ -72,8 +93,8 @@ const MRZTable = () => {
         />
         <MRZTableRow
           heading="MRZ"
-          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA)}
-          MRZData={formtMRZData(CD_CODELINE_DATA)}
+          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA)}
+          MRZData={formtMRZData(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
         />
       </tbody>
     </table>
