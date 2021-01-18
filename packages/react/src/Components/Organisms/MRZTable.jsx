@@ -27,12 +27,38 @@ const getIssuingState = (docData) => {
   return docData ? docData.codelineData.IssuingState : 'No  Data';
 };
 
-const formtMRZData = (docData) => {
+const formtMRZData = (docData, chipData) => {
   if (docData) {
-    const line1 = docData.codelineData.Line1;
-    const line2 = docData.codelineData.Line2;
-    const line3 = docData.codelineData.Line3;
-    return `${line1}\n${line2}\n${line3}`;
+    const docLine1 = docData.codelineData.Line1;
+    const docLine2 = docData.codelineData.Line2;
+    const docLine3 = docData.codelineData.Line3;
+
+    const chipLine1 = chipData.codelineData.Line1;
+    const chipLine2 = chipData.codelineData.Line2;
+    const chipLine3 = chipData.codelineData.Line3;
+
+    let docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
+    const chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
+
+    const diff = [];
+    chipLine.split('').forEach((val, i) => {
+      if (val !== docLine.charAt(i)) diff.push(`{{${val}}}`);
+      else diff.push(val);
+    });
+
+    docLine = diff
+      .join('')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+    docLine = docLine
+      .replace(/{{/g, '<span class="highlight">')
+      .replace(/}}/g, '</span>');
+
+    return docLine;
   }
   return 'No Data';
 };
