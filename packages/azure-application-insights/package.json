@@ -1,6 +1,6 @@
 {
   "name": "azure-application-insights",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Micro service for ide-controller application to sync log file to Azure Monitor",
   "keywords": [
     "Azure",
