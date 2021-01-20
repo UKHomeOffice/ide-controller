@@ -49,22 +49,22 @@ const formtMRZDataWithHighlight = (docData, chipData = '') => {
     const chipLine2 = chipData.codelineData.Line2;
     const chipLine3 = chipData.codelineData.Line3;
 
-    let docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
-    const chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
+    const docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
+    let chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
 
     const diff = [];
-    chipLine.split('').forEach((val, i) => {
-      if (val !== docLine.charAt(i)) diff.push(`{{${val}}}`);
+    docLine.split('').forEach((val, i) => {
+      if (val !== chipLine.charAt(i)) diff.push(`{{${val}}}`);
       else diff.push(val);
     });
 
-    docLine = escapeHtml(diff.join(''));
+    chipLine = escapeHtml(diff.join(''));
 
-    docLine = docLine
+    chipLine = chipLine
       .replace(/{{/g, '<span class="highlight">')
       .replace(/}}/g, '</span>');
 
-    return docLine;
+    return chipLine;
   }
   return 'No Data';
 };
