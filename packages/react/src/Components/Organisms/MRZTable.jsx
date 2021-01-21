@@ -28,7 +28,18 @@ const getIssuingState = (docData) => {
   return docData ? docData.codelineData.IssuingState : 'No  Data';
 };
 
-const formtMRZData = (docData, chipData) => {
+const formtMRZData = (docData) => {
+  if (docData) {
+    const docLine1 = docData.codelineData.Line1;
+    const docLine2 = docData.codelineData.Line2;
+    const docLine3 = docData.codelineData.Line3;
+
+    return `${docLine1}\n${docLine2}\n${docLine3}`;
+  }
+  return 'No Data';
+};
+
+const formtMRZDataWithHighlight = (docData, chipData = '') => {
   if (docData) {
     const docLine1 = docData.codelineData.Line1;
     const docLine2 = docData.codelineData.Line2;
@@ -38,22 +49,22 @@ const formtMRZData = (docData, chipData) => {
     const chipLine2 = chipData.codelineData.Line2;
     const chipLine3 = chipData.codelineData.Line3;
 
-    let docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
-    const chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
+    const docLine = `${docLine1}\n${docLine2}\n${docLine3}`;
+    let chipLine = `${chipLine1}\n${chipLine2}\n${chipLine3}`;
 
     const diff = [];
-    chipLine.split('').forEach((val, i) => {
-      if (val !== docLine.charAt(i)) diff.push(`{{${val}}}`);
+    docLine.split('').forEach((val, i) => {
+      if (val !== chipLine.charAt(i)) diff.push(`{{${val}}}`);
       else diff.push(val);
     });
 
-    docLine = escapeHtml(diff.join(''));
+    chipLine = escapeHtml(diff.join(''));
 
-    docLine = docLine
+    chipLine = chipLine
       .replace(/{{/g, '<span class="highlight">')
       .replace(/}}/g, '</span>');
 
-    return docLine;
+    return chipLine;
   }
   return 'No Data';
 };
@@ -93,8 +104,11 @@ const MRZTable = () => {
         />
         <MRZTableRow
           heading="MRZ"
-          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA)}
-          MRZData={formtMRZData(CD_CODELINE_DATA, CD_SCDG1_CODELINE_DATA)}
+          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA)}
+          MRZData={formtMRZDataWithHighlight(
+            CD_CODELINE_DATA,
+            CD_SCDG1_CODELINE_DATA
+          )}
         />
       </tbody>
     </table>
