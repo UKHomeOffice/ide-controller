@@ -40,7 +40,7 @@ const formtMRZData = (docData) => {
 };
 
 const formtMRZDataWithHighlight = (docData, chipData = '') => {
-  if (docData) {
+  if (docData && chipData) {
     const docLine1 = docData.codelineData.Line1;
     const docLine2 = docData.codelineData.Line2;
     const docLine3 = docData.codelineData.Line3;
@@ -66,6 +66,7 @@ const formtMRZDataWithHighlight = (docData, chipData = '') => {
 
     return chipLine;
   }
+
   return 'No Data';
 };
 
