@@ -22,7 +22,7 @@ const rotatedCanvas = createAndRotateCanvas(
 );
 const context = rotatedCanvas.getContext('2d');
 
-const LiveImage = ({ cameraId }) => {
+const LiveImage = ({ cameraId, className }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
 
@@ -74,7 +74,9 @@ const LiveImage = ({ cameraId }) => {
   }, []);
 
   return (
-    <div className="live-image photoContainer--photo position-relative">
+    <div
+      className={`live-image photoContainer--photo position-relative ${className}`}
+    >
       {showVideo && (
         <>
           <Video
@@ -123,8 +125,10 @@ export default LiveImage;
 
 LiveImage.propTypes = {
   cameraId: PropTypes.string,
+  className: PropTypes.string,
 };
 
 LiveImage.defaultProps = {
   cameraId: null,
+  className: '',
 };

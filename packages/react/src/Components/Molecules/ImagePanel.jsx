@@ -12,6 +12,7 @@ import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
 import { logDataEvent } from '../../helpers/log';
+import { getCameraDevices } from '../../helpers/camera';
 import {
   END_OF_DOCUMENT_DATA,
   START_OF_DOCUMENT_DATA,
@@ -45,6 +46,7 @@ const ImagePanel = ({ isActive }) => {
   const { statusContext } = useContext(StatusContext);
 
   const [cameraDeviceId, setCameraDeviceId] = useState();
+  const [cameraDevices, setCameraDevices] = useState([]);
   const [canRetakeImage, setCanRetakeImage] = useState(true);
   const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
 
@@ -56,6 +58,7 @@ const ImagePanel = ({ isActive }) => {
   };
 
   useEffect(() => {
+    getCameraDevices().then(setCameraDevices);
     ipcRenderer.on('webCamDevices', (event, { deviceId }) => {
       setCameraDeviceId(deviceId);
       restartLiveImage();
@@ -149,10 +152,28 @@ const ImagePanel = ({ isActive }) => {
         {useMemo(
           () => (
             <Column size="one-third">
-              <LiveImage key={liveImageKey} cameraId={cameraDeviceId} />
+              <LiveImage
+                key={liveImageKey}
+                cameraId={cameraDeviceId}
+                className={
+                  cameraDevices.length > 0 ? 'display' : 'display-none'
+                }
+              />
+              <div
+                className={
+                  cameraDevices.length === 0 ? 'display' : 'display-none'
+                }
+              >
+                <StatusBar
+                  text="Camera not connected"
+                  visible={!CD_IMAGEPHOTO}
+                  status="failed"
+                />
+                {makeImageCard('Live image', null, true)}
+              </div>
             </Column>
           ),
-          [liveImageKey]
+          [liveImageKey, cameraDevices]
         )}
       </Row>
       <div className="govuk-section-break--m" />
