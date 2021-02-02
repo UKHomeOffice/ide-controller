@@ -16,6 +16,11 @@ const StatusBar = ({ visible, status, text, className }) => {
         className={`status-bar ide-status-wrapper-alt status bg--${statusMap[status]} ${className}`}
       >
         <h3 className="govuk-heading-s">{text}</h3>
+        <div className="ide-loader">
+          <div />
+          <div />
+          <div />
+        </div>
       </div>
     )
   );
