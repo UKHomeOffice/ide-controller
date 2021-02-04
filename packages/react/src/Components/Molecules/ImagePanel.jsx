@@ -38,6 +38,9 @@ const chipStatusTextMap = {
   noData: 'No chip found in document',
 };
 
+let chipStat;
+let docStat;
+
 const ImagePanel = ({ isActive }) => {
   const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
     EventSourceContext
@@ -76,6 +79,13 @@ const ImagePanel = ({ isActive }) => {
   const [chipStatusBarText, setChipStatusBarText] = useState('');
   const [documentStatusBarText, setDocumentStatusBarText] = useState('');
 
+  const updateStatus = () => {
+    setChipStatus(chipStat);
+    setDocumentStatus(docStat);
+    setChipStatusBarText(chipStatusTextMap[chipStat]);
+    setDocumentStatusBarText(chipStatusTextMap[docStat]);
+  };
+
   // watch chip image
   useEffect(() => {
     const isDocReaderOk = statusContext === 'OK';
@@ -85,7 +95,7 @@ const ImagePanel = ({ isActive }) => {
     const noChipImage = !CD_SCDG2_PHOTO;
     const noDocumentImage = !CD_IMAGEPHOTO;
 
-    const chipStat = isDocReaderNotOk
+    chipStat = isDocReaderNotOk
       ? 'failed'
       : isDocReaderOk && !isScanFinish && !isScanStart && noChipImage
       ? 'success'
@@ -95,7 +105,7 @@ const ImagePanel = ({ isActive }) => {
       ? 'noData'
       : 'failed';
 
-    const docStat = isDocReaderNotOk
+    docStat = isDocReaderNotOk
       ? 'failed'
       : isDocReaderOk && !isScanFinish && !isScanStart && noDocumentImage
       ? 'success'
@@ -105,10 +115,7 @@ const ImagePanel = ({ isActive }) => {
       ? 'noData'
       : 'failed';
 
-    setChipStatus(chipStat);
-    setDocumentStatus(docStat);
-    setChipStatusBarText(chipStatusTextMap[chipStat]);
-    setDocumentStatusBarText(chipStatusTextMap[docStat]);
+    setTimeout(updateStatus, 2000);
   }, [eventSourceEvent, CD_SCDG2_PHOTO, statusContext, useRef()]);
 
   return (
