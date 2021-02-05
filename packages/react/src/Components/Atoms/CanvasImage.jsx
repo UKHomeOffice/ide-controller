@@ -56,7 +56,7 @@ CanvasImage.defaultProps = {
     width: 100,
     height: 100,
   },
-  className: null,
+  className: '',
 };
 
 export default CanvasImage;
