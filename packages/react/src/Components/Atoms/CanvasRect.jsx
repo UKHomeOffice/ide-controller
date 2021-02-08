@@ -52,7 +52,7 @@ CanvasRect.defaultProps = {
     heigh: 100,
   },
   isGoodQuality: false,
-  className: null,
+  className: '',
 };
 
 export default CanvasRect;
