@@ -16,6 +16,13 @@ const StatusBar = ({ visible, status, text, className }) => {
         className={`status-bar ide-status-wrapper-alt status bg--${statusMap[status]} ${className}`}
       >
         <h3 className="govuk-heading-s">{text}</h3>
+        {status === 'loading' && (
+          <div className="ide-loader">
+            <div />
+            <div />
+            <div />
+          </div>
+        )}
       </div>
     )
   );
@@ -24,7 +31,7 @@ const StatusBar = ({ visible, status, text, className }) => {
 StatusBar.propTypes = {
   text: PropTypes.string,
   visible: PropTypes.bool,
-  status: PropTypes.string,
+  status: PropTypes.oneOf(['success', 'failed', 'loading', 'noData']),
   className: PropTypes.string,
 };
 
