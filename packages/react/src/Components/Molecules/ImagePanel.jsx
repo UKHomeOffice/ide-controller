@@ -59,9 +59,13 @@ const chipStatusTextMap = {
 };
 
 const ImagePanel = ({ isActive }) => {
-  const { eventSourceEvent, CD_SCDG2_PHOTO, CD_IMAGEPHOTO } = useContext(
-    EventSourceContext
-  ).eventSourceContext;
+  const { eventSourceContext } = useContext(EventSourceContext);
+  const {
+    eventSourceEvent,
+    CD_SCDG2_PHOTO,
+    CD_IMAGEPHOTO,
+  } = eventSourceContext;
+  const { setEventSourceContext } = useContext(EventSourceContext);
   const { statusContext } = useContext(StatusContext);
 
   const [cameraDeviceId, setCameraDeviceId] = useState(null);
@@ -94,6 +98,10 @@ const ImagePanel = ({ isActive }) => {
           };
           drawImage(context, sourceImage, destinationImage);
           setDocImageCard(canvas.toDataURL('image/jpeg'));
+          setEventSourceContext({
+            ...eventSourceContext,
+            croppedDocumentImage: canvas.toDataURL('image/jpeg'),
+          });
         });
       };
     } else {
