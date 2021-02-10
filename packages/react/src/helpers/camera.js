@@ -1,4 +1,5 @@
 // Global imports
+/* Tensor Flow JS (not used in this file) is required by @tensorflow-models/posenet library */
 // eslint-disable-next-line
 import * as ts from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
@@ -29,6 +30,7 @@ const loadPosenet = () =>
     modelUrl: './model-stride32.json',
   });
 
+/* Creates posenet singelton */
 export const estimateSinglePose = async (frame) => {
   if (!net) net = await loadPosenet();
   /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
@@ -46,33 +48,35 @@ export const getCameraDevices = async () => {
     }));
 };
 
-const isBelowThreshold = (threshold = defaulThreshold) => {
-  if (!keypoints) return true;
-  return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
-};
-
-const isAboveThreshold = (threshold = defaulThreshold) =>
-  !isBelowThreshold(threshold);
-
-const isGoodRatio = ({
-  sourceX,
-  sourceY,
-  calculatedWidth,
-  calculatedHeight,
-}) => {
-  const isYInsideFrame =
-    sourceY >= 0 && sourceY + calculatedHeight < video.width;
-  const isXInsideFrame =
-    sourceX >= 0 && sourceX + calculatedWidth < video.height;
-  return isYInsideFrame && isXInsideFrame;
-};
-
 const isGoodResolution = (width) => {
   const resolutionPercentage = Math.round((width / video.height) * 100);
   return resolutionPercentage > imageResolution;
 };
 
 export const isGoodPicture = (croppedImageCoordination) => {
+  const isBelowThreshold = (threshold = defaulThreshold) => {
+    if (!keypoints) return true;
+    return !!keypoints
+      .slice(0, 5)
+      .find((poseItem) => poseItem.score < threshold);
+  };
+
+  const isAboveThreshold = (threshold = defaulThreshold) =>
+    !isBelowThreshold(threshold);
+
+  const isGoodRatio = ({
+    sourceX,
+    sourceY,
+    calculatedWidth,
+    calculatedHeight,
+  }) => {
+    const isYInsideFrame =
+      sourceY >= 0 && sourceY + calculatedHeight < video.width;
+    const isXInsideFrame =
+      sourceX >= 0 && sourceX + calculatedWidth < video.height;
+    return isYInsideFrame && isXInsideFrame;
+  };
+
   return (
     isAboveThreshold() &&
     isGoodRatio(croppedImageCoordination) &&
