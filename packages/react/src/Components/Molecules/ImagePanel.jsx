@@ -4,10 +4,10 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 // Local imports
 import {
-  END_OF_DOCUMENT_DATA,
-  START_OF_DOCUMENT_DATA,
-} from '../../config/EventSource';
-import { getCameraDevices } from '../../helpers/camera';
+  getCameraDevices,
+  getCroppedImageCoordination,
+} from '../../helpers/camera';
+import { drawImage } from '../../helpers/canvas';
 import { sendCameraDevices } from '../../helpers/ipcMainEvents';
 import { logDataEvent } from '../../helpers/log';
 import { blankAvatar } from '../../images';
@@ -21,6 +21,10 @@ import PhotoHeaders from './PhotoHeaders';
 
 // Config
 import { livePhotoConfig } from '../../config/camera';
+import {
+  END_OF_DOCUMENT_DATA,
+  START_OF_DOCUMENT_DATA,
+} from '../../config/EventSource';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -63,6 +67,39 @@ const ImagePanel = ({ isActive }) => {
   const [cameraDeviceId, setCameraDeviceId] = useState(null);
   const [canRetakeImage, setCanRetakeImage] = useState(true);
   const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
+  const [docImageCard, setDocImageCard] = useState(blankAvatar);
+
+  useEffect(() => {
+    const base64Image =
+      CD_IMAGEPHOTO && `data:image/jpeg;base64,${CD_IMAGEPHOTO.image}`;
+    if (base64Image) {
+      const image = new Image();
+      image.src = base64Image;
+      image.onload = () => {
+        getCroppedImageCoordination(image).then((res) => {
+          const canvas = document.createElement('canvas');
+          canvas.width = 405;
+          canvas.height = 663.812;
+          const context = canvas.getContext('2d');
+          const sourceImage = {
+            image,
+            x: res.sourceX,
+            y: res.sourceY,
+            width: res.calculatedWidth,
+            height: res.calculatedHeight,
+          };
+          const destinationImage = {
+            width: 405,
+            height: 663.812,
+          };
+          drawImage(context, sourceImage, destinationImage);
+          setDocImageCard(canvas.toDataURL('image/jpeg'));
+        });
+      };
+    } else {
+      setDocImageCard(blankAvatar);
+    }
+  }, [CD_IMAGEPHOTO]);
 
   const restartLiveImage = () => {
     setCanRetakeImage(false);
@@ -163,7 +200,11 @@ const ImagePanel = ({ isActive }) => {
             visible={!CD_IMAGEPHOTO}
             status={documentStatus}
           />
-          {makeImageCard('CD_IMAGEPHOTO', CD_IMAGEPHOTO, !CD_IMAGEPHOTO)}
+          <ImageCard
+            image={docImageCard}
+            imageAlt="CD_IMAGEPHOTO"
+            className={!CD_IMAGEPHOTO ? 'photoContainer--with-status-bar' : ''}
+          />
         </Column>
         {/*
           The reason why we have useMemo here is because LiveImage is computationally expensive.
