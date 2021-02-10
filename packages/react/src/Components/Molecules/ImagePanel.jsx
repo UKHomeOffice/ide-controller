@@ -78,8 +78,8 @@ const ImagePanel = ({ isActive }) => {
       image.onload = () => {
         getCroppedImageCoordination(image).then((res) => {
           const canvas = document.createElement('canvas');
-          canvas.width = 405;
-          canvas.height = 663.812;
+          canvas.width = image.width;
+          canvas.height = image.height;
           const context = canvas.getContext('2d');
           const sourceImage = {
             image,
@@ -89,8 +89,8 @@ const ImagePanel = ({ isActive }) => {
             height: res.calculatedHeight,
           };
           const destinationImage = {
-            width: 405,
-            height: 663.812,
+            width: canvas.width,
+            height: canvas.height,
           };
           drawImage(context, sourceImage, destinationImage);
           setDocImageCard(canvas.toDataURL('image/jpeg'));
