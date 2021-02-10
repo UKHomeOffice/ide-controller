@@ -85,7 +85,6 @@ const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   const faceVerticalDivisions = 5;
   let margin = ((leftEar.x - rightEar.x) / faceVerticalDivisions) * 2;
   margin *= zoomFactor;
-
   return margin;
 };
 
@@ -95,7 +94,10 @@ const extractKeypointsPosition = () => ({
   rightEar: keypoints[4].position,
 });
 
-const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
+const calculateLiveImageCoordination = (
+  { nose, leftEar, rightEar },
+  zoomFactor
+) => {
   const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
   /* 
   This used to be calculated dynamically like this 👇
@@ -120,13 +122,33 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   };
 };
 
+const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
+  const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
+  const ratio = 663.812 / 440.906;
+  const xStart = Math.floor(rightEar.x) - margin / 2;
+  const xEnd = Math.ceil(leftEar.x) + margin / 2;
+  const sWidth = xEnd - xStart;
+  const sHeight = sWidth * ratio;
+  const yStart = Math.floor(nose.y) - sHeight / 1.7;
+
+  return {
+    sourceX: xStart,
+    sourceY: yStart,
+    calculatedWidth: sWidth,
+    calculatedHeight: sHeight,
+  };
+};
+
 export const getCroppedImageCoordination = async (
   frame,
-  zoomFactor = defaultZoomFactor
+  zoomFactor = defaultZoomFactor,
+  rotate = false
 ) => {
   keypoints = (await estimateSinglePose(frame)).keypoints;
   const keypointsPosition = extractKeypointsPosition();
-  return calculateCoordination(keypointsPosition, zoomFactor);
+  return rotate
+    ? calculateLiveImageCoordination(keypointsPosition, zoomFactor)
+    : calculateCoordination(keypointsPosition, zoomFactor);
 };
 
 export default {};
