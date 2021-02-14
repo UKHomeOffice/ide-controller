@@ -2,9 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect } from 'react';
 
-// Local imports
-import { getCameraDevices } from '../../helpers/camera';
-
+let stream;
 const Video = forwardRef(
   ({ captureOptions, cameraId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
@@ -16,7 +14,7 @@ const Video = forwardRef(
     });
 
     const setupCamera = async (options) => {
-      const stream = await navigator.mediaDevices?.getUserMedia(options);
+      stream = await navigator.mediaDevices?.getUserMedia(options);
       const video = videoRef.current;
       if (video) {
         video.srcObject = stream;
@@ -27,27 +25,11 @@ const Video = forwardRef(
       }
     };
 
-    const findDefaultCamera = async (defaultDeviceName) => {
-      const cameraDevices = await getCameraDevices();
-      return cameraDevices?.find((device) =>
-        device.label.includes(defaultDeviceName)
-      );
-    };
-
     useEffect(() => {
-      (async () => {
-        const { sourceModel } = captureOptions.video;
-        const selectedDeviceId =
-          cameraId ||
-          (sourceModel
-            ? (await findDefaultCamera(sourceModel))?.deviceId
-            : null);
-        const videoOptions = selectedDeviceId
-          ? getVideoOptionsWithExactDeviceId(selectedDeviceId)
-          : captureOptions;
-        setupCamera(videoOptions);
-      })();
-    }, [videoRef]);
+      if (stream) stream.getTracks().forEach((track) => track.stop());
+      const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
+      setupCamera(videoOptions);
+    }, [cameraId]);
 
     return (
       <video
