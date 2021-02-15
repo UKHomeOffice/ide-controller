@@ -13,6 +13,7 @@ const ALLOWED_KEYS = [
   'Nationality',
   'Sex',
   'Data',
+  'ExpiryDate',
 ];
 
 let currentData = {};
