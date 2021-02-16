@@ -14,7 +14,7 @@ const fs = require('fs');
 const ApplicationInsightsLogger = require('azure-application-insights');
 
 // Local imports
-const ideMenu = require('./menu');
+const buildIdeMenu = require('./menu');
 const Store = require('./store');
 const executeWindowsCommand = require('./util/windows');
 
@@ -64,7 +64,7 @@ function createWindow() {
 }
 
 // Set application menu
-Menu.setApplicationMenu(ideMenu);
+Menu.setApplicationMenu(buildIdeMenu());
 
 // Electron `app` is ready
 app.on('ready', createWindow);
@@ -90,6 +90,7 @@ const sendSelectedCamera = (device) => {
 };
 
 ipcMain.on('webCamDevices', (event, list) => {
+  const ideMenu = buildIdeMenu();
   let cameraList = ideMenu.getMenuItemById('cameraList');
   const cameraListMenuItem = new MenuItem({
     id: 'cameraList',

@@ -29,4 +29,4 @@ const commonMenu = [
   },
 ];
 
-module.exports = Menu.buildFromTemplate([...commonMenu, ...ideMenu]);
+module.exports = () => Menu.buildFromTemplate([...commonMenu, ...ideMenu]);

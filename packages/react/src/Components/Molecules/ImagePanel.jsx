@@ -1,8 +1,15 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useMemo, useState, useRef } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 // Local imports
+import {
+  END_OF_DOCUMENT_DATA,
+  START_OF_DOCUMENT_DATA,
+} from '../../config/EventSource';
+import { getCameraDevices } from '../../helpers/camera';
+import { sendCameraDevices } from '../../helpers/ipcMainEvents';
+import { logDataEvent } from '../../helpers/log';
 import { blankAvatar } from '../../images';
 import { Button, StatusBar } from '../Atoms';
 import { EventSourceContext } from '../Context/EventSource';
@@ -11,12 +18,9 @@ import { Column, Row } from '../Layout';
 import ImageCard from './ImageCard';
 import LiveImage from './LiveImage';
 import PhotoHeaders from './PhotoHeaders';
-import { logDataEvent } from '../../helpers/log';
-import { getCameraDevices } from '../../helpers/camera';
-import {
-  END_OF_DOCUMENT_DATA,
-  START_OF_DOCUMENT_DATA,
-} from '../../config/EventSource';
+
+// Config
+import { livePhotoConfig } from '../../config/camera';
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
@@ -32,6 +36,17 @@ const makeImageCard = (key, event, statusBar = false) => {
   );
 };
 
+const findDefaultCamera = async (defaultDeviceName) => {
+  const cameraDevices = await getCameraDevices();
+  return cameraDevices?.find((device) =>
+    device.label.includes(defaultDeviceName)
+  );
+};
+
+const { sourceModel } = livePhotoConfig.video;
+const selectedDeviceId = async () =>
+  sourceModel ? (await findDefaultCamera(sourceModel))?.deviceId : null;
+
 const chipStatusTextMap = {
   failed: 'Scanner not connected',
   success: 'Scanner connected',
@@ -45,8 +60,7 @@ const ImagePanel = ({ isActive }) => {
   ).eventSourceContext;
   const { statusContext } = useContext(StatusContext);
 
-  const [cameraDeviceId, setCameraDeviceId] = useState();
-  const [cameraDevices, setCameraDevices] = useState([]);
+  const [cameraDeviceId, setCameraDeviceId] = useState(null);
   const [canRetakeImage, setCanRetakeImage] = useState(true);
   const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
 
@@ -58,11 +72,17 @@ const ImagePanel = ({ isActive }) => {
   };
 
   useEffect(() => {
-    getCameraDevices().then(setCameraDevices);
+    selectedDeviceId().then(setCameraDeviceId);
+
     ipcRenderer.on('webCamDevices', (event, { deviceId }) => {
       setCameraDeviceId(deviceId);
-      restartLiveImage();
+      logDataEvent('Livephoto', 'New camera selected');
     });
+    navigator.mediaDevices.ondevicechange = () => {
+      sendCameraDevices();
+      selectedDeviceId().then(setCameraDeviceId);
+      logDataEvent('Livephoto', 'USB Device Change');
+    };
   }, []);
 
   useEffect(() => {
@@ -152,18 +172,14 @@ const ImagePanel = ({ isActive }) => {
         {useMemo(
           () => (
             <Column size="one-third">
-              <LiveImage
-                key={liveImageKey}
-                cameraId={cameraDeviceId}
-                className={
-                  cameraDevices.length > 0 ? 'display' : 'display-none'
-                }
-              />
-              <div
-                className={
-                  cameraDevices.length === 0 ? 'display' : 'display-none'
-                }
-              >
+              {cameraDeviceId && (
+                <LiveImage
+                  key={liveImageKey}
+                  cameraId={cameraDeviceId}
+                  className={cameraDeviceId ? 'display' : 'display-none'}
+                />
+              )}
+              <div className={!cameraDeviceId ? 'display' : 'display-none'}>
                 <StatusBar
                   text="Camera not connected"
                   visible={!CD_IMAGEPHOTO}
@@ -173,7 +189,7 @@ const ImagePanel = ({ isActive }) => {
               </div>
             </Column>
           ),
-          [liveImageKey, cameraDevices]
+          [liveImageKey, cameraDeviceId]
         )}
       </Row>
       <div className="govuk-section-break--m" />

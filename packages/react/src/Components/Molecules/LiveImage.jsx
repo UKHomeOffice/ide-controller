@@ -7,11 +7,11 @@ import {
   getCroppedImageCoordination,
   isGoodPicture,
 } from '../../helpers/camera';
-import { CanvasImage, CanvasRect, Video } from '../Atoms';
-import { LivePhotoContext } from '../Context/LivePhoto';
-import { ScoreContext } from '../Context';
-import { logDataEvent } from '../../helpers/log';
 import { createAndRotateCanvas } from '../../helpers/canvas';
+import { logDataEvent } from '../../helpers/log';
+import { CanvasImage, CanvasRect, Video } from '../Atoms';
+import { ScoreContext } from '../Context';
+import { LivePhotoContext } from '../Context/LivePhoto';
 
 // Config
 import { livePhotoConfig } from '../../config/camera';
