@@ -78,6 +78,12 @@ export const logDataEvent = (key, data) => {
       break;
     case 'CD_CODELINE_DATA':
     case 'CD_SCDG1_CODELINE_DATA':
+    case 'CD_SAC_STATUS':
+    case 'CD_SCBAC_STATUS':
+    case 'CD_ACTIVE_AUTHENTICATION':
+    case 'CD_SCCROSSCHECK_EFCOM_EFSOD':
+    case 'CD_SCTERMINAL_AUTHENTICATION_STATUS':
+    case 'CD_SCCHIP_AUTHENTICATION_STATUS':
       CD_CODELINE_DATA(data);
       break;
     case 'Livephoto':
