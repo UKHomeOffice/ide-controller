@@ -1,4 +1,5 @@
 // Global imports
+/* Tensor Flow JS (not used in this file) is required by @tensorflow-models/posenet library */
 // eslint-disable-next-line
 import * as ts from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
@@ -29,6 +30,7 @@ const loadPosenet = () =>
     modelUrl: './model-stride32.json',
   });
 
+/* Creates posenet singelton */
 export const estimateSinglePose = async (frame) => {
   if (!net) net = await loadPosenet();
   /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
@@ -46,33 +48,35 @@ export const getCameraDevices = async () => {
     }));
 };
 
-const isBelowThreshold = (threshold = defaulThreshold) => {
-  if (!keypoints) return true;
-  return !!keypoints.slice(0, 5).find((poseItem) => poseItem.score < threshold);
-};
-
-const isAboveThreshold = (threshold = defaulThreshold) =>
-  !isBelowThreshold(threshold);
-
-const isGoodRatio = ({
-  sourceX,
-  sourceY,
-  calculatedWidth,
-  calculatedHeight,
-}) => {
-  const isYInsideFrame =
-    sourceY >= 0 && sourceY + calculatedHeight < video.width;
-  const isXInsideFrame =
-    sourceX >= 0 && sourceX + calculatedWidth < video.height;
-  return isYInsideFrame && isXInsideFrame;
-};
-
 const isGoodResolution = (width) => {
   const resolutionPercentage = Math.round((width / video.height) * 100);
   return resolutionPercentage > imageResolution;
 };
 
 export const isGoodPicture = (croppedImageCoordination) => {
+  const isBelowThreshold = (threshold = defaulThreshold) => {
+    if (!keypoints) return true;
+    return !!keypoints
+      .slice(0, 5)
+      .find((poseItem) => poseItem.score < threshold);
+  };
+
+  const isAboveThreshold = (threshold = defaulThreshold) =>
+    !isBelowThreshold(threshold);
+
+  const isGoodRatio = ({
+    sourceX,
+    sourceY,
+    calculatedWidth,
+    calculatedHeight,
+  }) => {
+    const isYInsideFrame =
+      sourceY >= 0 && sourceY + calculatedHeight < video.width;
+    const isXInsideFrame =
+      sourceX >= 0 && sourceX + calculatedWidth < video.height;
+    return isYInsideFrame && isXInsideFrame;
+  };
+
   return (
     isAboveThreshold() &&
     isGoodRatio(croppedImageCoordination) &&
@@ -85,7 +89,6 @@ const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
   const faceVerticalDivisions = 5;
   let margin = ((leftEar.x - rightEar.x) / faceVerticalDivisions) * 2;
   margin *= zoomFactor;
-
   return margin;
 };
 
@@ -95,7 +98,10 @@ const extractKeypointsPosition = () => ({
   rightEar: keypoints[4].position,
 });
 
-const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
+const calculateLiveImageCoordination = (
+  { nose, leftEar, rightEar },
+  zoomFactor
+) => {
   const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
   /* 
   This used to be calculated dynamically like this 👇
@@ -120,13 +126,33 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
   };
 };
 
+const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
+  const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
+  const ratio = 663.812 / 440.906;
+  const xStart = Math.floor(rightEar.x) - margin / 2;
+  const xEnd = Math.ceil(leftEar.x) + margin / 2;
+  const sWidth = xEnd - xStart;
+  const sHeight = sWidth * ratio;
+  const yStart = Math.floor(nose.y) - sHeight / 1.7;
+
+  return {
+    sourceX: xStart,
+    sourceY: yStart,
+    calculatedWidth: sWidth,
+    calculatedHeight: sHeight,
+  };
+};
+
 export const getCroppedImageCoordination = async (
   frame,
-  zoomFactor = defaultZoomFactor
+  zoomFactor = defaultZoomFactor,
+  rotate = false
 ) => {
   keypoints = (await estimateSinglePose(frame)).keypoints;
   const keypointsPosition = extractKeypointsPosition();
-  return calculateCoordination(keypointsPosition, zoomFactor);
+  return rotate
+    ? calculateLiveImageCoordination(keypointsPosition, zoomFactor)
+    : calculateCoordination(keypointsPosition, zoomFactor);
 };
 
 export default {};

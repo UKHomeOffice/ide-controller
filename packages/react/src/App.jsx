@@ -90,14 +90,18 @@ const App = () => {
     });
   }, []);
 
-  const { CD_IMAGEPHOTO, CD_SCDG2_PHOTO } = eventSourceContext;
+  const {
+    CD_IMAGEPHOTO,
+    croppedDocumentImage,
+    CD_SCDG2_PHOTO,
+  } = eventSourceContext;
   const { image } = livePhotoContext;
   useEffect(() => {
     if (!CD_IMAGEPHOTO?.image || !image) return;
 
     post(IMAGE_MATCH, {
       chipImage: CD_SCDG2_PHOTO?.image,
-      bioImage: CD_IMAGEPHOTO.image,
+      bioImage: croppedDocumentImage.replace('data:image/jpeg;base64,', ''),
       liveImage: image.replace('data:image/jpeg;base64,', ''),
       uuid,
       mrzHash: logData().mrzHash,
@@ -111,7 +115,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
-  }, [image, CD_IMAGEPHOTO, CD_SCDG2_PHOTO]);
+  }, [image, croppedDocumentImage, CD_SCDG2_PHOTO]);
 
   return (
     <EventSourceProvider
