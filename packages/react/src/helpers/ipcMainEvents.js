@@ -24,8 +24,8 @@ export const sendGeolocation = async () => {
   navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
-export const sendToElectronStore = (key, value) => {
-  ipcRenderer.invoke('addToStore', key, value);
+export const sendToElectronStore = (name, type, data) => {
+  ipcRenderer.invoke('addToStore', name, type, data);
 };
 
 export const saveToDesktop = (object) => {
