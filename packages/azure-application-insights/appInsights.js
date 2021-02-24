@@ -22,7 +22,7 @@ class ApplicationInsights {
 
   trackException(entry) {
     this.client.trackException({
-      exception: entry,
+      exception: JSON.stringify(entry),
     });
   }
 
