@@ -14,11 +14,11 @@ class Store {
     this.logger = new Logger({ filename: this.path });
   }
 
-  set(key, value, trackEventName) {
-    let logData = value ? { [key]: value } : key;
-    logData = trackEventName ? { ...logData, trackEventName } : logData;
+  set(eventName, eventType, ...args) {
     this.logger.insert({
-      ...logData,
+      ...args[0],
+      eventName,
+      eventType,
       created_at: Date.now(),
       version: packagejson.version,
       device: os.hostname(),
@@ -26,8 +26,7 @@ class Store {
   }
 
   failedToLog(error) {
-    this.set({ error: error });
-    this.set('ERROR', 'CAN NOT LOG');
+    this.set('Log Error', 'ERROR', { error: error });
   }
 }
 

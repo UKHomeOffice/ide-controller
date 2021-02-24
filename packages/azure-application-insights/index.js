@@ -41,7 +41,11 @@ class ApplicationInsightsLogger {
   sendTrackEvent(entries) {
     entries.forEach((entry) => {
       const trackEventName = entry.trackEventName || this.trackEventName;
-      this.applicationInsights.trackEvent(trackEventName, entry);
+      if (entry.type === 'ERROR') {
+        this.applicationInsights.trackException(entry);
+      } else {
+        this.applicationInsights.trackEvent(trackEventName, entry);
+      }
     });
   }
 

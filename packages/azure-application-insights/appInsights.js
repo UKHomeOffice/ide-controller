@@ -20,6 +20,12 @@ class ApplicationInsights {
     });
   }
 
+  trackException(entry) {
+    this.client.trackException({
+      exception: entry,
+    });
+  }
+
   isEmptyBuffer() {
     return this.client.channel._buffer.length === 0;
   }
