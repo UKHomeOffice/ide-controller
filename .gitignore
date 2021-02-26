@@ -67,3 +67,6 @@ typings/
 
 # lockfile
 yarn.lock
+
+# Mock Responce
+packages/idemia-reader-mock/responses/
