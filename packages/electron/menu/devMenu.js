@@ -66,6 +66,18 @@ const devMenu = [
           }, 1000);
         },
       },
+      {
+        label: 'Trigger Scan Document With PACE',
+        accelerator: 'F4',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.triggerWithPACE();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
     ],
   },
 ];
