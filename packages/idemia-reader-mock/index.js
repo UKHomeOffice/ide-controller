@@ -25,16 +25,14 @@ const readerServer = http.createServer((req, res) => {
     const data = JSON.stringify(response);
     if (response.event) {
       res.write(`event: event\ndata: ${data}\n\n`);
-    } else if (response.data === null) {
+    } else if (response.data || response.data === null) {
       res.write(`event: data\ndata: ${data}\n\n`);
-    } else {
-      const randomIndex = Math.round(Math.random());
-      const status = ['OK', 'FAILURE'];
-      const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
+    } else if (response.status) {
+      const statusMessage = JSON.stringify({ "status" : response.status});
       res.write(`event: status\ndata: ${statusMessage}\n\n`);
     }
   }
-  
+
   allowAllOrigins(res);
   if (req.url === '/reader/data') {
     res.writeHead(200, {
