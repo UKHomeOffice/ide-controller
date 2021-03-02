@@ -78,6 +78,18 @@ const devMenu = [
           }, 1000);
         },
       },
+      {
+        label: 'Trigger ID Scan Document',
+        accelerator: 'F5',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.triggerWithID();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
     ],
   },
 ];
