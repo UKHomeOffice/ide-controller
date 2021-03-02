@@ -6,7 +6,8 @@ const idemiaResponse = require('./responses/image-match-response.json');
 const withChip = require('./responses/with-chip');
 const withoutChip = require('./responses/without-chip');
 const withPACE = require('./responses/with-PACE');
-const idCard = require('./responses/id-card');
+const idCardFront = require('./responses/id-card-front');
+const idCardBack = require('./responses/id-card-back');
 
 const { allowAllOrigins } = require('./helpers');
 
@@ -54,8 +55,12 @@ const readerServer = http.createServer((req, res) => {
       withoutChip.forEach(handleDocReaderResponse);
     };
 
-    readerServer.triggerWithID = () => {
-      idCard.forEach(handleDocReaderResponse);
+    readerServer.triggerWithIDFront = () => {
+      idCardFront.forEach(handleDocReaderResponse);
+    };
+
+    readerServer.triggerWithIDBack = () => {
+      idCardBack.forEach(handleDocReaderResponse);
     };
 
     readerServer.triggerWithChipSlow = () => {
