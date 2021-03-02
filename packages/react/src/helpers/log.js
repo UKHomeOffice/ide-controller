@@ -29,7 +29,7 @@ const resetCurrentData = () => {
 resetCurrentData();
 
 const CD_CODELINE_DATA = (data) => {
-  Object.keys(data.codelineData).forEach(async (entry) => {
+  Object.keys(data?.codelineData).forEach(async (entry) => {
     if (ALLOWED_KEYS.includes(entry)) {
       if (entry === 'DateOfBirth') {
         currentData.YearOfBirth = data.codelineData[entry].Year;
@@ -43,6 +43,10 @@ const CD_CODELINE_DATA = (data) => {
       }
     }
   });
+};
+
+const handlePACEData = (data) => {
+  currentData[data.dataType] = data.data;
 };
 
 export const logDataEvent = (key, data) => {
@@ -78,13 +82,15 @@ export const logDataEvent = (key, data) => {
       break;
     case 'CD_CODELINE_DATA':
     case 'CD_SCDG1_CODELINE_DATA':
+      CD_CODELINE_DATA(data);
+      break;
+    case 'CD_SCCHIP_AUTHENTICATION_STATUS':
     case 'CD_SAC_STATUS':
     case 'CD_SCBAC_STATUS':
     case 'CD_ACTIVE_AUTHENTICATION':
     case 'CD_SCCROSSCHECK_EFCOM_EFSOD':
     case 'CD_SCTERMINAL_AUTHENTICATION_STATUS':
-    case 'CD_SCCHIP_AUTHENTICATION_STATUS':
-      CD_CODELINE_DATA(data);
+      handlePACEData(data);
       break;
     case 'Livephoto':
       currentData.Livephoto.push(data);

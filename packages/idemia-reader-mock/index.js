@@ -1,7 +1,12 @@
+// Global imports
 const http = require('http');
+
+// Local imports
 const idemiaResponse = require('./responses/image-match-response.json');
-const withChip = require('./responses/reader-response-with-chip');
-const withoutChip = require('./responses/reader-response-without-chip');
+const withChip = require('./responses/with-chip');
+const withoutChip = require('./responses/without-chip');
+const withPACE = require('./responses/with-PACE');
+
 const { allowAllOrigins } = require('./helpers');
 
 const idemiaServer = http.createServer((req, res) => {
@@ -16,6 +21,18 @@ const idemiaServer = http.createServer((req, res) => {
 idemiaServer.listen(1111);
 
 const readerServer = http.createServer((req, res) => {
+  const handleDocReaderResponse = response => {
+    const data = JSON.stringify(response);
+    if (response.event) {
+      res.write(`event: event\ndata: ${data}\n\n`);
+    } else if (response.data || response.data === null) {
+      res.write(`event: data\ndata: ${data}\n\n`);
+    } else if (response.status) {
+      const statusMessage = JSON.stringify({ "status" : response.status});
+      res.write(`event: status\ndata: ${statusMessage}\n\n`);
+    }
+  }
+
   allowAllOrigins(res);
   if (req.url === '/reader/data') {
     res.writeHead(200, {
@@ -25,33 +42,15 @@ const readerServer = http.createServer((req, res) => {
     });
 
     readerServer.triggerWithChip = () => {
-      withChip.forEach(response => {
-        const data = JSON.stringify(response);
-        const message = `event: event\ndata: ${data}\n\n`;
-        res.write(message);
-        const message2 = `event: data\ndata: ${data}\n\n`;
-        res.write(message2);
-        const randomIndex = Math.round(Math.random());
-        const status = ['OK', 'FAILURE'];
-        const statusMessage = JSON.stringify({ "status" : status[randomIndex]});
-        res.write(`event: status\ndata: ${statusMessage}\n\n`);
-      });
+      withChip.forEach(handleDocReaderResponse);
+    };
+
+    readerServer.triggerWithPACE = () => {
+      withPACE.forEach(handleDocReaderResponse);
     };
 
     readerServer.triggerWithoutChip = () => {
-      withoutChip.forEach(response => {
-        const data = JSON.stringify(response);
-        const message = `event: event\ndata: ${data}\n\n`;
-        res.write(message);
-        const message2 = `event: data\ndata: ${data}\n\n`;
-        res.write(message2);
-        const randomIndex = Math.round(Math.random());
-        const isStatus = data.includes("status");
-        if (isStatus) {
-          res.write(`event: status\ndata: ${data}\n\n`);
-        }
-
-      });
+      withoutChip.forEach(handleDocReaderResponse);
     };
 
     readerServer.triggerWithChipSlow = () => {
