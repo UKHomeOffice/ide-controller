@@ -20,6 +20,7 @@ module.exports = {
     "no-nested-ternary": "off",
     "react/destructuring-assignment": "off",
     "jsx-a11y/media-has-caption": "off",
+    "react/no-danger": "off",
     quotes: ['error', 'single'],
     eqeqeq: 'error',
     'prettier/prettier': [
