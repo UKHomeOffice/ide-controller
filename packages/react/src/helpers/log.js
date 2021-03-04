@@ -26,6 +26,28 @@ const resetCurrentData = () => {
     Livephoto: [],
   };
 };
+
+const formatCodeLineMRZ = (docData) => {
+  const docLine1 = docData.codelineData.Line1;
+  const docLine2 = docData.codelineData.Line2;
+  const docLine3 = docData.codelineData.Line3;
+
+  return `${docLine1}${docLine2}${docLine3}`;
+};
+
+const hashOrEmpty = async (mrz) => {
+  if (!mrz) return '';
+  const hash = await sha256hash(mrz);
+  return hash;
+};
+
+const mrzHandler = async (data) => {
+  const eventName =
+    data.dataType === 'CD_CODELINE_DATA' ? 'MRZ#_Scan_Codeline' : 'MRZ#_Chip';
+  const formatMRZ = formatCodeLineMRZ(data);
+  currentData[eventName] = await hashOrEmpty(formatMRZ);
+};
+
 resetCurrentData();
 
 const CD_CODELINE_DATA = (data) => {
@@ -34,10 +56,7 @@ const CD_CODELINE_DATA = (data) => {
       if (entry === 'DateOfBirth') {
         currentData.YearOfBirth = data.codelineData[entry].Year;
       } else if (entry === 'Data') {
-        const mrz = data.codelineData[entry];
-        currentData.mrzHash = mrz
-          ? await sha256hash(data.codelineData[entry])
-          : '';
+        await mrzHandler(data);
       } else {
         currentData[entry] = data.codelineData[entry];
       }
