@@ -8,6 +8,7 @@ import {
   END_OF_DOCUMENT_DATA,
   START_OF_DOCUMENT_DATA,
 } from '../../config/EventSource';
+import { escapeNewLine } from '../../helpers/common';
 
 const tagStatusMap = {
   successful: 'passed',
@@ -19,6 +20,7 @@ const DataReadTable = () => {
   const {
     RF_CHIP_OPENED_SUCCESSFULLY,
     CD_CODELINE,
+    CD_SCDG1_CODELINE,
     eventSourceEvent,
   } = useContext(EventSourceContext).eventSourceContext;
 
@@ -29,8 +31,11 @@ const DataReadTable = () => {
   );
 
   const updateMRZText = () => {
-    const noMRZData = !CD_CODELINE?.data;
-    const text = noMRZData ? 'warning' : 'successful';
+    const noDocMRZData = !CD_CODELINE?.data;
+    const chipDocMRZMismatch =
+      escapeNewLine(CD_CODELINE?.data) !== CD_SCDG1_CODELINE?.data;
+    const text = noDocMRZData || chipDocMRZMismatch ? 'warning' : 'successful';
+
     setMRZTagText(text);
   };
 
@@ -74,4 +79,5 @@ const DataReadTable = () => {
     </table>
   );
 };
+
 export default DataReadTable;
