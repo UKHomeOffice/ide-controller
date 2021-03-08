@@ -28,7 +28,7 @@ const getIssuingState = (docData) => {
   return docData ? docData.codelineData.IssuingState : 'No  Data';
 };
 
-const formtMRZData = (docData) => {
+const formatMRZData = (docData) => {
   if (docData) {
     const {
       Line1: docLine1,
@@ -41,7 +41,7 @@ const formtMRZData = (docData) => {
   return 'No Data';
 };
 
-const formtMRZDataWithHighlight = (docData, chipData = '') => {
+const formatMRZDataWithHighlight = (docData, chipData = '') => {
   if (docData && chipData) {
     const {
       Line1: docLine1,
@@ -111,8 +111,8 @@ const MRZTable = () => {
         />
         <MRZTableRow
           heading="MRZ"
-          chipData={formtMRZData(CD_SCDG1_CODELINE_DATA)}
-          MRZData={formtMRZDataWithHighlight(
+          chipData={formatMRZData(CD_SCDG1_CODELINE_DATA)}
+          MRZData={formatMRZDataWithHighlight(
             CD_CODELINE_DATA,
             CD_SCDG1_CODELINE_DATA
           )}
