@@ -79,6 +79,30 @@ const devMenu = [
         },
       },
       {
+        label: 'Trigger Front Side ID Scan Document',
+        accelerator: 'F5',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.triggerWithIDFront();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
+        label: 'Trigger Back Side ID Scan Document',
+        accelerator: 'F6',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.triggerWithIDBack();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
         label: 'Trigger Scan Document data00',
         accelerator: 'F7',
         click: () => {

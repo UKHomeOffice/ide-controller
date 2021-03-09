@@ -13,6 +13,7 @@ import {
   END_OF_DOCUMENT_DATA,
   READER_STATUS,
   START_OF_DOCUMENT_DATA,
+  IDENTITY_CARD,
 } from './config/EventSource';
 import { initOnlineStatus } from './helpers/electron';
 import { post, generateUUID } from './helpers/common';
@@ -27,6 +28,8 @@ const App = () => {
   const [scoreContext, setScoreContext] = useState({});
   const [statusContext, setStatusContext] = useState();
   const [uuid, setUuid] = useState('');
+
+  let docType = '';
 
   // On Startup
   useEffect(() => {
@@ -48,6 +51,10 @@ const App = () => {
       };
       logDataEvent(messageData.dataType, messageData);
       eventSourceData[datatype] = datadata;
+
+      if (messageData.codelineData?.DocType) {
+        docType = messageData.codelineData.DocType;
+      }
     });
 
     events.addEventListener('event', (e) => {
@@ -55,7 +62,10 @@ const App = () => {
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
-      if (messageData.event === START_OF_DOCUMENT_DATA) {
+      if (
+        messageData.event === START_OF_DOCUMENT_DATA &&
+        docType !== IDENTITY_CARD
+      ) {
         setLivePhotoContext({});
         setEventSourceContext({
           timestamp: Date.now(),
@@ -67,7 +77,11 @@ const App = () => {
       }
       logDataEvent(messageData.dataType, messageData);
 
-      if (messageData.event === END_OF_DOCUMENT_DATA) {
+      if (docType === IDENTITY_CARD) {
+        setEventSourceContext({
+          ...eventSourceData,
+        });
+      } else if (messageData.event === END_OF_DOCUMENT_DATA) {
         setEventSourceContext({
           ...eventSourceData,
           eventSourceEvent: END_OF_DOCUMENT_DATA,

@@ -77,7 +77,7 @@ export const logDataEvent = (key, data) => {
       break;
     case 'uuid':
       if (currentData.uuid && currentData.uuid !== data) {
-        sendToElectronStore(currentData);
+        sendToElectronStore('Document Scan Event', 'INFO', currentData);
         resetCurrentData();
       }
       currentData.uuid = data;
@@ -118,7 +118,7 @@ export const logDataEvent = (key, data) => {
       currentData.matchingScore = data;
       currentData.scanToScoreDuration =
         (Date.now() - documentStartEventTimestamp) / 1000;
-      sendToElectronStore(currentData);
+      sendToElectronStore('Document Scan Event', 'INFO', currentData);
       break;
     default:
   }
