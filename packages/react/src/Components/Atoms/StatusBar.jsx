@@ -6,6 +6,7 @@ const statusMap = {
   success: 'passed',
   failed: 'failed',
   loading: 'info',
+  scanBack: 'info',
   noData: 'info',
 };
 
@@ -31,7 +32,13 @@ const StatusBar = ({ visible, status, text, className }) => {
 StatusBar.propTypes = {
   text: PropTypes.string,
   visible: PropTypes.bool,
-  status: PropTypes.oneOf(['success', 'failed', 'loading', 'noData']),
+  status: PropTypes.oneOf([
+    'success',
+    'failed',
+    'loading',
+    'noData',
+    'scanBack',
+  ]),
   className: PropTypes.string,
 };
 

@@ -119,8 +119,8 @@ ipcMain.on('online-status-changed', (event, status) => {
 });
 
 const userStore = new Store();
-ipcMain.handle('addToStore', (event, value) => {
-  userStore.set(value);
+ipcMain.handle('addToStore', (event, name, type, data) => {
+  userStore.set(name, type, data);
   applicationInsightsLogger.sync();
 });
 
@@ -132,17 +132,19 @@ ipcMain.handle('saveToDesktop', (_, object) => {
 });
 
 process.on('exit', (code) => {
-  userStore.set('ApplicationExit', 'Process exit event', 'Application Status');
+  userStore.set('Application Status', 'INFO', {
+    ApplicationExit: 'Success',
+  });
 });
 
 process.on('uncaughtException', (err, origin) => {
-  userStore.set('ERROR', { error: err, origin: origin });
+  userStore.set('Electron ERROR', 'ERROR', { error: err, origin });
 });
 process.on('warning', (warning) => {
-  userStore.set('WARNING', { warning }, 'WARNING');
+  userStore.set('Electron WARNING', 'WARNING', { warning });
 });
-userStore.set('ApplicationStart', 'Success', 'Application Status');
-userStore.set('networkInterfaces', os.networkInterfaces(), 'Network Status');
+userStore.set('Application Status', 'SUCCESS', { ApplicationStart: 'Success' });
+userStore.set('Network Status', 'SUCCESS', os.networkInterfaces());
 
 if (!isDev) {
   /* eslint-disable */

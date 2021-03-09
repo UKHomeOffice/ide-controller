@@ -24,6 +24,7 @@ import { livePhotoConfig } from '../../config/camera';
 import {
   END_OF_DOCUMENT_DATA,
   START_OF_DOCUMENT_DATA,
+  IDENTITY_CARD,
 } from '../../config/EventSource';
 
 const electron = window.require('electron');
@@ -56,6 +57,7 @@ const chipStatusTextMap = {
   success: 'Scanner connected',
   loading: 'Reading ID document',
   noData: 'No chip found in document',
+  scanBack: 'Scan back of document',
 };
 
 const ImagePanel = ({ isActive }) => {
@@ -64,6 +66,7 @@ const ImagePanel = ({ isActive }) => {
     eventSourceEvent,
     CD_SCDG2_PHOTO,
     CD_IMAGEPHOTO,
+    CD_CODELINE_DATA,
   } = eventSourceContext;
   const { setEventSourceContext } = useContext(EventSourceContext);
   const { statusContext } = useContext(StatusContext);
@@ -72,6 +75,8 @@ const ImagePanel = ({ isActive }) => {
   const [canRetakeImage, setCanRetakeImage] = useState(true);
   const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
   const [docImageCard, setDocImageCard] = useState(blankAvatar);
+
+  const isIDCard = CD_CODELINE_DATA?.codelineData?.DocType === IDENTITY_CARD;
 
   useEffect(() => {
     const base64Image =
@@ -208,10 +213,19 @@ const ImagePanel = ({ isActive }) => {
             visible={!CD_IMAGEPHOTO}
             status={documentStatus}
           />
+          <StatusBar
+            text={chipStatusTextMap.scanBack}
+            visible={isIDCard}
+            status="scanBack"
+          />
           <ImageCard
             image={docImageCard}
             imageAlt="CD_IMAGEPHOTO"
-            className={!CD_IMAGEPHOTO ? 'photoContainer--with-status-bar' : ''}
+            className={
+              !CD_IMAGEPHOTO || isIDCard
+                ? 'photoContainer--with-status-bar'
+                : ''
+            }
           />
         </Column>
         {/*

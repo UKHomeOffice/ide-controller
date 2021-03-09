@@ -11,11 +11,11 @@ const executeWindowsCommand = (command, args = []) => {
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      userStore.set('exec error', error);
+      userStore.set('Exec Command Error', 'ERROR', error);
       return;
     }
-    userStore.set('stdout', stdout);
-    userStore.set('stderr', stderr);
+    userStore.set('Exec Command stdout', 'SUCCESS', stdout);
+    userStore.set('Exec Command stderr', 'SUCCESS', stderr);
   });
 };
 
