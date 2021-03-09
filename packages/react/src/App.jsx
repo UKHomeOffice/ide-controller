@@ -8,7 +8,11 @@ import { ScoreProvider } from './Components/Context/Score';
 import { StatusProvider } from './Components/Context/Status';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
-import { sendCameraDevices, sendGeolocation } from './helpers/ipcMainEvents';
+import {
+  sendCameraDevices,
+  sendGeolocation,
+  saveToDesktop,
+} from './helpers/ipcMainEvents';
 import {
   END_OF_DOCUMENT_DATA,
   READER_STATUS,
@@ -40,6 +44,7 @@ const App = () => {
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
       const messageData = JSON.parse(e.data);
+      saveToDesktop(messageData);
       const datatype = messageData.dataType;
       const datadata = {
         data: messageData.data,
@@ -52,6 +57,7 @@ const App = () => {
 
     events.addEventListener('event', (e) => {
       const messageData = JSON.parse(e.data);
+      saveToDesktop(messageData);
       if (messageData.event) {
         eventSourceData[messageData.event] = messageData;
       }
