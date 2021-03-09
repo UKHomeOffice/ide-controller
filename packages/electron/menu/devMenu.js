@@ -102,6 +102,42 @@ const devMenu = [
           }, 1000);
         },
       },
+      {
+        label: 'Trigger Scan Document data00',
+        accelerator: 'F7',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.data00();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
+        label: 'Trigger Scan Document data02',
+        accelerator: 'F8',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.data02();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
+      {
+        label: 'Trigger Scan Document data04',
+        accelerator: 'F9',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.data04();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
     ],
   },
 ];

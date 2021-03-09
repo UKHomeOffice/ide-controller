@@ -34,4 +34,9 @@ export const escapeHtml = (str) => {
     .replace(/'/g, '&#039;');
 };
 
+export const escapeNewLine = (str) => {
+  if (!str) return str;
+  return str.replace(/\n/g, '').replace(/\r/g, '');
+};
+
 export default {};
