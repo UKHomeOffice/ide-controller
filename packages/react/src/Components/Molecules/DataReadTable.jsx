@@ -19,8 +19,8 @@ const tagStatusMap = {
 const DataReadTable = () => {
   const {
     RF_CHIP_OPENED_SUCCESSFULLY,
-    CD_CODELINE,
-    CD_SCDG1_CODELINE,
+    CD_CODELINE_DATA,
+    CD_SCDG1_CODELINE_DATA,
     eventSourceEvent,
   } = useContext(EventSourceContext).eventSourceContext;
 
@@ -31,9 +31,11 @@ const DataReadTable = () => {
   );
 
   const updateMRZText = () => {
-    const noDocMRZData = !CD_CODELINE?.data;
-    const chipDocMRZMismatch =
-      escapeNewLine(CD_CODELINE?.data) !== CD_SCDG1_CODELINE?.data;
+    const noDocMRZData = !CD_CODELINE_DATA?.codelineData?.Data;
+
+    const docMRZ = CD_CODELINE_DATA?.codelineData?.Data;
+    const chipMRZ = CD_SCDG1_CODELINE_DATA?.codelineData?.Data;
+    const chipDocMRZMismatch = escapeNewLine(docMRZ) !== chipMRZ;
     const text = noDocMRZData || chipDocMRZMismatch ? 'warning' : 'successful';
 
     setMRZTagText(text);
