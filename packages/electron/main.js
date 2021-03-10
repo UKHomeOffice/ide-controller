@@ -17,12 +17,13 @@ const ApplicationInsightsLogger = require('azure-application-insights');
 const buildIdeMenu = require('./menu');
 const Store = require('./store');
 const executeWindowsCommand = require('./util/windows');
+const watchIDEUpdateDir = require('./util/IDEUpdateExeWatcher');
+const { isDev, isWindows, isMac } = require('./util/helpers.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, onlineStatusWindow;
-
-const isDev = process.env.ENV === 'development';
+const userStore = new Store();
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -36,7 +37,7 @@ function createWindow() {
     webPreferences: { nodeIntegration: true },
   });
 
-  if (process.platform === 'darwin') {
+  if (isMac) {
     const image = nativeImage.createFromPath(
       path.resolve(__dirname, 'build/icon.png')
     );
@@ -67,7 +68,12 @@ function createWindow() {
 Menu.setApplicationMenu(buildIdeMenu());
 
 // Electron `app` is ready
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  if (isWindows) {
+    watchIDEUpdateDir(userStore);
+  }
+});
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', app.quit);
@@ -118,7 +124,6 @@ ipcMain.on('online-status-changed', (event, status) => {
   applicationInsightsLogger.setIsOnline(isOnline);
 });
 
-const userStore = new Store();
 ipcMain.handle('addToStore', (event, name, type, data) => {
   userStore.set(name, type, data);
   applicationInsightsLogger.sync();
