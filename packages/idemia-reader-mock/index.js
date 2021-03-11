@@ -6,14 +6,11 @@ const idemiaResponse = require('./responses/image-match-response.json');
 const withChip = require('./responses/with-chip');
 const withoutChip = require('./responses/without-chip');
 const withPACE = require('./responses/with-PACE');
-<<<<<<< HEAD
 const data00 = require('./responses/data-00');
 const data02 = require('./responses/data-02');
 const data04 = require('./responses/data-04');
-=======
 const idCardFront = require('./responses/id-card-front');
 const idCardBack = require('./responses/id-card-back');
->>>>>>> master
 
 const { allowAllOrigins } = require('./helpers');
 
@@ -75,6 +72,8 @@ const readerServer = http.createServer((req, res) => {
 
     readerServer.data04 = () => {
       data04.forEach(handleDocReaderResponse);
+    };
+    
     readerServer.triggerWithIDFront = () => {
       idCardFront.forEach(handleDocReaderResponse);
     };
@@ -95,9 +94,7 @@ const readerServer = http.createServer((req, res) => {
       });
     };
 
-  }
-
-  else {
+  } else {
     res.statusCode = 404;
     res.end('Not found!')
   }
