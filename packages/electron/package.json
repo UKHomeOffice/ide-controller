@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "azure-application-insights": "^1.6.0",
-    "nedb-logger": "^0.1.0"
+    "nedb-logger": "^0.1.0",
+    "network": "^0.5.0"
   },
   "devDependencies": {
     "@ide-controller/react": "^1.6.0",

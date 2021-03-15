@@ -9,9 +9,9 @@ const {
   systemPreferences,
 } = require('electron');
 const path = require('path');
-const os = require('os');
 const fs = require('fs');
 const ApplicationInsightsLogger = require('azure-application-insights');
+const network = require('network');
 
 // Local imports
 const buildIdeMenu = require('./menu');
@@ -122,6 +122,9 @@ ipcMain.on('online-status-changed', (event, status) => {
   onlineStatusWindow = status; // eslint-disable-line
   const isOnline = status === 'online';
   applicationInsightsLogger.setIsOnline(isOnline);
+  network.get_active_interface((_, result) => {
+    if (result) userStore.set('Network Interface Change', 'SUCCESS', result);
+  });
 });
 
 ipcMain.handle('addToStore', (event, name, type, data) => {
@@ -149,7 +152,9 @@ process.on('warning', (warning) => {
   userStore.set('Electron WARNING', 'WARNING', { warning });
 });
 userStore.set('Application Status', 'SUCCESS', { ApplicationStart: 'Success' });
-userStore.set('Network Status', 'SUCCESS', os.networkInterfaces());
+network.get_active_interface((_, result) => {
+  if (result) userStore.set('Network Interface', 'SUCCESS', result);
+});
 
 if (!isDev) {
   /* eslint-disable */
