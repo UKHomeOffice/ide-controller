@@ -66,11 +66,16 @@ const LiveImage = ({ cameraId, className }) => {
   };
 
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', async () => {
-      setTimeout(estimate, 1000);
+    let isMounted = true;
+    videoRef.current.addEventListener('canplay', () => {
+      if (isMounted) setTimeout(estimate, 1000);
     });
     setScoreContext({});
     logDataEvent('Livephoto', 'Initialised');
+
+    return () => {
+      isMounted = false;
+    };
     // eslint-disable-next-line
   }, []);
 
