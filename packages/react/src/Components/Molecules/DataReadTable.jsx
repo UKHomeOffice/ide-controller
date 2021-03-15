@@ -52,6 +52,7 @@ const DataReadTable = () => {
       updateMRZText();
       updateChipText();
     }
+    // eslint-disable-next-line
   }, [eventSourceEvent, didFinishScan]);
 
   useEffect(() => {

@@ -112,6 +112,7 @@ const ImagePanel = ({ isActive }) => {
     } else {
       setDocImageCard(blankAvatar);
     }
+    // eslint-disable-next-line
   }, [CD_IMAGEPHOTO]);
 
   const restartLiveImage = () => {
@@ -142,6 +143,7 @@ const ImagePanel = ({ isActive }) => {
     ) {
       restartLiveImage();
     }
+    // eslint-disable-next-line
   }, [eventSourceEvent]);
 
   const [chipStatus, setChipStatus] = useState();
@@ -182,6 +184,7 @@ const ImagePanel = ({ isActive }) => {
     setDocumentStatus(docStat);
     setChipStatusBarText(chipStatusTextMap[chipStat]);
     setDocumentStatusBarText(chipStatusTextMap[docStat]);
+    // eslint-disable-next-line
   }, [eventSourceEvent, CD_SCDG2_PHOTO, statusContext, useRef()]);
 
   return (
@@ -252,6 +255,7 @@ const ImagePanel = ({ isActive }) => {
               </div>
             </Column>
           ),
+          // eslint-disable-next-line
           [liveImageKey, cameraDeviceId]
         )}
       </Row>

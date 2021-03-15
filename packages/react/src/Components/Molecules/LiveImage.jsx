@@ -71,6 +71,7 @@ const LiveImage = ({ cameraId, className }) => {
     });
     setScoreContext({});
     logDataEvent('Livephoto', 'Initialised');
+    // eslint-disable-next-line
   }, []);
 
   return (

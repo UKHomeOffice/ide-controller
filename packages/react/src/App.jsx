@@ -29,8 +29,6 @@ const App = () => {
   const [statusContext, setStatusContext] = useState();
   const [uuid, setUuid] = useState('');
 
-  let docType = '';
-
   // On Startup
   useEffect(() => {
     sendCameraDevices();
@@ -39,6 +37,7 @@ const App = () => {
 
   // Doc reader
   useEffect(() => {
+    let docType = '';
     let eventSourceData = {};
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
@@ -102,6 +101,7 @@ const App = () => {
       logDataEvent('deviceStatus', messageData);
       setStatusContext(messageData.status);
     });
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -110,6 +110,7 @@ const App = () => {
     CD_SCDG2_PHOTO,
   } = eventSourceContext;
   const { image } = livePhotoContext;
+
   useEffect(() => {
     if (!CD_IMAGEPHOTO?.image || !image) return;
 
@@ -129,6 +130,7 @@ const App = () => {
           match: { score: 0 },
         })
       );
+    // eslint-disable-next-line
   }, [image, croppedDocumentImage, CD_SCDG2_PHOTO]);
 
   return (

@@ -12,6 +12,7 @@ const CanvasImage = forwardRef(
       if (isEmpty(sourceImage.image)) return;
       const context = canvasRef.current.getContext('2d');
       drawImage(context, sourceImage, destinationImage);
+      // eslint-disable-next-line
     }, [sourceImage]);
 
     return (
