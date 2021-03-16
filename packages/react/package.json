@@ -1,6 +1,6 @@
 {
   "name": "@ide-controller/react",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "private": true,
   "homepage": "./",
   "author": "Viable Data",
@@ -30,8 +30,8 @@
     "@tensorflow/tfjs": "^2.7.0",
     "govuk-frontend": "^3.8.0",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "react-scripts": "^3.4.3"
   },
   "devDependencies": {

@@ -29,6 +29,7 @@ const Video = forwardRef(
       if (stream) stream.getTracks().forEach((track) => track.stop());
       const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
       setupCamera(videoOptions);
+      // eslint-disable-next-line
     }, [cameraId]);
 
     return (

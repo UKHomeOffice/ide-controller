@@ -17,7 +17,7 @@ class Store {
   set(eventName, eventType, ...args) {
     this.logger.insert({
       ...args[0],
-      eventName,
+      trackEventName: eventName,
       eventType,
       created_at: Date.now(),
       version: packagejson.version,
