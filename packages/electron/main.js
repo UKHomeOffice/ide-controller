@@ -113,10 +113,7 @@ ipcMain.on('webCamDevices', (event, list) => {
 });
 
 const logFilePath = `${app.getPath('appData')}/IDE/ide-controller-log.db`;
-const applicationInsightsLogger = new ApplicationInsightsLogger(
-  logFilePath,
-  'Document Scan Event'
-);
+const applicationInsightsLogger = new ApplicationInsightsLogger(logFilePath);
 
 ipcMain.on('online-status-changed', (event, status) => {
   onlineStatusWindow = status; // eslint-disable-line
