@@ -87,8 +87,8 @@ const ImagePanel = ({ isActive }) => {
       image.onload = () => {
         getCroppedImageCoordination(image).then((res) => {
           const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
+          canvas.width = livePhotoConfig.canvas.width;
+          canvas.height = livePhotoConfig.canvas.height;
           const context = canvas.getContext('2d');
           const sourceImage = {
             image,
