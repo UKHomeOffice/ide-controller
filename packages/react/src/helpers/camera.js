@@ -110,6 +110,8 @@ const calculateLiveImageCoordination = (
   To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
   To calculate the ratio  = $live-image-height / $live-image-width
   */
+
+  // 617.5 / 405
   const ratio = 1.525;
   const xOneSideMargin = margin / 2;
   const xStart = Math.floor(rightEar.x) - xOneSideMargin;
