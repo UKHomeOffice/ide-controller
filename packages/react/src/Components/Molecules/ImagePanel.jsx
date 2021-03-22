@@ -29,6 +29,7 @@ import {
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
+let timer;
 
 const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
@@ -118,7 +119,7 @@ const ImagePanel = ({ isActive }) => {
   const restartLiveImage = () => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
-    setTimeout(() => setCanRetakeImage(true), 1000);
+    timer = setTimeout(() => setCanRetakeImage(true), 1000);
     logDataEvent('Livephoto', 'Retake Camera Image');
   };
 
@@ -143,6 +144,9 @@ const ImagePanel = ({ isActive }) => {
     ) {
       restartLiveImage();
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
     // eslint-disable-next-line
   }, [eventSourceEvent]);
 

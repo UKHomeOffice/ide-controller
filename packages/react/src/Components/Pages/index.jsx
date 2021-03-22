@@ -37,6 +37,10 @@ const Index = () => {
   useEffect(() => {
     if (timer) clearTimeout(timer);
     timer = setTimeout(emptyAllContext, clearDataTimeout);
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
     // eslint-disable-next-line
   }, [eventSourceContext.timestamp, livePhotoContext.timestamp]);
 
