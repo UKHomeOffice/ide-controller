@@ -98,8 +98,8 @@ const ImagePanel = ({ isActive }) => {
             height: res.calculatedHeight,
           };
           const destinationImage = {
-            width: canvas.width,
-            height: canvas.height,
+            width: livePhotoConfig.canvas.width,
+            height: livePhotoConfig.canvas.height,
           };
           drawImage(context, sourceImage, destinationImage);
           setDocImageCard(canvas.toDataURL('image/jpeg'));
