@@ -213,7 +213,7 @@ const ImagePanel = ({ isActive }) => {
         <Column size="one-third">
           <StatusBar
             text={documentStatusBarText}
-            visible={!CD_IMAGEPHOTO}
+            visible={!CD_IMAGEPHOTO && !isIDCard}
             status={documentStatus}
           />
           <StatusBar
