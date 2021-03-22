@@ -29,6 +29,7 @@ import {
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
+let timer;
 
 const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
@@ -87,8 +88,8 @@ const ImagePanel = ({ isActive }) => {
       image.onload = () => {
         getCroppedImageCoordination(image).then((res) => {
           const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
+          canvas.width = livePhotoConfig.canvas.width;
+          canvas.height = livePhotoConfig.canvas.height;
           const context = canvas.getContext('2d');
           const sourceImage = {
             image,
@@ -98,8 +99,8 @@ const ImagePanel = ({ isActive }) => {
             height: res.calculatedHeight,
           };
           const destinationImage = {
-            width: canvas.width,
-            height: canvas.height,
+            width: livePhotoConfig.canvas.width,
+            height: livePhotoConfig.canvas.height,
           };
           drawImage(context, sourceImage, destinationImage);
           setDocImageCard(canvas.toDataURL('image/jpeg'));
@@ -118,7 +119,7 @@ const ImagePanel = ({ isActive }) => {
   const restartLiveImage = () => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
-    setTimeout(() => setCanRetakeImage(true), 1000);
+    timer = setTimeout(() => setCanRetakeImage(true), 1000);
     logDataEvent('Livephoto', 'Retake Camera Image');
   };
 
@@ -143,6 +144,9 @@ const ImagePanel = ({ isActive }) => {
     ) {
       restartLiveImage();
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
     // eslint-disable-next-line
   }, [eventSourceEvent]);
 

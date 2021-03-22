@@ -110,30 +110,16 @@ const calculateLiveImageCoordination = (
   To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
   To calculate the ratio  = $live-image-height / $live-image-width
   */
+
+  // 617.5 / 405
   const ratio = 1.525;
   const xOneSideMargin = margin / 2;
   const xStart = Math.floor(rightEar.x) - xOneSideMargin;
   const xEnd = Math.ceil(leftEar.x) + xOneSideMargin;
   const sWidth = xEnd - xStart;
   const sHeight = sWidth * ratio;
-  const yStart = Math.floor(nose.y) - sHeight / 1.7;
-
-  return {
-    sourceX: xStart,
-    sourceY: yStart,
-    calculatedWidth: sWidth,
-    calculatedHeight: sHeight,
-  };
-};
-
-const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
-  const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
-  const ratio = 663.812 / 440.906;
-  const xStart = Math.floor(rightEar.x) - margin / 2;
-  const xEnd = Math.ceil(leftEar.x) + margin / 2;
-  const sWidth = xEnd - xStart;
-  const sHeight = sWidth * ratio;
-  const yStart = Math.floor(nose.y) - sHeight / 1.7;
+  let yStart = Math.floor(nose.y) - sHeight / 1.7;
+  yStart = yStart > 0 ? yStart : 0;
 
   return {
     sourceX: xStart,
@@ -145,14 +131,11 @@ const calculateCoordination = ({ nose, leftEar, rightEar }, zoomFactor) => {
 
 export const getCroppedImageCoordination = async (
   frame,
-  zoomFactor = defaultZoomFactor,
-  rotate = false
+  zoomFactor = defaultZoomFactor
 ) => {
   keypoints = (await estimateSinglePose(frame)).keypoints;
   const keypointsPosition = extractKeypointsPosition();
-  return rotate
-    ? calculateLiveImageCoordination(keypointsPosition, zoomFactor)
-    : calculateCoordination(keypointsPosition, zoomFactor);
+  return calculateLiveImageCoordination(keypointsPosition, zoomFactor);
 };
 
 export default {};
