@@ -36,7 +36,6 @@ const LiveImage = ({ cameraId, className }) => {
   const [isGoodQuality, setIsGoodQuality] = useState(false);
 
   let imageQualityCounter = 0;
-  let timer;
 
   const estimate = async () => {
     const isCameraOffline = !videoRef.current;
@@ -53,10 +52,10 @@ const LiveImage = ({ cameraId, className }) => {
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
     if (imageQualityCounter < 5) {
-      timer = setTimeout(estimate, 50);
+      setTimeout(estimate, 50);
     } else {
-      logDataEvent('Livephoto', 'Taken');
-      videoRef.current.pause();
+      logDataEvent('LivePhoto', 'Taken');
+      if (videoRef.current) videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
@@ -68,14 +67,10 @@ const LiveImage = ({ cameraId, className }) => {
 
   useEffect(() => {
     videoRef.current.addEventListener('canplay', () => {
-      timer = setTimeout(estimate, 1000);
+      setTimeout(estimate, 1000);
     });
     setScoreContext({});
-    logDataEvent('Livephoto', 'Initialised');
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
+    logDataEvent('LivePhoto', 'Initialised');
     // eslint-disable-next-line
   }, []);
 

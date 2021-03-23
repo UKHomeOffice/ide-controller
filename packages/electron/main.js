@@ -29,7 +29,7 @@ const userStore = new Store();
 function createWindow() {
   mainWindow = new BrowserWindow({
     // frame: false,
-    width: 1920,
+    width: isDev ? 2600 : 1920,
     height: 1280,
     resizable: isDev,
     titleBarStyle: isDev ? '' : 'hidden',

@@ -13,8 +13,7 @@ import {
 import { Header } from '../Organisms';
 import { EventSourceContext, LivePhotoContext, ScoreContext } from '../Context';
 import { clearDataTimeout } from '../../config/camera';
-
-let timer;
+import { logDataEvent } from '../../helpers/log';
 
 const Index = () => {
   const { eventSourceContext, setEventSourceContext } = useContext(
@@ -32,11 +31,11 @@ const Index = () => {
     setLivePhotoContext({});
     setScoreContext({});
     setTimeout(() => setCanRetakeImage(true), 1000);
+    logDataEvent('Clear data immediately', 'Button Clicked');
   };
 
   useEffect(() => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(emptyAllContext, clearDataTimeout);
+    const timer = setTimeout(emptyAllContext, clearDataTimeout);
 
     return () => {
       if (timer) clearTimeout(timer);

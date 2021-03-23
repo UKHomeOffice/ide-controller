@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect } from 'react';
 
-let stream;
 const Video = forwardRef(
   ({ captureOptions, cameraId, className }, videoRef) => {
     const getVideoOptionsWithExactDeviceId = (selectedDeviceId) => ({
@@ -13,22 +12,38 @@ const Video = forwardRef(
       },
     });
 
-    const setupCamera = async (options) => {
-      stream = await navigator.mediaDevices?.getUserMedia(options);
-      const video = videoRef.current;
-      if (video) {
-        video.srcObject = stream;
-        video.play();
-        video.addEventListener('pause', () =>
-          stream.getTracks().forEach((track) => track.stop())
-        );
-      }
+    const setupCamera = (options) => {
+      navigator.mediaDevices.getUserMedia(options).then((stream) => {
+        let video = videoRef.current;
+        if (video) {
+          video.srcObject = stream;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                video.addEventListener('pause', () =>
+                  stream.getTracks().forEach((track) => track.stop())
+                );
+              })
+              .catch(() => {
+                video = null;
+              });
+          }
+        }
+      });
     };
 
     useEffect(() => {
-      if (stream) stream.getTracks().forEach((track) => track.stop());
-      const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
-      setupCamera(videoOptions);
+      try {
+        const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
+        setupCamera(videoOptions);
+      } catch {
+        // console.log()
+      }
+
+      return () => {
+        if (videoRef.current) videoRef.current.pause();
+      };
       // eslint-disable-next-line
     }, [cameraId]);
 
