@@ -14,8 +14,6 @@ import { Header } from '../Organisms';
 import { EventSourceContext, LivePhotoContext, ScoreContext } from '../Context';
 import { clearDataTimeout } from '../../config/camera';
 
-let timer;
-
 const Index = () => {
   const { eventSourceContext, setEventSourceContext } = useContext(
     EventSourceContext
@@ -35,8 +33,7 @@ const Index = () => {
   };
 
   useEffect(() => {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(emptyAllContext, clearDataTimeout);
+    const timer = setTimeout(emptyAllContext, clearDataTimeout);
 
     return () => {
       if (timer) clearTimeout(timer);

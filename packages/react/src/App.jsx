@@ -116,8 +116,8 @@ const App = () => {
 
     post(IMAGE_MATCH, {
       chipImage: CD_SCDG2_PHOTO?.image,
-      bioImage: croppedDocumentImage.replace('data:image/jpeg;base64,', ''),
-      liveImage: image.replace('data:image/jpeg;base64,', ''),
+      bioImage: croppedDocumentImage?.replace('data:image/jpeg;base64,', ''),
+      liveImage: image?.replace('data:image/jpeg;base64,', ''),
       uuid,
       mrzHash: logData().mrzHash,
     })
