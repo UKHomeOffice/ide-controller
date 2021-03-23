@@ -116,11 +116,11 @@ const ImagePanel = ({ isActive }) => {
     // eslint-disable-next-line
   }, [CD_IMAGEPHOTO]);
 
-  const restartLiveImage = () => {
+  const restartLiveImage = (eventName) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
     timer = setTimeout(() => setCanRetakeImage(true), 1000);
-    logDataEvent('Livephoto', 'Retake Camera Image');
+    logDataEvent('LivePhoto', eventName);
   };
 
   useEffect(() => {
@@ -128,12 +128,12 @@ const ImagePanel = ({ isActive }) => {
 
     ipcRenderer.on('webCamDevices', (event, { deviceId }) => {
       setCameraDeviceId(deviceId);
-      logDataEvent('Livephoto', 'New camera selected');
+      logDataEvent('LivePhoto', 'New Camera Selected');
     });
     navigator.mediaDevices.ondevicechange = () => {
       sendCameraDevices();
       selectedDeviceId().then(setCameraDeviceId);
-      logDataEvent('Livephoto', 'USB Device Change');
+      logDataEvent('LivePhoto', 'USB Device Change');
     };
   }, []);
 
@@ -142,7 +142,7 @@ const ImagePanel = ({ isActive }) => {
       eventSourceEvent === START_OF_DOCUMENT_DATA ||
       eventSourceEvent?.startsWith('RESTART')
     ) {
-      restartLiveImage();
+      restartLiveImage('Retake Camera Image, "Clear data immediately" Button');
     }
     return () => {
       if (timer) clearTimeout(timer);
@@ -266,7 +266,12 @@ const ImagePanel = ({ isActive }) => {
       <div className="govuk-section-break--m" />
       <div className="govuk-grid-row flex-direction-row-reverse">
         <Column size="one-third">
-          <Button disabled={!canRetakeImage} onClick={restartLiveImage}>
+          <Button
+            disabled={!canRetakeImage}
+            onClick={() => {
+              restartLiveImage('"Retake camera image" Button Clicked');
+            }}
+          >
             Retake camera image
           </Button>
         </Column>
