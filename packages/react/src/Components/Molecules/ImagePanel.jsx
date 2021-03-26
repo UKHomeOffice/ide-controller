@@ -67,7 +67,7 @@ const ImagePanel = ({ isActive }) => {
     eventSourceEvent,
     CD_SCDG2_PHOTO,
     CD_IMAGEPHOTO,
-    CD_CODELINE_DATA,
+    // CD_CODELINE_DATA,
   } = eventSourceContext;
   const { setEventSourceContext } = useContext(EventSourceContext);
   const { statusContext } = useContext(StatusContext);
@@ -77,7 +77,8 @@ const ImagePanel = ({ isActive }) => {
   const [liveImageKey, setLiveImageKey] = useState('initial-liveImageKey');
   const [docImageCard, setDocImageCard] = useState(blankAvatar);
 
-  const isIDCard = CD_CODELINE_DATA?.codelineData?.DocType === IDENTITY_CARD;
+  // const isIDCard = CD_CODELINE_DATA?.codelineData?.DocType === IDENTITY_CARD;
+  const isIDCard = false;
 
   useEffect(() => {
     const base64Image =
