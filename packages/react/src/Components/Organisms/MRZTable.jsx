@@ -25,7 +25,7 @@ const getDocumentType = (docData) => {
 };
 
 const getIssuingState = (docData) => {
-  return docData ? docData.codelineData.IssuingState : 'No  Data';
+  return docData ? docData.codelineData.IssuingState : 'No Data';
 };
 
 const formatMRZData = (docData) => {
