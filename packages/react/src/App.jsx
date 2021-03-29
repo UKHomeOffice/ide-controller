@@ -37,7 +37,7 @@ const App = () => {
 
   // Doc reader
   useEffect(() => {
-    let docType = '';
+    const docType = '';
     let eventSourceData = {};
     const events = new EventSource(DATA_READER);
     events.addEventListener('data', (e) => {
@@ -52,7 +52,7 @@ const App = () => {
       eventSourceData[datatype] = datadata;
 
       if (messageData.codelineData?.DocType) {
-        docType = messageData.codelineData.DocType;
+        // docType = messageData.codelineData.DocType;
       }
     });
 
