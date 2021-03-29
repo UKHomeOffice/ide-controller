@@ -138,6 +138,18 @@ const devMenu = [
           }, 1000);
         },
       },
+      {
+        label: 'Trigger Scan Document MRZ Covered',
+        accelerator: 'F10',
+        click: () => {
+          const tryAgain = setInterval(() => {
+            if (readerServer.triggerWithoutChip) {
+              readerServer.mrzCovered();
+              clearInterval(tryAgain);
+            }
+          }, 1000);
+        },
+      },
     ],
   },
 ];

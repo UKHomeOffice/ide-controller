@@ -11,6 +11,7 @@ const data02 = require('./responses/data-02');
 const data04 = require('./responses/data-04');
 const idCardFront = require('./responses/id-card-front');
 const idCardBack = require('./responses/id-card-back');
+const mrzCovered = require('./responses/mrz-covered');
 
 const { allowAllOrigins } = require('./helpers');
 
@@ -76,6 +77,10 @@ const readerServer = http.createServer((req, res) => {
     
     readerServer.triggerWithIDFront = () => {
       idCardFront.forEach(handleDocReaderResponse);
+    };
+
+    readerServer.mrzCovered = () => {
+      mrzCovered.forEach(handleDocReaderResponse);
     };
 
     readerServer.triggerWithChipSlow = () => {

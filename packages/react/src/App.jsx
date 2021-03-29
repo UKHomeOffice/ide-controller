@@ -101,6 +101,11 @@ const App = () => {
       logDataEvent('deviceStatus', messageData);
       setStatusContext(messageData.status);
     });
+
+    events.addEventListener('error', (e) => {
+      const messageData = JSON.parse(e.data);
+      logDataEvent('docReaderError', messageData);
+    });
     // eslint-disable-next-line
   }, []);
 
