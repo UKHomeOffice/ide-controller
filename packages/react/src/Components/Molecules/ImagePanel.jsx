@@ -24,7 +24,7 @@ import { livePhotoConfig } from '../../config/camera';
 import {
   END_OF_DOCUMENT_DATA,
   START_OF_DOCUMENT_DATA,
-  IDENTITY_CARD,
+  // IDENTITY_CARD,
 } from '../../config/EventSource';
 
 const electron = window.require('electron');
