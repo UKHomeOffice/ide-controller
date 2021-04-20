@@ -1,6 +1,6 @@
 {
   "name": "ide",
-  "version": "1.6.5",
+  "version": "2.0.0",
   "description": "electron app",
   "keywords": [
     "electron",
@@ -28,12 +28,12 @@
     "testcafe": "testcafe 'electron:./' './tests/*.js'"
   },
   "dependencies": {
-    "azure-application-insights": "^1.6.5",
+    "azure-application-insights": "^2.0.0",
     "nedb-logger": "^0.1.0",
     "network": "^0.5.0"
   },
   "devDependencies": {
-    "@ide-controller/react": "^1.6.5",
+    "@ide-controller/react": "^2.0.0",
     "codeceptjs": "^3.0.4",
     "electron": "^11.1.1",
     "electron-builder": "^22.9.1",
