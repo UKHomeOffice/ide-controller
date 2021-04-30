@@ -2,10 +2,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Tag = ({ tagText, tagStatus, className }) => {
+const Tag = ({ tagText, tagStatus }) => {
   return (
     <strong
-      className={`govuk-tag font--19pt bg--${tagStatus} ${className}`}
+      className={`govuk-tag font--19pt bg--${tagStatus}`}
       data-testid="atoms-tag"
     >
       {tagText}
@@ -17,11 +17,6 @@ Tag.propTypes = {
   tagStatus: PropTypes.oneOf(['neutral', 'passed', 'failed', 'warning'])
     .isRequired,
   tagText: PropTypes.string.isRequired,
-  className: PropTypes.string,
-};
-
-Tag.defaultProps = {
-  className: '',
 };
 
 export default Tag;

@@ -42,7 +42,7 @@ const LiveImage = ({ cameraId, className }) => {
     if (isCameraOffline) return;
 
     context.drawImage(videoRef.current, 0, 0);
-
+    
     const croppedImageCoordination = await getCroppedImageCoordination(
       rotatedCanvas
     );

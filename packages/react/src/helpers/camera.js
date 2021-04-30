@@ -4,6 +4,10 @@
 import * as ts from '@tensorflow/tfjs';
 import * as posenet from '@tensorflow-models/posenet';
 
+// eslint-disable-next-line
+import * as backendWebgl from '@tensorflow/tfjs-backend-webgl';
+import * as faceLandmarksDetection from '@tensorflow-models/face-landmarks-detection';
+
 // Local imports
 import { livePhotoConfig } from '../config/camera';
 
@@ -16,7 +20,7 @@ const {
 
 let net;
 let keypoints;
-
+let prediction;
 /*
  * tfjs-models
  * https://github.com/tensorflow/tfjs-models/tree/master/posenet
@@ -53,7 +57,47 @@ const isGoodResolution = (width) => {
   return resolutionPercentage > imageResolution;
 };
 
-export const isGoodPicture = (croppedImageCoordination) => {
+/**
+ *  3- check if the frame is good to use 👇
+ *    a) isEyesOpen
+ *    b) isFaceStraight
+ *    c) isEyesLookingAtCamera
+ *    b) isMouthClosed
+ */
+
+const isEyesOpen = () => {
+  const mesh = prediction .mesh ;
+  if (Math.abs(mesh[386][1] - mesh[374][1] ) < 3 ){
+    // LEFT
+    return false ;
+  }else if (Math.abs(mesh[159][1] - mesh[145][1] ) < 3 ){
+   // Right
+   return false;
+  }
+  return true;
+}
+
+const isFaceStraight = () => {
+  const  annotations  = prediction.annotations;
+  const [topX, topY , topZ ] = annotations.midwayBetweenEyes[0];
+  const [leftEyeX , leftEyeY , leftEyeZ] = annotations.leftEyeIris[0];
+  const [rightEyeX , rightEyeY] = annotations.rightEyeIris[0];
+  const [r1 , r , noseTipZ] = annotations.noseTip[0];
+  const ted =(Math.abs(topX - leftEyeX)  / Math.abs (topX - rightEyeX));
+  const error = 0.2 ;
+  let minZ = 9999 ;
+  let maxZ = -9999 ;
+
+  return !(!(ted < 1 + error && ted > 1 - error && leftEyeZ >= minZ  && noseTipZ <= maxZ  ));
+}
+const isMouthClosed = () => {
+  const mesh = prediction .mesh ;
+  return ! (4 < Math.abs(mesh[13][1] - mesh[14][1]) ) ; 
+}
+
+export const isGoodPicture = (croppedImageCoordination  ) => {
+  if (!prediction)
+    return false;
   const isBelowThreshold = (threshold = defaulThreshold) => {
     if (!keypoints) return true;
     return !!keypoints
@@ -78,9 +122,13 @@ export const isGoodPicture = (croppedImageCoordination) => {
   };
 
   return (
+    isFaceStraight(prediction) && 
+    isEyesOpen(prediction) && 
+    isMouthClosed(prediction) /*&& 
+    
     isAboveThreshold() &&
     isGoodRatio(croppedImageCoordination) &&
-    isGoodResolution(croppedImageCoordination.calculatedWidth)
+    isGoodResolution(croppedImageCoordination.calculatedWidth)*/
   );
 };
 
@@ -129,13 +177,59 @@ const calculateLiveImageCoordination = (
   };
 };
 
+const calculateLiveImageCoordinationLandMarkModel = (
+ 
+) => {
+  console.log(prediction)
+  const boindingBox = prediction.boundingBox;
+
+  const sWidth = Math.abs(boindingBox.topLeft[0] - boindingBox.bottomRight[0]); 
+  const sHeight = Math.abs(boindingBox.topLeft[1] - boindingBox.bottomRight[1]);
+  return {
+    sourceX: boindingBox.topLeft[0],
+    sourceY: boindingBox.topLeft[1],
+    calculatedWidth: sWidth,
+    calculatedHeight: sHeight,
+  };
+};
+let model = null;
+async function estimateSinglePose2(frame) {
+  // Load the MediaPipe Facemesh package if it does not exists.
+  if (!model) {
+    model = await faceLandmarksDetection.load(
+      faceLandmarksDetection.SupportedPackages.mediapipeFacemesh
+    );
+  }
+  const predictions = await model.estimateFaces({
+    input: frame,
+  });
+
+  if (predictions.length > 0) {
+    /*
+      1- If there're multiple faces get the closest to the camera
+    */
+   // console.log(predictions[0]);
+    return predictions[0];
+  }
+
+  return null;
+}
+
 export const getCroppedImageCoordination = async (
   frame,
   zoomFactor = defaultZoomFactor
 ) => {
-  keypoints = (await estimateSinglePose(frame)).keypoints;
-  const keypointsPosition = extractKeypointsPosition();
-  return calculateLiveImageCoordination(keypointsPosition, zoomFactor);
+  /**  use pose model
+  keypoints = (await estimateSinglePose(frame)).keypoints; 
+  const keypointsPosition = extractKeypointsPosition(); 
+  return calculateLiveImageCoordination(keypointsPosition, zoomFactor);*/
+
+  /**
+   * 2- use the new function estimateSinglePose2 to get keypointsPosition
+   */ 
+  
+ prediction = await estimateSinglePose2(frame); 
+  return  (prediction) ?  calculateLiveImageCoordinationLandMarkModel() : {};
 };
 
 export default {};

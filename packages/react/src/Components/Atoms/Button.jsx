@@ -2,10 +2,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Button = ({ buttonVariant, onClick, children, disabled, className }) => {
+const Button = ({ buttonVariant, onClick, children, disabled }) => {
   return (
     <button
-      className={`govuk-button font--19pt govuk-button--${buttonVariant} ${className}`}
+      className={`govuk-button font--19pt govuk-button--${buttonVariant}`}
       data-module="govuk-button"
       type="button"
       onClick={onClick}
@@ -22,14 +22,12 @@ Button.propTypes = {
   buttonVariant: PropTypes.string,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
-  className: PropTypes.string,
 };
 
 Button.defaultProps = {
   buttonVariant: 'secondary',
   onClick: null,
   disabled: false,
-  className: '',
 };
 
 export default Button;

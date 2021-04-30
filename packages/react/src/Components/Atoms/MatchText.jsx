@@ -12,24 +12,20 @@ const resultText = (score) => {
   return '';
 };
 
-const MatchText = ({ score, passState, className }) => {
+const MatchText = ({ score, passState }) => {
   return (
-    <h1 className={`govuk-heading-xl ${passState} ${className}`}>
-      {resultText(score)}
-    </h1>
+    <h1 className={`govuk-heading-xl ${passState}`}>{resultText(score)}</h1>
   );
 };
 
 MatchText.propTypes = {
   score: PropTypes.number,
   passState: PropTypes.string,
-  className: PropTypes.string,
 };
 
 MatchText.defaultProps = {
   score: NaN,
   passState: 'neutral',
-  className: '',
 };
 
 export default MatchText;
