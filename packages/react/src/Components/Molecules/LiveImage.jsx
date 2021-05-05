@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Local imports
 import {
+  loadModel,
   getCroppedImageCoordination,
   isGoodPicture,
 } from '../../helpers/camera';
@@ -34,6 +35,7 @@ const LiveImage = ({ cameraId, className }) => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let imageQualityCounter = 0;
 
@@ -52,7 +54,7 @@ const LiveImage = ({ cameraId, className }) => {
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
     if (imageQualityCounter < 5) {
-      setTimeout(estimate, 50);
+      requestAnimationFrame(estimate);
     } else {
       logDataEvent('LivePhoto', 'Taken');
       if (videoRef.current) videoRef.current.pause();
@@ -66,8 +68,10 @@ const LiveImage = ({ cameraId, className }) => {
   };
 
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', () => {
-      setTimeout(estimate, 1000);
+    videoRef.current.addEventListener('canplay', async () => {
+      await loadModel();
+      await estimate();
+      setLoading(false);
     });
     setScoreContext({});
     logDataEvent('LivePhoto', 'Initialised');
@@ -99,11 +103,9 @@ const LiveImage = ({ cameraId, className }) => {
               height: sourceImageOptions.calculatedHeight,
             }}
           />
+          <LoadingOverlay show={loading} />
         </>
       )}
-
-      <LoadingOverlay show={false} />
-
       {showCanvas && (
         <CanvasImage
           className="position-absolute"
