@@ -1,8 +1,9 @@
 // Global imports
+import * as faceLandmarksDetection from '@tensorflow-models/face-landmarks-detection';
 /* Tensor Flow JS (not used in this file) is required by @tensorflow-models/posenet library */
 // eslint-disable-next-line
-import * as ts from '@tensorflow/tfjs';
-import * as posenet from '@tensorflow-models/posenet';
+import * as tf from '@tensorflow/tfjs-core';
+import '@tensorflow/tfjs-backend-webgl';
 
 // Local imports
 import { livePhotoConfig } from '../config/camera';
@@ -14,28 +15,8 @@ const {
   imageResolution,
 } = livePhotoConfig;
 
-let net;
-let keypoints;
-
-/*
- * tfjs-models
- * https://github.com/tensorflow/tfjs-models/tree/master/posenet
- */
-const loadPosenet = () =>
-  posenet.load({
-    architecture: 'ResNet50',
-    outputStride: 32,
-    multiplier: 1,
-    quantBytes: 1,
-    modelUrl: './model-stride32.json',
-  });
-
-/* Creates posenet singelton */
-export const estimateSinglePose = async (frame) => {
-  if (!net) net = await loadPosenet();
-  /* parameter(imageSource, imageScaleFactor, flipHorizontal, outputStride) */
-  return net.estimateSinglePose(frame, 0.5, false, 16);
-};
+let prediction;
+let model;
 
 export const getCameraDevices = async () => {
   const enumerateDevices = await navigator.mediaDevices?.enumerateDevices();
@@ -54,15 +35,8 @@ const isGoodResolution = (width) => {
 };
 
 export const isGoodPicture = (croppedImageCoordination) => {
-  const isBelowThreshold = (threshold = defaulThreshold) => {
-    if (!keypoints) return true;
-    return !!keypoints
-      .slice(0, 5)
-      .find((poseItem) => poseItem.score < threshold);
-  };
-
   const isAboveThreshold = (threshold = defaulThreshold) =>
-    !isBelowThreshold(threshold);
+    prediction?.faceInViewConfidence > threshold;
 
   const isGoodRatio = ({
     sourceX,
@@ -84,58 +58,55 @@ export const isGoodPicture = (croppedImageCoordination) => {
   );
 };
 
-const calculateMargin = ({ leftEar, rightEar }, zoomFactor) => {
-  /* 5 is an arbitrary number to divide the face into sections  */
-  const faceVerticalDivisions = 5;
-  let margin = ((leftEar.x - rightEar.x) / faceVerticalDivisions) * 2;
-  margin *= zoomFactor;
-  return margin;
+/*
+ * tfjs-models
+ * https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection
+ * Creates MediaPipe Facemesh singleton
+ */
+export const loadModel = async () => {
+  model = await faceLandmarksDetection.load(
+    faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
+    {
+      shouldLoadIrisModel: true,
+      maxFaces: 1,
+      iouThreshold: 0,
+      scoreThreshold: 0.95,
+      // flipHorizontal: true,
+    }
+  );
 };
 
-const extractKeypointsPosition = () => ({
-  nose: keypoints[0].position,
-  leftEar: keypoints[3].position,
-  rightEar: keypoints[4].position,
-});
-
-const calculateLiveImageCoordination = (
-  { nose, leftEar, rightEar },
-  zoomFactor
+export const getCroppedImageCoordination = async (
+  stream,
+  zoomFactor = defaultZoomFactor
 ) => {
-  const margin = calculateMargin({ leftEar, rightEar }, zoomFactor);
+  prediction = {};
+  const predictions = await model.estimateFaces({ input: stream });
+  [prediction] = predictions;
+
+  if (!prediction) return {};
+
   /* 
   This used to be calculated dynamically like this 👇
   const ratio = video.height / video.width;
   But now because the image is rotated and part of it is hidden, we just calculate the visible box ratio 
   To get the dimensions go to variables.scss and look for $live-image-width & $live-image-height
   To calculate the ratio  = $live-image-height / $live-image-width
+  currently 617.5 / 405 = 1.525
   */
-
-  // 617.5 / 405
   const ratio = 1.525;
-  const xOneSideMargin = margin / 2;
-  const xStart = Math.floor(rightEar.x) - xOneSideMargin;
-  const xEnd = Math.ceil(leftEar.x) + xOneSideMargin;
-  const sWidth = xEnd - xStart;
-  const sHeight = sWidth * ratio;
-  let yStart = Math.floor(nose.y) - sHeight / 1.7;
-  yStart = yStart > 0 ? yStart : 0;
+  const { bottomRight, topLeft } = prediction.boundingBox;
+  const { noseTip, midwayBetweenEyes } = prediction.annotations;
+
+  const width = bottomRight[0] - topLeft[0] * zoomFactor;
+  const height = width * ratio;
 
   return {
-    sourceX: xStart,
-    sourceY: yStart,
-    calculatedWidth: sWidth,
-    calculatedHeight: sHeight,
+    sourceX: noseTip[0][0] - width / 2,
+    sourceY: midwayBetweenEyes[0][1] - height / 2,
+    calculatedWidth: width,
+    calculatedHeight: height,
   };
-};
-
-export const getCroppedImageCoordination = async (
-  frame,
-  zoomFactor = defaultZoomFactor
-) => {
-  keypoints = (await estimateSinglePose(frame)).keypoints;
-  const keypointsPosition = extractKeypointsPosition();
-  return calculateLiveImageCoordination(keypointsPosition, zoomFactor);
 };
 
 export default {};
