@@ -9,7 +9,7 @@ import {
 } from '../../helpers/camera';
 import { createAndRotateCanvas } from '../../helpers/canvas';
 import { logDataEvent } from '../../helpers/log';
-import { CanvasImage, CanvasRect, Video } from '../Atoms';
+import { CanvasImage, CanvasRect, Video, LoadingOverlay } from '../Atoms';
 import { ScoreContext } from '../Context';
 import { LivePhotoContext } from '../Context/LivePhoto';
 
@@ -101,6 +101,9 @@ const LiveImage = ({ cameraId, className }) => {
           />
         </>
       )}
+
+      <LoadingOverlay show={false} />
+
       {showCanvas && (
         <CanvasImage
           className="position-absolute"
