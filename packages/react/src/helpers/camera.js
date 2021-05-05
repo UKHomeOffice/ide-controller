@@ -36,7 +36,7 @@ const isGoodResolution = (width) => {
 
 export const isGoodPicture = (croppedImageCoordination) => {
   const isAboveThreshold = (threshold = defaulThreshold) =>
-    prediction?.faceInViewConfidence > threshold;
+    prediction?.faceInViewConfidence >= threshold;
 
   const isGoodRatio = ({
     sourceX,

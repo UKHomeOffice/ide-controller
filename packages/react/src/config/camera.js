@@ -8,7 +8,7 @@ export const livePhotoConfig = {
     width: 405,
     height: 617.5,
   },
-  threshold: 0.8,
+  threshold: 1,
   zoomFactor: 1.2,
   imageResolution: 40,
 };
