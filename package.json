@@ -12,6 +12,7 @@
     "build:electron": "lerna run --scope IDE build --stream"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "lerna": "^3.22.1"
   }
 }
