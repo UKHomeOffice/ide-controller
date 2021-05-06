@@ -38,6 +38,9 @@ const LiveImage = ({ cameraId, className }) => {
   const [loading, setLoading] = useState(true);
 
   let imageQualityCounter = 0;
+  // this 👇	must be even number
+  const goodImageMaxTake = 16;
+  let goodImageCapture = null;
 
   const estimate = async () => {
     const isCameraOffline = !videoRef.current;
@@ -53,15 +56,18 @@ const LiveImage = ({ cameraId, className }) => {
     setIsGoodQuality(syncedIsGoodQuality);
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
-    if (imageQualityCounter < 5) {
+    if (!syncedIsGoodQuality) goodImageCapture = null;
+
+    if (imageQualityCounter < goodImageMaxTake) {
       requestAnimationFrame(estimate);
-    } else {
+    } else if (imageQualityCounter === goodImageMaxTake / 2) {
+      goodImageCapture = rotatedCanvas.toDataURL('image/jpeg');
+    } else if (imageQualityCounter >= goodImageMaxTake) {
       logDataEvent('LivePhoto', 'Taken');
-      if (videoRef.current) videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: rotatedCanvas.toDataURL('image/jpeg'),
+        image: goodImageCapture,
         timestamp: Date.now(),
       });
     }

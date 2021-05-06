@@ -34,27 +34,34 @@ const isGoodResolution = (width) => {
   return resolutionPercentage > imageResolution;
 };
 
+const isFaceCentered = () => {
+  const { midwayBetweenEyes, noseTip } = prediction.annotations;
+  const difference = midwayBetweenEyes[0][0] - noseTip[0][0];
+  return difference < 3 && difference > -3;
+};
+
+const isInsideFrame = ({
+  sourceX,
+  sourceY,
+  calculatedWidth,
+  calculatedHeight,
+}) => {
+  const isYInsideFrame =
+    sourceY >= 0 && sourceY + calculatedHeight < video.width;
+  const isXInsideFrame =
+    sourceX >= 0 && sourceX + calculatedWidth < video.height;
+  return isYInsideFrame && isXInsideFrame;
+};
+
+const isAboveThreshold = (threshold = defaulThreshold) =>
+  prediction?.faceInViewConfidence >= threshold;
+
 export const isGoodPicture = (croppedImageCoordination) => {
-  const isAboveThreshold = (threshold = defaulThreshold) =>
-    prediction?.faceInViewConfidence >= threshold;
-
-  const isGoodRatio = ({
-    sourceX,
-    sourceY,
-    calculatedWidth,
-    calculatedHeight,
-  }) => {
-    const isYInsideFrame =
-      sourceY >= 0 && sourceY + calculatedHeight < video.width;
-    const isXInsideFrame =
-      sourceX >= 0 && sourceX + calculatedWidth < video.height;
-    return isYInsideFrame && isXInsideFrame;
-  };
-
   return (
     isAboveThreshold() &&
-    isGoodRatio(croppedImageCoordination) &&
-    isGoodResolution(croppedImageCoordination.calculatedWidth)
+    isInsideFrame(croppedImageCoordination) &&
+    isGoodResolution(croppedImageCoordination.calculatedWidth) &&
+    isFaceCentered()
   );
 };
 
