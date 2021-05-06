@@ -58,10 +58,12 @@ const LiveImage = ({ cameraId, className }) => {
 
     if (!syncedIsGoodQuality) goodImageCapture = null;
 
+    if (imageQualityCounter === goodImageMaxTake / 2) {
+      goodImageCapture = rotatedCanvas.toDataURL('image/jpeg');
+    }
+
     if (imageQualityCounter < goodImageMaxTake) {
       requestAnimationFrame(estimate);
-    } else if (imageQualityCounter === goodImageMaxTake / 2) {
-      goodImageCapture = rotatedCanvas.toDataURL('image/jpeg');
     } else if (imageQualityCounter >= goodImageMaxTake) {
       logDataEvent('LivePhoto', 'Taken');
       setShowCanvas(true);

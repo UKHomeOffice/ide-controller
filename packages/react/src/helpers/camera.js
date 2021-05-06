@@ -37,7 +37,7 @@ const isGoodResolution = (width) => {
 const isFaceCentered = () => {
   const { midwayBetweenEyes, noseTip } = prediction.annotations;
   const difference = midwayBetweenEyes[0][0] - noseTip[0][0];
-  return difference < 3 && difference > -3;
+  return difference < 4 && difference > -4;
 };
 
 const isDistance120px = () => {
