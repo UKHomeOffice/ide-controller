@@ -40,6 +40,11 @@ const isFaceCentered = () => {
   return difference < 3 && difference > -3;
 };
 
+const isDistance120px = () => {
+  const { leftEyeIris, rightEyeIris } = prediction.annotations;
+  return leftEyeIris[0][0] - rightEyeIris[0][0] > 120;
+};
+
 const isInsideFrame = ({
   sourceX,
   sourceY,
@@ -61,7 +66,8 @@ export const isGoodPicture = (croppedImageCoordination) => {
     isAboveThreshold() &&
     isInsideFrame(croppedImageCoordination) &&
     isGoodResolution(croppedImageCoordination.calculatedWidth) &&
-    isFaceCentered()
+    isFaceCentered() &&
+    isDistance120px()
   );
 };
 
