@@ -148,7 +148,7 @@ const ImagePanel = ({ isActive }) => {
       restartLiveImage('Retake Camera Image, "Clear data immediately" Button');
     }
     return () => {
-      if (timer) clearTimeout(timer);
+      // if (timer) clearTimeout(timer);
     };
     // eslint-disable-next-line
   }, [eventSourceEvent]);
