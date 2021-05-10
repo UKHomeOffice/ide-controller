@@ -95,10 +95,7 @@ const LiveImage = ({ cameraId, className }) => {
         className="position-absolute"
         sourceImage={{
           image: rotatedCanvas,
-          x: sourceImageOptions.sourceX,
-          y: sourceImageOptions.sourceY,
-          width: sourceImageOptions.calculatedWidth,
-          height: sourceImageOptions.calculatedHeight,
+          ...sourceImageOptions,
         }}
         ref={canvasRef}
         destinationImage={{
@@ -120,12 +117,7 @@ const LiveImage = ({ cameraId, className }) => {
         isGoodQuality={isGoodQuality}
         width={livePhotoConfig.video.height}
         height={livePhotoConfig.video.width}
-        coordinate={{
-          x: sourceImageOptions.sourceX,
-          y: sourceImageOptions.sourceY,
-          width: sourceImageOptions.calculatedWidth,
-          height: sourceImageOptions.calculatedHeight,
-        }}
+        coordinate={sourceImageOptions}
       />
       <LoadingOverlay show={loading} />
     </div>

@@ -95,10 +95,7 @@ const ImagePanel = ({ isActive }) => {
           const context = canvas.getContext('2d');
           const sourceImage = {
             image,
-            x: res.sourceX,
-            y: res.sourceY,
-            width: res.calculatedWidth,
-            height: res.calculatedHeight,
+            ...res,
           };
           const destinationImage = {
             width: livePhotoConfig.canvas.width,

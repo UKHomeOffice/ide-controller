@@ -78,20 +78,19 @@ class FaceLandmark {
     const height = width * ratio;
 
     this.croppedImageCoordination = {
-      sourceX: (noseTip[0][0] - width / 2) * multiplier,
-      sourceY: (midwayBetweenEyes[0][1] - height / 2) * multiplier,
-      calculatedWidth: width * multiplier,
-      calculatedHeight: height * multiplier,
+      // sourceX, sourceY, calculatedWidth, calculatedHeight
+      x: (noseTip[0][0] - width / 2) * multiplier,
+      y: (midwayBetweenEyes[0][1] - height / 2) * multiplier,
+      width: width * multiplier,
+      height: height * multiplier,
     };
 
     return this.croppedImageCoordination;
   }
 
   isGoodResolution() {
-    const { calculatedWidth } = this.croppedImageCoordination;
-    const resolutionPercentage = Math.round(
-      (calculatedWidth / video.height) * 100
-    );
+    const { width } = this.croppedImageCoordination;
+    const resolutionPercentage = Math.round((width / video.height) * 100);
     return resolutionPercentage > imageResolution;
   }
 
@@ -107,17 +106,10 @@ class FaceLandmark {
   }
 
   isInsideFrame() {
-    const {
-      sourceX,
-      sourceY,
-      calculatedWidth,
-      calculatedHeight,
-    } = this.croppedImageCoordination;
+    const { x, y, width, height } = this.croppedImageCoordination;
 
-    const isYInsideFrame =
-      sourceY >= 0 && sourceY + calculatedHeight < video.width;
-    const isXInsideFrame =
-      sourceX >= 0 && sourceX + calculatedWidth < video.height;
+    const isYInsideFrame = y >= 0 && y + height < video.width;
+    const isXInsideFrame = x >= 0 && x + width < video.height;
     return isYInsideFrame && isXInsideFrame;
   }
 
