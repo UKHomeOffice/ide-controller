@@ -2,7 +2,7 @@
 const { exec } = require('child_process');
 
 // Local imports
-const Store = require('../util/store');
+const Store = require('./Store');
 
 const userStore = new Store();
 

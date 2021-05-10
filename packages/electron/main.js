@@ -15,7 +15,7 @@ const network = require('network');
 
 // Local imports
 const buildIdeMenu = require('./menu');
-const Store = require('./util/store');
+const Store = require('./util/Store');
 const executeWindowsCommand = require('./util/windows');
 const watchIDEUpdateDir = require('./util/IDEUpdateExeWatcher');
 const { isDev, isWindows, isMac } = require('./util/helpers.js');
