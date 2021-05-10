@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 // Local imports
-import {
+import FaceLandmark, {
   getCameraDevices,
-  getCroppedImageCoordination,
+  loadModel,
 } from '../../helpers/camera';
 import { drawImage } from '../../helpers/canvas';
 import { sendCameraDevices } from '../../helpers/ipcMainEvents';
@@ -80,14 +80,16 @@ const ImagePanel = ({ isActive }) => {
   // const isIDCard = CD_CODELINE_DATA?.codelineData?.DocType === IDENTITY_CARD;
   const isIDCard = false;
 
-  useEffect(() => {
+  useEffect(async () => {
     const base64Image =
       CD_IMAGEPHOTO && `data:image/jpeg;base64,${CD_IMAGEPHOTO.image}`;
     if (base64Image) {
+      await loadModel();
       const image = new Image();
+      const faceLandmark = new FaceLandmark();
       image.src = base64Image;
       image.onload = () => {
-        getCroppedImageCoordination(image).then((res) => {
+        faceLandmark.getCroppedImageCoordination(image).then((res) => {
           const canvas = document.createElement('canvas');
           canvas.width = livePhotoConfig.canvas.width;
           canvas.height = livePhotoConfig.canvas.height;

@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Local imports
-import {
-  loadModel,
-  getCroppedImageCoordination,
-  isGoodPicture,
-} from '../../helpers/camera';
+import FaceLandmark, { loadModel } from '../../helpers/camera';
 import { createAndRotateCanvas } from '../../helpers/canvas';
 import { logDataEvent } from '../../helpers/log';
 import { CanvasImage, CanvasRect, Video, LoadingOverlay } from '../Atoms';
@@ -42,17 +38,17 @@ const LiveImage = ({ cameraId, className }) => {
   const goodImageMaxTake = 16;
   let goodImageCapture = null;
 
-  const estimate = async () => {
+  const estimate = async (faceLandmark) => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
 
     context.drawImage(videoRef.current, 0, 0);
 
-    const croppedImageCoordination = await getCroppedImageCoordination(
+    const croppedImageCoordination = await faceLandmark.getCroppedImageCoordination(
       rotatedCanvas
     );
     setSourceImageOptions(croppedImageCoordination);
-    const syncedIsGoodQuality = isGoodPicture(croppedImageCoordination);
+    const syncedIsGoodQuality = faceLandmark.isGoodPicture();
     setIsGoodQuality(syncedIsGoodQuality);
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
@@ -63,7 +59,7 @@ const LiveImage = ({ cameraId, className }) => {
     }
 
     if (imageQualityCounter < goodImageMaxTake) {
-      requestAnimationFrame(estimate);
+      requestAnimationFrame(() => estimate(faceLandmark));
     } else if (imageQualityCounter >= goodImageMaxTake) {
       logDataEvent('LivePhoto', 'Taken');
       setShowCanvas(true);
@@ -78,7 +74,8 @@ const LiveImage = ({ cameraId, className }) => {
   useEffect(() => {
     videoRef.current.addEventListener('canplay', async () => {
       await loadModel();
-      await estimate();
+      const faceLandmark = new FaceLandmark();
+      await estimate(faceLandmark);
       setLoading(false);
     });
     setScoreContext({});
