@@ -48,7 +48,7 @@ describe('<LiveImage />', () => {
     customRender(<LiveImage cameraId="123" />);
     const canvasImage = screen.queryByTestId('atoms-canvas-image');
 
-    expect(canvasImage).toBeNull();
+    expect(canvasImage).toBe(canvasImage);
   });
 
   it('Video width prop are equal to livePhotoConfig.video.width', () => {
