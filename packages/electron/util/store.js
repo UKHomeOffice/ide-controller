@@ -5,7 +5,7 @@ const Logger = require('nedb-logger');
 const os = require('os');
 
 // Local imports
-const packagejson = require('./package.json');
+const packagejson = require('../package.json');
 
 class Store {
   constructor(fileName = 'ide-controller-log.db') {
