@@ -84,10 +84,6 @@ class FaceLandmark {
       calculatedHeight: height * multiplier,
     };
 
-    if (this.printed) {
-      this.printed = false;
-    }
-
     return this.croppedImageCoordination;
   }
 
