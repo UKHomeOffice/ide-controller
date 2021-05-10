@@ -53,7 +53,11 @@ class FaceLandmark {
     this.printed = true;
   }
 
-  async getCroppedImageCoordination(stream, zoomFactor = defaultZoomFactor) {
+  async getCroppedImageCoordination(
+    stream,
+    multiplier = 1,
+    zoomFactor = defaultZoomFactor
+  ) {
     [this.prediction] = await model.estimateFaces({ input: stream });
 
     if (!this.prediction) return {};
@@ -74,10 +78,10 @@ class FaceLandmark {
     const height = width * ratio;
 
     this.croppedImageCoordination = {
-      sourceX: noseTip[0][0] - width / 2,
-      sourceY: midwayBetweenEyes[0][1] - height / 2,
-      calculatedWidth: width,
-      calculatedHeight: height,
+      sourceX: (noseTip[0][0] - width / 2) * multiplier,
+      sourceY: (midwayBetweenEyes[0][1] - height / 2) * multiplier,
+      calculatedWidth: width * multiplier,
+      calculatedHeight: height * multiplier,
     };
 
     if (this.printed) {
@@ -103,7 +107,7 @@ class FaceLandmark {
 
   isDistance120px() {
     const { leftEyeIris, rightEyeIris } = this.prediction.annotations;
-    return leftEyeIris[0][0] - rightEyeIris[0][0] > 120;
+    return leftEyeIris[0][0] - rightEyeIris[0][0] > 60;
   }
 
   isInsideFrame() {

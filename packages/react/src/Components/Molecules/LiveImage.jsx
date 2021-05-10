@@ -19,6 +19,12 @@ const rotatedCanvas = createAndRotateCanvas(
 );
 const context = rotatedCanvas.getContext('2d');
 
+const smallRotatedCanvas = createAndRotateCanvas(
+  livePhotoConfig.video.height / 2,
+  livePhotoConfig.video.width / 2
+);
+const smallContext = smallRotatedCanvas.getContext('2d');
+
 const LiveImage = ({ cameraId, className }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
@@ -34,38 +40,38 @@ const LiveImage = ({ cameraId, className }) => {
   const [loading, setLoading] = useState(true);
 
   let imageQualityCounter = 0;
-  // this 👇	must be even number
   const goodImageMaxTake = 16;
-  let goodImageCapture = null;
 
   const estimate = async (faceLandmark) => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
 
-    context.drawImage(videoRef.current, 0, 0);
+    smallContext.drawImage(
+      videoRef.current,
+      0,
+      0,
+      livePhotoConfig.video.width / 2,
+      livePhotoConfig.video.height / 2
+    );
 
     const croppedImageCoordination = await faceLandmark.getCroppedImageCoordination(
-      rotatedCanvas
+      smallRotatedCanvas,
+      2
     );
     setSourceImageOptions(croppedImageCoordination);
     const syncedIsGoodQuality = faceLandmark.isGoodPicture();
     setIsGoodQuality(syncedIsGoodQuality);
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
-    if (!syncedIsGoodQuality) goodImageCapture = null;
-
-    if (imageQualityCounter === goodImageMaxTake / 2) {
-      goodImageCapture = rotatedCanvas.toDataURL('image/jpeg');
-    }
-
     if (imageQualityCounter < goodImageMaxTake) {
       requestAnimationFrame(() => estimate(faceLandmark));
     } else if (imageQualityCounter >= goodImageMaxTake) {
+      context.drawImage(videoRef.current, 0, 0);
       logDataEvent('LivePhoto', 'Taken');
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: goodImageCapture,
+        image: canvasRef.current.toDataURL('image/jpeg'),
         timestamp: Date.now(),
       });
     }
