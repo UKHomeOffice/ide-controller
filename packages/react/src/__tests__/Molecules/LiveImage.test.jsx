@@ -10,7 +10,7 @@ import { LivePhotoProvider } from '../../Components/Context/LivePhoto';
 import { ScoreProvider } from '../../Components/Context/Score';
 import { livePhotoConfig } from '../../config/camera';
 
-jest.mock('../../helpers', () => ({
+jest.mock('../../helpers/camera.js', () => ({
   getCroppedImageCoordination: jest.fn(() => ({})),
   isGoodPicture: jest.fn(() => true),
 }));
