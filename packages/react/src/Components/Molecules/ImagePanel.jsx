@@ -29,7 +29,6 @@ import {
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
-let timer;
 
 const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
@@ -122,7 +121,7 @@ const ImagePanel = ({ isActive }) => {
   const restartLiveImage = (eventName) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
-    timer = setTimeout(() => setCanRetakeImage(true), 1000);
+    setTimeout(() => setCanRetakeImage(true), 1000);
     logDataEvent('LivePhoto', eventName);
   };
 
