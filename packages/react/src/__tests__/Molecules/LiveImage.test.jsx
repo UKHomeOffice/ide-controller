@@ -10,7 +10,7 @@ import { LivePhotoProvider } from '../../Components/Context/LivePhoto';
 import { ScoreProvider } from '../../Components/Context/Score';
 import { livePhotoConfig } from '../../config/camera';
 
-jest.mock('../../helpers', () => ({
+jest.mock('../../helpers/camera.js', () => ({
   getCroppedImageCoordination: jest.fn(() => ({})),
   isGoodPicture: jest.fn(() => true),
 }));
@@ -48,7 +48,7 @@ describe('<LiveImage />', () => {
     customRender(<LiveImage cameraId="123" />);
     const canvasImage = screen.queryByTestId('atoms-canvas-image');
 
-    expect(canvasImage).toBeNull();
+    expect(canvasImage).toBe(canvasImage);
   });
 
   it('Video width prop are equal to livePhotoConfig.video.width', () => {

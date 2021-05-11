@@ -40,10 +40,6 @@ const Video = forwardRef(
       } catch {
         // console.log()
       }
-
-      return () => {
-        if (videoRef.current) videoRef.current.pause();
-      };
       // eslint-disable-next-line
     }, [cameraId]);
 

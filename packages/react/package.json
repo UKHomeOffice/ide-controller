@@ -5,7 +5,7 @@
   "homepage": "./",
   "author": "Viable Data",
   "scripts": {
-    "dev": "BROWSER=none CI=true react-scripts start",
+    "dev": "cross-env BROWSER=none CI=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
@@ -26,8 +26,10 @@
     ]
   },
   "dependencies": {
-    "@tensorflow-models/posenet": "^2.2.1",
-    "@tensorflow/tfjs": "^2.7.0",
+    "@tensorflow-models/face-landmarks-detection": "0.0.3",
+    "@tensorflow/tfjs-backend-webgl": "^3.6.0",
+    "@tensorflow/tfjs-converter": "^3.6.0",
+    "@tensorflow/tfjs-core": "^3.6.0",
     "govuk-frontend": "^3.8.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.0",
@@ -35,6 +37,8 @@
     "react-scripts": "^3.4.3"
   },
   "devDependencies": {
+    "typescript": "^2.9.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",

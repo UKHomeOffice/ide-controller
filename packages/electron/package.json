@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "start": "electron .",
-    "dev": "ENV=development nodemon --exec electron .",
+    "dev": "cross-env ENV=development nodemon --exec electron .",
     "build": "bash build.sh",
     "dist": "ENV=production electron-builder -w",
     "release": "ENV=production electron-builder -w -p onTagOrDraft",
