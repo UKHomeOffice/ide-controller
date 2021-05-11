@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Local imports
-import {
-  getCroppedImageCoordination,
-  isGoodPicture,
-} from '../../helpers/camera';
+import FaceLandmark, { loadModel } from '../../helpers/camera';
 import { createAndRotateCanvas } from '../../helpers/canvas';
 import { logDataEvent } from '../../helpers/log';
-import { CanvasImage, CanvasRect, Video } from '../Atoms';
+import { CanvasImage, CanvasRect, Video, LoadingOverlay } from '../Atoms';
 import { ScoreContext } from '../Context';
 import { LivePhotoContext } from '../Context/LivePhoto';
 
@@ -22,6 +19,12 @@ const rotatedCanvas = createAndRotateCanvas(
 );
 const context = rotatedCanvas.getContext('2d');
 
+const smallRotatedCanvas = createAndRotateCanvas(
+  livePhotoConfig.video.height / 2,
+  livePhotoConfig.video.width / 2
+);
+const smallContext = smallRotatedCanvas.getContext('2d');
+
 const LiveImage = ({ cameraId, className }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
@@ -31,43 +34,53 @@ const LiveImage = ({ cameraId, className }) => {
   const videoRef = useRef();
 
   const [showVideo, setShowVideo] = useState(true);
-  const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   let imageQualityCounter = 0;
+  const goodImageMaxTake = 16;
 
-  const estimate = async () => {
+  const estimate = async (faceLandmark) => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
 
-    context.drawImage(videoRef.current, 0, 0);
+    smallContext.drawImage(
+      videoRef.current,
+      0,
+      0,
+      livePhotoConfig.video.width / 2,
+      livePhotoConfig.video.height / 2
+    );
 
-    const croppedImageCoordination = await getCroppedImageCoordination(
-      rotatedCanvas
+    const croppedImageCoordination = await faceLandmark.getCroppedImageCoordination(
+      smallRotatedCanvas,
+      2
     );
     setSourceImageOptions(croppedImageCoordination);
-    const syncedIsGoodQuality = isGoodPicture(croppedImageCoordination);
+    const syncedIsGoodQuality = faceLandmark.isGoodPicture();
     setIsGoodQuality(syncedIsGoodQuality);
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
-    if (imageQualityCounter < 5) {
-      setTimeout(estimate, 50);
-    } else {
+    if (imageQualityCounter < goodImageMaxTake) {
+      requestAnimationFrame(() => estimate(faceLandmark));
+    } else if (imageQualityCounter >= goodImageMaxTake) {
+      context.drawImage(videoRef.current, 0, 0);
       logDataEvent('LivePhoto', 'Taken');
-      if (videoRef.current) videoRef.current.pause();
-      setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: rotatedCanvas.toDataURL('image/jpeg'),
+        image: canvasRef.current.toDataURL('image/jpeg'),
         timestamp: Date.now(),
       });
     }
   };
 
   useEffect(() => {
-    videoRef.current.addEventListener('canplay', () => {
-      setTimeout(estimate, 1000);
+    videoRef.current.addEventListener('canplay', async () => {
+      await loadModel();
+      const faceLandmark = new FaceLandmark();
+      await estimate(faceLandmark);
+      setLoading(false);
     });
     setScoreContext({});
     logDataEvent('LivePhoto', 'Initialised');
@@ -78,46 +91,35 @@ const LiveImage = ({ cameraId, className }) => {
     <div
       className={`live-image photoContainer--photo position-relative ${className}`}
     >
-      {showVideo && (
-        <>
-          <Video
-            ref={videoRef}
-            cameraId={cameraId}
-            captureOptions={livePhotoConfig}
-            className="live-image__video"
-          />
-          <CanvasRect
-            className="live-image__canvas position-absolute"
-            ref={guidCanvasRef}
-            isGoodQuality={isGoodQuality}
-            width={livePhotoConfig.video.height}
-            height={livePhotoConfig.video.width}
-            coordinate={{
-              x: sourceImageOptions.sourceX,
-              y: sourceImageOptions.sourceY,
-              width: sourceImageOptions.calculatedWidth,
-              height: sourceImageOptions.calculatedHeight,
-            }}
-          />
-        </>
-      )}
-      {showCanvas && (
-        <CanvasImage
-          className="position-absolute"
-          sourceImage={{
-            image: rotatedCanvas,
-            x: sourceImageOptions.sourceX,
-            y: sourceImageOptions.sourceY,
-            width: sourceImageOptions.calculatedWidth,
-            height: sourceImageOptions.calculatedHeight,
-          }}
-          ref={canvasRef}
-          destinationImage={{
-            width: livePhotoConfig.canvas.width,
-            height: livePhotoConfig.canvas.height,
-          }}
-        />
-      )}
+      <CanvasImage
+        className="position-absolute"
+        sourceImage={{
+          image: rotatedCanvas,
+          ...sourceImageOptions,
+        }}
+        ref={canvasRef}
+        destinationImage={{
+          width: livePhotoConfig.canvas.width,
+          height: livePhotoConfig.canvas.height,
+        }}
+      />
+      <Video
+        ref={videoRef}
+        cameraId={cameraId}
+        captureOptions={livePhotoConfig}
+        className={`live-image__video ${!showVideo && 'display-none'}`}
+      />
+      <CanvasRect
+        className={`live-image__canvas position-absolute ${
+          !showVideo && 'display-none'
+        }`}
+        ref={guidCanvasRef}
+        isGoodQuality={isGoodQuality}
+        width={livePhotoConfig.video.height}
+        height={livePhotoConfig.video.width}
+        coordinate={sourceImageOptions}
+      />
+      <LoadingOverlay show={loading} />
     </div>
   );
 };

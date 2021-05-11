@@ -1,11 +1,11 @@
 // Global imports
 const electron = require('electron');
-const path = require('path');
 const Logger = require('nedb-logger');
 const os = require('os');
+const path = require('path');
 
 // Local imports
-const packagejson = require('./package.json');
+const packageJSON = require('../package.json');
 
 class Store {
   constructor(fileName = 'ide-controller-log.db') {
@@ -20,7 +20,7 @@ class Store {
       trackEventName: eventName,
       eventType,
       created_at: Date.now(),
-      version: packagejson.version,
+      version: packageJSON.version,
       device: os.hostname(),
     });
   }

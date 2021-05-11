@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 // Local imports
-import {
+import FaceLandmark, {
   getCameraDevices,
-  getCroppedImageCoordination,
+  loadModel,
 } from '../../helpers/camera';
 import { drawImage } from '../../helpers/canvas';
 import { sendCameraDevices } from '../../helpers/ipcMainEvents';
@@ -29,7 +29,6 @@ import {
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
-let timer;
 
 const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
@@ -80,24 +79,23 @@ const ImagePanel = ({ isActive }) => {
   // const isIDCard = CD_CODELINE_DATA?.codelineData?.DocType === IDENTITY_CARD;
   const isIDCard = false;
 
-  useEffect(() => {
+  useEffect(async () => {
     const base64Image =
       CD_IMAGEPHOTO && `data:image/jpeg;base64,${CD_IMAGEPHOTO.image}`;
     if (base64Image) {
+      await loadModel();
       const image = new Image();
+      const faceLandmark = new FaceLandmark();
       image.src = base64Image;
       image.onload = () => {
-        getCroppedImageCoordination(image).then((res) => {
+        faceLandmark.getCroppedImageCoordination(image).then((res) => {
           const canvas = document.createElement('canvas');
           canvas.width = livePhotoConfig.canvas.width;
           canvas.height = livePhotoConfig.canvas.height;
           const context = canvas.getContext('2d');
           const sourceImage = {
             image,
-            x: res.sourceX,
-            y: res.sourceY,
-            width: res.calculatedWidth,
-            height: res.calculatedHeight,
+            ...res,
           };
           const destinationImage = {
             width: livePhotoConfig.canvas.width,
@@ -120,7 +118,7 @@ const ImagePanel = ({ isActive }) => {
   const restartLiveImage = (eventName) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
-    timer = setTimeout(() => setCanRetakeImage(true), 1000);
+    setTimeout(() => setCanRetakeImage(true), 1000);
     logDataEvent('LivePhoto', eventName);
   };
 
@@ -146,7 +144,7 @@ const ImagePanel = ({ isActive }) => {
       restartLiveImage('Retake Camera Image, "Clear data immediately" Button');
     }
     return () => {
-      if (timer) clearTimeout(timer);
+      // if (timer) clearTimeout(timer);
     };
     // eslint-disable-next-line
   }, [eventSourceEvent]);

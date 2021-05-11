@@ -1,75 +1,28 @@
 // Modules
-const {
-  app,
-  BrowserWindow,
-  ipcMain,
-  nativeImage,
-  Menu,
-  MenuItem,
-  systemPreferences,
-} = require('electron');
-const path = require('path');
-const fs = require('fs');
-const ApplicationInsightsLogger = require('azure-application-insights');
+const { app, Menu } = require('electron');
+
 const network = require('network');
 
 // Local imports
+const { isDev, isWindows } = require('./util/helpers.js');
 const buildIdeMenu = require('./menu');
-const Store = require('./store');
-const executeWindowsCommand = require('./util/windows');
+const { createWindow, executeWindowsCommand } = require('./util/windows');
+const Store = require('./util/Store');
 const watchIDEUpdateDir = require('./util/IDEUpdateExeWatcher');
-const { isDev, isWindows, isMac } = require('./util/helpers.js');
+const { initWebCamDevices } = require('./util/ipcMain');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, onlineStatusWindow;
+let mainWindow;
 const userStore = new Store();
-
-// Create a new BrowserWindow when `app` is ready
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    // frame: false,
-    width: isDev ? 2600 : 1920,
-    height: 1280,
-    resizable: isDev,
-    titleBarStyle: isDev ? '' : 'hidden',
-    backgroundColor: '#fff',
-    webPreferences: { nodeIntegration: true },
-  });
-
-  if (isMac) {
-    const image = nativeImage.createFromPath(
-      path.resolve(__dirname, 'build/icon.png')
-    );
-    app.dock.setIcon(image);
-    systemPreferences.askForMediaAccess('camera');
-  }
-  const status = systemPreferences.getMediaAccessStatus('camera');
-  if (status !== 'granted') {
-    // Log device does not have access to camera
-  }
-
-  // Load index.html into the new BrowserWindow
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:3000');
-  } else {
-    mainWindow.setFullScreen(true);
-    mainWindow.loadFile(path.resolve(__dirname, '../react/build/index.html'));
-  }
-
-  // Open DevTools - Remove for PRODUCTION!
-  if (isDev) mainWindow.webContents.openDevTools();
-
-  // Listen for window being closed
-  mainWindow.on('closed', app.quit);
-}
 
 // Set application menu
 Menu.setApplicationMenu(buildIdeMenu());
 
 // Electron `app` is ready
 app.on('ready', () => {
-  createWindow();
+  createWindow(mainWindow);
+  initWebCamDevices();
   if (isWindows) {
     watchIDEUpdateDir(userStore);
   }
@@ -80,62 +33,11 @@ app.on('window-all-closed', app.quit);
 
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 app.on('activate', () => {
-  if (mainWindow === null) createWindow();
+  // Create a new BrowserWindow when `app` is ready
+  if (mainWindow === null) createWindow(mainWindow);
 });
 
-const createCameraListSubmenu = (list) =>
-  list.map((device) => ({
-    label: device.label.split('(')[0],
-    click() {
-      sendSelectedCamera(device);
-    },
-  }));
-
-const sendSelectedCamera = (device) => {
-  mainWindow.webContents.send('webCamDevices', device);
-};
-
-ipcMain.on('webCamDevices', (event, list) => {
-  const ideMenu = buildIdeMenu();
-  let cameraList = ideMenu.getMenuItemById('cameraList');
-  const cameraListMenuItem = new MenuItem({
-    id: 'cameraList',
-    label: 'Camera List',
-    submenu: createCameraListSubmenu(list),
-  });
-  if (cameraList) {
-    cameraList = cameraListMenuItem;
-  } else {
-    ideMenu.append(cameraListMenuItem);
-  }
-
-  Menu.setApplicationMenu(ideMenu);
-});
-
-const logFilePath = `${app.getPath('appData')}/IDE/ide-controller-log.db`;
-const applicationInsightsLogger = new ApplicationInsightsLogger(logFilePath);
-
-ipcMain.on('online-status-changed', (event, status) => {
-  onlineStatusWindow = status; // eslint-disable-line
-  const isOnline = status === 'online';
-  applicationInsightsLogger.setIsOnline(isOnline);
-  network.get_active_interface((_, result) => {
-    if (result) userStore.set('Network Interface Change', 'SUCCESS', result);
-  });
-});
-
-ipcMain.handle('addToStore', (event, name, type, data) => {
-  userStore.set(name, type, data);
-  applicationInsightsLogger.sync();
-});
-
-ipcMain.handle('saveToDesktop', (_, object) => {
-  fs.appendFileSync(
-    `${app.getPath('desktop')}/data.json`,
-    `${JSON.stringify(object)},`
-  );
-});
-
+/* On node actions */
 process.on('exit', (code) => {
   userStore.set('Application Status', 'INFO', {
     ApplicationExit: 'Success',
@@ -153,6 +55,7 @@ network.get_active_interface((_, result) => {
   if (result) userStore.set('Network Interface', 'SUCCESS', result);
 });
 
+/* On prod actions */
 if (!isDev) {
   /* eslint-disable */
   executeWindowsCommand(
