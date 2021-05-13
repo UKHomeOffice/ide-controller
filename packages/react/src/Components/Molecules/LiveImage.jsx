@@ -59,7 +59,7 @@ const LiveImage = ({ cameraId, className }) => {
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: rotatedCanvas.toDataURL('image/jpeg'),
+        image: canvasRef.current.toDataURL('image/jpeg'),
         timestamp: Date.now(),
       });
     }
