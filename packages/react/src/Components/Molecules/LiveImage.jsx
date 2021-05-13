@@ -78,46 +78,42 @@ const LiveImage = ({ cameraId, className }) => {
     <div
       className={`live-image photoContainer--photo position-relative ${className}`}
     >
-      {showVideo && (
-        <>
-          <Video
-            ref={videoRef}
-            cameraId={cameraId}
-            captureOptions={livePhotoConfig}
-            className="live-image__video"
-          />
-          <CanvasRect
-            className="live-image__canvas position-absolute"
-            ref={guidCanvasRef}
-            isGoodQuality={isGoodQuality}
-            width={livePhotoConfig.video.height}
-            height={livePhotoConfig.video.width}
-            coordinate={{
-              x: sourceImageOptions.sourceX,
-              y: sourceImageOptions.sourceY,
-              width: sourceImageOptions.calculatedWidth,
-              height: sourceImageOptions.calculatedHeight,
-            }}
-          />
-        </>
-      )}
-      {showCanvas && (
-        <CanvasImage
-          className="position-absolute"
-          sourceImage={{
-            image: rotatedCanvas,
-            x: sourceImageOptions.sourceX,
-            y: sourceImageOptions.sourceY,
-            width: sourceImageOptions.calculatedWidth,
-            height: sourceImageOptions.calculatedHeight,
-          }}
-          ref={canvasRef}
-          destinationImage={{
-            width: livePhotoConfig.canvas.width,
-            height: livePhotoConfig.canvas.height,
-          }}
-        />
-      )}
+      <CanvasImage
+        className="position-absolute"
+        sourceImage={{
+          image: rotatedCanvas,
+          x: sourceImageOptions.sourceX,
+          y: sourceImageOptions.sourceY,
+          width: sourceImageOptions.calculatedWidth,
+          height: sourceImageOptions.calculatedHeight,
+        }}
+        ref={canvasRef}
+        destinationImage={{
+          width: livePhotoConfig.canvas.width,
+          height: livePhotoConfig.canvas.height,
+        }}
+      />
+      <Video
+        ref={videoRef}
+        cameraId={cameraId}
+        captureOptions={livePhotoConfig}
+        className={`live-image__video ${!showVideo && 'display-none'}`}
+      />
+      <CanvasRect
+        className={`live-image__canvas position-absolute ${
+          !showVideo && 'display-none'
+        }`}
+        ref={guidCanvasRef}
+        isGoodQuality={isGoodQuality}
+        width={livePhotoConfig.video.height}
+        height={livePhotoConfig.video.width}
+        coordinate={{
+          x: sourceImageOptions.sourceX,
+          y: sourceImageOptions.sourceY,
+          width: sourceImageOptions.calculatedWidth,
+          height: sourceImageOptions.calculatedHeight,
+        }}
+      />
     </div>
   );
 };
