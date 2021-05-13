@@ -120,7 +120,7 @@ const ImagePanel = ({ isActive }) => {
   const restartLiveImage = (eventName) => {
     setCanRetakeImage(false);
     setLiveImageKey(`liveImageKey-${Date.now()}`);
-    timer = setTimeout(() => setCanRetakeImage(true), 1000);
+    setTimeout(() => setCanRetakeImage(true), 1000);
     logDataEvent('LivePhoto', eventName);
   };
 
@@ -145,9 +145,6 @@ const ImagePanel = ({ isActive }) => {
     ) {
       restartLiveImage('Retake Camera Image, "Clear data immediately" Button');
     }
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
     // eslint-disable-next-line
   }, [eventSourceEvent]);
 
