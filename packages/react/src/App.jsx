@@ -124,8 +124,7 @@ const App = () => {
       bioImage: croppedDocumentImage?.replace('data:image/jpeg;base64,', ''),
       liveImage: image?.replace('data:image/jpeg;base64,', ''),
       uuid,
-      mrzScanCodeline: logData()['MRZ#_Scan_Codeline'],
-      mrzChip: logData()['MRZ#_Chip'],
+      mrzHash: logData()['MRZ#_Scan_Codeline'],
     })
       .then((res) => {
         logDataEvent('matchingScore', JSON.parse(res));
