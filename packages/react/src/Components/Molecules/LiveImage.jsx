@@ -55,7 +55,7 @@ const LiveImage = ({ cameraId, className }) => {
       setTimeout(estimate, 50);
     } else {
       logDataEvent('LivePhoto', 'Taken');
-      if (videoRef.current) videoRef.current.pause();
+      // if (videoRef.current) videoRef.current.pause();
       setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({

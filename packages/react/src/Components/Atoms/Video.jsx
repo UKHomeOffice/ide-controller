@@ -42,7 +42,7 @@ const Video = forwardRef(
       }
 
       return () => {
-        if (videoRef.current) videoRef.current.pause();
+        // if (videoRef.current) videoRef.current.pause();
       };
       // eslint-disable-next-line
     }, [cameraId]);
