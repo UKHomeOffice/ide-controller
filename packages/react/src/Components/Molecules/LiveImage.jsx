@@ -31,7 +31,6 @@ const LiveImage = ({ cameraId, className }) => {
   const videoRef = useRef();
 
   const [showVideo, setShowVideo] = useState(true);
-  const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
 
@@ -55,8 +54,6 @@ const LiveImage = ({ cameraId, className }) => {
       setTimeout(estimate, 50);
     } else {
       logDataEvent('LivePhoto', 'Taken');
-      // if (videoRef.current) videoRef.current.pause();
-      setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
         image: canvasRef.current.toDataURL('image/jpeg'),

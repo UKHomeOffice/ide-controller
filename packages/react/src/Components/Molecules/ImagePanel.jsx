@@ -29,7 +29,6 @@ import {
 
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
-let timer;
 
 const makeImageCard = (key, event, statusBar = false) => {
   const image = event && `data:image/jpeg;base64,${event.image}`;
