@@ -4,12 +4,23 @@ import React, { useState } from 'react';
 // Local imports
 import ImagePanel from './ImagePanel';
 import MRZPanel from './MRZPanel';
+import ConfigurationsPanel from './ConfigurationsPanel';
 
 const MainSection = () => {
-  const [active, setActive] = useState({
-    imagePanel: true,
+  const [active, setActiveState] = useState({
+    imagePanel: false,
     MRZPanel: false,
+    configurationsPanel: true,
   });
+
+  const setActive = (panelName) => {
+    setActiveState({
+      imagePanel: false,
+      MRZPanel: false,
+      configurationsPanel: false,
+      [panelName]: true,
+    });
+  };
 
   return (
     <div className="govuk-tabe" data-module="govuk-tabs">
@@ -23,7 +34,7 @@ const MainSection = () => {
           <a
             className="govuk-tabs__tab font--19pt"
             href="#image-tab"
-            onClick={() => setActive({ imagePanel: true, MRZPanel: false })}
+            onClick={() => setActive('imagePanel')}
           >
             Images to compare
           </a>
@@ -37,14 +48,29 @@ const MainSection = () => {
           <a
             className="govuk-tabs__tab font--19pt"
             href="#image-tab"
-            onClick={() => setActive({ imagePanel: false, MRZPanel: true })}
+            onClick={() => setActive('MRZPanel')}
           >
             Data read from chip and MRZ
+          </a>
+        </li>
+        <li
+          className={`
+            govuk-tabs__list-item
+            ${active.MRZPanel ? ' govuk-tabs__list-item--selected' : ''}`}
+          role="presentation"
+        >
+          <a
+            className="govuk-tabs__tab font--19pt"
+            href="#image-tab"
+            onClick={() => setActive('configurationsPanel')}
+          >
+            Configurations
           </a>
         </li>
       </ul>
       <ImagePanel isActive={active.imagePanel} />
       <MRZPanel isActive={active.MRZPanel} />
+      <ConfigurationsPanel isActive={active.configurationsPanel} />
     </div>
   );
 };
