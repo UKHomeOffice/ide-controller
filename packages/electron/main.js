@@ -27,6 +27,9 @@ const userStore = new Store();
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
+  app.commandLine.appendSwitch('high-dpi-support', 1);
+  app.commandLine.appendSwitch('force-device-scale-factor', 1);
+
   mainWindow = new BrowserWindow({
     // frame: false,
     width: isDev ? 2600 : 1920,
