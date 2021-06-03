@@ -1,7 +1,7 @@
 const { app, ipcMain, Menu, MenuItem } = require('electron');
 const network = require('network');
 
-const Store = require('./Store');
+const Store = require('./store');
 
 const userStore = new Store();
 

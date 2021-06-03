@@ -7,7 +7,7 @@ const network = require('network');
 const { isDev, isWindows } = require('./util/helpers.js');
 const buildIdeMenu = require('./menu');
 const { createWindow, executeWindowsCommand } = require('./util/windows');
-const Store = require('./util/Store');
+const Store = require('./util/store');
 const watchIDEUpdateDir = require('./util/IDEUpdateExeWatcher');
 const { initWebCamDevices } = require('./util/ipcMain');
 

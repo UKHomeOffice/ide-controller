@@ -10,7 +10,7 @@ const path = require('path');
 
 // Local imports
 const { isDev, isMac } = require('./helpers.js');
-const Store = require('./Store');
+const Store = require('./store');
 
 const userStore = new Store();
 
