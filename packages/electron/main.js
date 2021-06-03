@@ -37,6 +37,9 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow(mainWindow);
 });
 
+app.commandLine.appendSwitch('high-dpi-support', 1);
+app.commandLine.appendSwitch('force-device-scale-factor', 1);
+
 /* On node actions */
 process.on('exit', (code) => {
   userStore.set('Application Status', 'INFO', {
