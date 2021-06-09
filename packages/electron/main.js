@@ -27,9 +27,6 @@ const userStore = new Store();
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
-  app.commandLine.appendSwitch('high-dpi-support', 1);
-  app.commandLine.appendSwitch('force-device-scale-factor', 1);
-
   mainWindow = new BrowserWindow({
     // frame: false,
     width: isDev ? 2600 : 1920,
@@ -85,6 +82,9 @@ app.on('window-all-closed', app.quit);
 app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
+
+app.commandLine.appendSwitch('high-dpi-support', 1);
+app.commandLine.appendSwitch('force-device-scale-factor', 1);
 
 const createCameraListSubmenu = (list) =>
   list.map((device) => ({
