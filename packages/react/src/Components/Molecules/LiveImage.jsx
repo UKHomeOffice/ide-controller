@@ -31,7 +31,6 @@ const LiveImage = ({ cameraId, className }) => {
   const videoRef = useRef();
 
   const [showVideo, setShowVideo] = useState(true);
-  const [showCanvas, setShowCanvas] = useState(false);
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
 
@@ -55,11 +54,9 @@ const LiveImage = ({ cameraId, className }) => {
       setTimeout(estimate, 50);
     } else {
       logDataEvent('LivePhoto', 'Taken');
-      if (videoRef.current) videoRef.current.pause();
-      setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
-        image: rotatedCanvas.toDataURL('image/jpeg'),
+        image: canvasRef.current.toDataURL('image/jpeg'),
         timestamp: Date.now(),
       });
     }
@@ -78,46 +75,42 @@ const LiveImage = ({ cameraId, className }) => {
     <div
       className={`live-image photoContainer--photo position-relative ${className}`}
     >
-      {showVideo && (
-        <>
-          <Video
-            ref={videoRef}
-            cameraId={cameraId}
-            captureOptions={livePhotoConfig}
-            className="live-image__video"
-          />
-          <CanvasRect
-            className="live-image__canvas position-absolute"
-            ref={guidCanvasRef}
-            isGoodQuality={isGoodQuality}
-            width={livePhotoConfig.video.height}
-            height={livePhotoConfig.video.width}
-            coordinate={{
-              x: sourceImageOptions.sourceX,
-              y: sourceImageOptions.sourceY,
-              width: sourceImageOptions.calculatedWidth,
-              height: sourceImageOptions.calculatedHeight,
-            }}
-          />
-        </>
-      )}
-      {showCanvas && (
-        <CanvasImage
-          className="position-absolute"
-          sourceImage={{
-            image: rotatedCanvas,
-            x: sourceImageOptions.sourceX,
-            y: sourceImageOptions.sourceY,
-            width: sourceImageOptions.calculatedWidth,
-            height: sourceImageOptions.calculatedHeight,
-          }}
-          ref={canvasRef}
-          destinationImage={{
-            width: livePhotoConfig.canvas.width,
-            height: livePhotoConfig.canvas.height,
-          }}
-        />
-      )}
+      <CanvasImage
+        className="position-absolute"
+        sourceImage={{
+          image: rotatedCanvas,
+          x: sourceImageOptions.sourceX,
+          y: sourceImageOptions.sourceY,
+          width: sourceImageOptions.calculatedWidth,
+          height: sourceImageOptions.calculatedHeight,
+        }}
+        ref={canvasRef}
+        destinationImage={{
+          width: livePhotoConfig.canvas.width,
+          height: livePhotoConfig.canvas.height,
+        }}
+      />
+      <Video
+        ref={videoRef}
+        cameraId={cameraId}
+        captureOptions={livePhotoConfig}
+        className={`live-image__video ${!showVideo && 'display-none'}`}
+      />
+      <CanvasRect
+        className={`live-image__canvas position-absolute ${
+          !showVideo && 'display-none'
+        }`}
+        ref={guidCanvasRef}
+        isGoodQuality={isGoodQuality}
+        width={livePhotoConfig.video.height}
+        height={livePhotoConfig.video.width}
+        coordinate={{
+          x: sourceImageOptions.sourceX,
+          y: sourceImageOptions.sourceY,
+          width: sourceImageOptions.calculatedWidth,
+          height: sourceImageOptions.calculatedHeight,
+        }}
+      />
     </div>
   );
 };

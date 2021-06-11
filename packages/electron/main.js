@@ -83,6 +83,9 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
+app.commandLine.appendSwitch('high-dpi-support', 1);
+app.commandLine.appendSwitch('force-device-scale-factor', 1);
+
 const createCameraListSubmenu = (list) =>
   list.map((device) => ({
     label: device.label.split('(')[0],
