@@ -34,12 +34,12 @@ const Video = forwardRef(
     };
 
     useEffect(() => {
-      try {
-        const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
-        setupCamera(videoOptions);
-      } catch {
-        // console.log()
-      }
+      const videoOptions = getVideoOptionsWithExactDeviceId(cameraId);
+      setupCamera(videoOptions);
+
+      return () => {
+        if (videoRef.current) videoRef.current.pause();
+      };
       // eslint-disable-next-line
     }, [cameraId]);
 
