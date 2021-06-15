@@ -20,8 +20,8 @@ const rotatedCanvas = createAndRotateCanvas(
 const context = rotatedCanvas.getContext('2d');
 
 const smallRotatedCanvas = createAndRotateCanvas(
-  livePhotoConfig.video.height / 2,
-  livePhotoConfig.video.width / 2
+  livePhotoConfig.video.height / 3,
+  livePhotoConfig.video.width / 3
 );
 const smallContext = smallRotatedCanvas.getContext('2d');
 
@@ -37,6 +37,7 @@ const LiveImage = ({ cameraId, className }) => {
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showCanvas, setShowCanvas] = useState(false);
 
   let imageQualityCounter = 0;
   const goodImageMaxTake = 16;
@@ -49,13 +50,13 @@ const LiveImage = ({ cameraId, className }) => {
       videoRef.current,
       0,
       0,
-      livePhotoConfig.video.width / 2,
-      livePhotoConfig.video.height / 2
+      livePhotoConfig.video.width / 3,
+      livePhotoConfig.video.height / 3
     );
 
     const croppedImageCoordination = await faceLandmark.getCroppedImageCoordination(
       smallRotatedCanvas,
-      2
+      3
     );
     setSourceImageOptions(croppedImageCoordination);
     const syncedIsGoodQuality = faceLandmark.isGoodPicture();
@@ -67,6 +68,7 @@ const LiveImage = ({ cameraId, className }) => {
     } else if (imageQualityCounter >= goodImageMaxTake) {
       context.drawImage(videoRef.current, 0, 0);
       logDataEvent('LivePhoto', 'Taken');
+      setShowCanvas(true);
       setShowVideo(false);
       setLivePhotoContext({
         image: canvasRef.current.toDataURL('image/jpeg'),
@@ -91,18 +93,20 @@ const LiveImage = ({ cameraId, className }) => {
     <div
       className={`live-image photoContainer--photo position-relative ${className}`}
     >
-      <CanvasImage
-        className="position-absolute"
-        sourceImage={{
-          image: rotatedCanvas,
-          ...sourceImageOptions,
-        }}
-        ref={canvasRef}
-        destinationImage={{
-          width: livePhotoConfig.canvas.width,
-          height: livePhotoConfig.canvas.height,
-        }}
-      />
+      {showCanvas && (
+        <CanvasImage
+          className="position-absolute"
+          sourceImage={{
+            image: rotatedCanvas,
+            ...sourceImageOptions,
+          }}
+          ref={canvasRef}
+          destinationImage={{
+            width: livePhotoConfig.canvas.width,
+            height: livePhotoConfig.canvas.height,
+          }}
+        />
+      )}
       <Video
         ref={videoRef}
         cameraId={cameraId}

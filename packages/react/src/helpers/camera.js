@@ -82,7 +82,7 @@ class FaceLandmark {
 
     this.croppedImageCoordination = {
       // sourceX, sourceY, calculatedWidth, calculatedHeight
-      x: (noseTip[0][0] - width / 2) * multiplier,
+      x: (noseTip[0][0] - width / 2) * 3,
       y: (midwayBetweenEyes[0][1] - height / 2) * multiplier,
       width: width * multiplier,
       height: height * multiplier,
@@ -105,7 +105,7 @@ class FaceLandmark {
 
   isDistance120px() {
     const { leftEyeIris, rightEyeIris } = this.prediction.annotations;
-    return leftEyeIris[0][0] - rightEyeIris[0][0] > 60;
+    return leftEyeIris[0][0] - rightEyeIris[0][0] > 40;
   }
 
   isInsideFrame() {
@@ -136,11 +136,9 @@ export default FaceLandmark;
 // const isEyesOpen = () => {
 //   const { mesh } = prediction;
 //   if (Math.abs(mesh[386][1] - mesh[374][1]) < 3) {
-//     // left
 //     return false;
 //   }
 //   if (Math.abs(mesh[159][1] - mesh[145][1]) < 3) {
-//     // right
 //     return false;
 //   }
 //   return true;
