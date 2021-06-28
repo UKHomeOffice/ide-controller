@@ -10,7 +10,7 @@ describe('<Video />', () => {
     }));
     window.HTMLMediaElement.prototype.play = jest.fn();
 
-    const Video = (await import('../../Components/Atoms/Video.jsx')).default;
+    const Video = (await import('../../Components/Atoms/Video')).default;
     const promise = Promise.resolve();
     global.navigator.mediaDevices = {
       getUserMedia: jest.fn(() => promise),

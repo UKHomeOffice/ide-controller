@@ -45,7 +45,7 @@ const LiveImage = ({ cameraId, className }) => {
   let imageQualityCounter = 0;
   const goodImageMaxTake = 16;
 
-  const estimate = async (faceLandmark) => {
+  const estimate = async () => {
     const isCameraOffline = !videoRef.current;
     if (isCameraOffline) return;
 
@@ -65,7 +65,7 @@ const LiveImage = ({ cameraId, className }) => {
     imageQualityCounter = syncedIsGoodQuality ? imageQualityCounter + 1 : 0;
 
     if (imageQualityCounter < goodImageMaxTake) {
-      requestAnimationFrame(() => estimate(faceLandmark));
+      requestAnimationFrame(() => estimate());
     } else if (imageQualityCounter >= goodImageMaxTake) {
       context.drawImage(videoRef.current, 0, 0);
       logDataEvent('LivePhoto', 'Taken');
@@ -81,7 +81,7 @@ const LiveImage = ({ cameraId, className }) => {
     videoRef.current.addEventListener('canplay', async () => {
       await loadModel();
       faceLandmark = new FaceLandmark(configContext.allowedTiltPixels);
-      await estimate(faceLandmark);
+      await estimate();
       setLoading(false);
     });
     setScoreContext({});

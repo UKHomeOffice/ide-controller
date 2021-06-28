@@ -77,9 +77,8 @@ const formatMRZDataWithHighlight = (docData, chipData = '') => {
 };
 
 const MRZTable = () => {
-  const { CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA } = useContext(
-    EventSourceContext
-  ).eventSourceContext;
+  const { CD_SCDG1_CODELINE_DATA, CD_CODELINE_DATA } =
+    useContext(EventSourceContext).eventSourceContext;
 
   return (
     <table className="govuk-table">
