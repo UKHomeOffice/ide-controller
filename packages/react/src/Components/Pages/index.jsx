@@ -16,12 +16,10 @@ import { clearDataTimeout } from '../../config/camera';
 import { logDataEvent } from '../../helpers/log';
 
 const Index = () => {
-  const { eventSourceContext, setEventSourceContext } = useContext(
-    EventSourceContext
-  );
-  const { livePhotoContext, setLivePhotoContext } = useContext(
-    LivePhotoContext
-  );
+  const { eventSourceContext, setEventSourceContext } =
+    useContext(EventSourceContext);
+  const { livePhotoContext, setLivePhotoContext } =
+    useContext(LivePhotoContext);
   const { setScoreContext } = useContext(ScoreContext);
   const [canRetakeImage, setCanRetakeImage] = useState(true);
 
