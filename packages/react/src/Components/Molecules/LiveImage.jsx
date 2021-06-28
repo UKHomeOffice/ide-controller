@@ -53,10 +53,8 @@ const LiveImage = ({ cameraId, className }) => {
       livePhotoConfig.video.height / 2
     );
 
-    const croppedImageCoordination = await faceLandmark.getCroppedImageCoordination(
-      smallRotatedCanvas,
-      2
-    );
+    const croppedImageCoordination =
+      await faceLandmark.getCroppedImageCoordination(smallRotatedCanvas, 2);
     setSourceImageOptions(croppedImageCoordination);
     const syncedIsGoodQuality = faceLandmark.isGoodPicture();
     setIsGoodQuality(syncedIsGoodQuality);
