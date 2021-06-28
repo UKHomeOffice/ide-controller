@@ -6,6 +6,7 @@ import { EventSourceProvider } from './Components/Context/EventSource';
 import { LivePhotoProvider } from './Components/Context/LivePhoto';
 import { ScoreProvider } from './Components/Context/Score';
 import { StatusProvider } from './Components/Context/Status';
+import { ConfigProvider } from './Components/Context/Config';
 import Index from './Components/Pages';
 import { DATA_READER, IMAGE_MATCH } from './config/api-endpoints';
 import { sendCameraDevices, sendGeolocation } from './helpers/ipcMainEvents';
@@ -27,6 +28,7 @@ const App = () => {
   const [livePhotoContext, setLivePhotoContext] = useState({});
   const [scoreContext, setScoreContext] = useState({});
   const [statusContext, setStatusContext] = useState();
+  const [configContext, setConfigContext] = useState({ allowedTiltPixels: 4 });
   const [uuid, setUuid] = useState('');
 
   // On Startup
@@ -109,11 +111,8 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
-  const {
-    CD_IMAGEPHOTO,
-    croppedDocumentImage,
-    CD_SCDG2_PHOTO,
-  } = eventSourceContext;
+  const { CD_IMAGEPHOTO, croppedDocumentImage, CD_SCDG2_PHOTO } =
+    eventSourceContext;
   const { image } = livePhotoContext;
 
   useEffect(() => {
@@ -163,7 +162,14 @@ const App = () => {
               setStatusContext,
             }}
           >
-            <Index />
+            <ConfigProvider
+              value={{
+                configContext,
+                setConfigContext,
+              }}
+            >
+              <Index />
+            </ConfigProvider>
           </StatusProvider>
         </ScoreProvider>
       </LivePhotoProvider>
