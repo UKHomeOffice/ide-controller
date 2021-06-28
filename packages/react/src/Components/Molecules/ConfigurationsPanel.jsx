@@ -1,13 +1,17 @@
 // Global imports
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Local imports
 import { Column, Row } from '../Layout';
 import { Button } from '../Atoms';
+import { ConfigContext } from '../Context/Config';
 
 const ConfigurationsPanel = ({ isActive }) => {
-  const setAccuracyLevel = (level) => {};
+  const { setConfigContext } = useContext(ConfigContext);
+  const setAccuracyLevel = (level) => {
+    setConfigContext({ allowedTiltPixels: level });
+  };
   return (
     <div
       className={`govuk-tabs__panel ${
@@ -24,26 +28,17 @@ const ConfigurationsPanel = ({ isActive }) => {
       </Row>
       <Row>
         <Column size="one-quarter">
-          <Button
-            onClick={() => setAccuracyLevel('low')}
-            buttonVariant="primary"
-          >
+          <Button onClick={() => setAccuracyLevel(20)} buttonVariant="primary">
             Low
           </Button>
         </Column>
         <Column size="one-quarter">
-          <Button
-            onClick={() => setAccuracyLevel('medium')}
-            buttonVariant="primary"
-          >
+          <Button onClick={() => setAccuracyLevel(5)} buttonVariant="primary">
             Medium
           </Button>
         </Column>
         <Column size="one-quarter">
-          <Button
-            onClick={() => setAccuracyLevel('high')}
-            buttonVariant="primary"
-          >
+          <Button onClick={() => setAccuracyLevel(2)} buttonVariant="primary">
             High
           </Button>
         </Column>

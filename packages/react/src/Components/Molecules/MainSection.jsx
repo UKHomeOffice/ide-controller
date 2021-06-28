@@ -8,9 +8,9 @@ import ConfigurationsPanel from './ConfigurationsPanel';
 
 const MainSection = () => {
   const [active, setActiveState] = useState({
-    imagePanel: false,
+    imagePanel: true,
     MRZPanel: false,
-    configurationsPanel: true,
+    configurationsPanel: false,
   });
 
   const setActive = (panelName) => {

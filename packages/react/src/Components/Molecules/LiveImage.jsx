@@ -9,6 +9,7 @@ import { logDataEvent } from '../../helpers/log';
 import { CanvasImage, CanvasRect, Video, LoadingOverlay } from '../Atoms';
 import { ScoreContext } from '../Context';
 import { LivePhotoContext } from '../Context/LivePhoto';
+import { ConfigContext } from '../Context/Config';
 
 // Config
 import { livePhotoConfig } from '../../config/camera';
@@ -24,6 +25,7 @@ const smallRotatedCanvas = createAndRotateCanvas(
   livePhotoConfig.video.width / 2
 );
 const smallContext = smallRotatedCanvas.getContext('2d');
+let faceLandmark;
 
 const LiveImage = ({ cameraId, className }) => {
   const { setLivePhotoContext } = useContext(LivePhotoContext);
@@ -37,6 +39,8 @@ const LiveImage = ({ cameraId, className }) => {
   const [sourceImageOptions, setSourceImageOptions] = useState({});
   const [isGoodQuality, setIsGoodQuality] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const { configContext } = useContext(ConfigContext);
 
   let imageQualityCounter = 0;
   const goodImageMaxTake = 16;
@@ -76,7 +80,7 @@ const LiveImage = ({ cameraId, className }) => {
   useEffect(() => {
     videoRef.current.addEventListener('canplay', async () => {
       await loadModel();
-      const faceLandmark = new FaceLandmark();
+      faceLandmark = new FaceLandmark(configContext.allowedTiltPixels);
       await estimate(faceLandmark);
       setLoading(false);
     });
@@ -84,6 +88,11 @@ const LiveImage = ({ cameraId, className }) => {
     logDataEvent('LivePhoto', 'Initialised');
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (!faceLandmark) return;
+    faceLandmark.setAllowedTiltPixels(configContext.allowedTiltPixels);
+  }, [configContext.allowedTiltPixels]);
 
   return (
     <div

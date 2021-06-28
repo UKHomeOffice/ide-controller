@@ -12,7 +12,6 @@ const {
   video,
   zoomFactor: defaultZoomFactor,
   threshold: defaulThreshold,
-  imageResolution,
 } = livePhotoConfig;
 
 let model;
@@ -50,10 +49,15 @@ export const loadModel = async () => {
 };
 
 class FaceLandmark {
-  constructor() {
+  constructor(allowedTiltPixels = 4) {
     this.prediction = {};
     this.croppedImageCoordination = {};
     this.printed = true;
+    this.allowedTiltPixels = allowedTiltPixels;
+  }
+
+  setAllowedTiltPixels(value) {
+    this.allowedTiltPixels = value;
   }
 
   async getCroppedImageCoordination(
@@ -91,16 +95,35 @@ class FaceLandmark {
     return this.croppedImageCoordination;
   }
 
-  isGoodResolution() {
-    const { width } = this.croppedImageCoordination;
-    const resolutionPercentage = Math.round((width / video.height) * 100);
-    return resolutionPercentage > imageResolution;
-  }
+  // isGoodResolution() {
+  //   const { width } = this.croppedImageCoordination;
+  //   const resolutionPercentage = Math.round((width / video.height) * 100);
+  //   return resolutionPercentage > imageResolution;
+  // }
 
-  isFaceCentered() {
+  isXFaceCentered() {
     const { midwayBetweenEyes, noseTip } = this.prediction.annotations;
     const difference = midwayBetweenEyes[0][0] - noseTip[0][0];
-    return difference < 4 && difference > -4;
+    return (
+      difference < this.allowedTiltPixels &&
+      difference > this.allowedTiltPixels * -1
+    );
+  }
+
+  isYFaceCentered() {
+    const { noseBottom, noseTip } = this.prediction.annotations;
+    const difference = noseBottom[0][1] - noseTip[0][1];
+
+    return difference < 12 && difference > 8;
+  }
+
+  isTiltFaceCentered() {
+    const { leftEyeIris, rightEyeIris } = this.prediction.annotations;
+    const difference = leftEyeIris[0][1] - rightEyeIris[0][1];
+    return (
+      difference < this.allowedTiltPixels &&
+      difference > this.allowedTiltPixels * -1
+    );
   }
 
   isDistance120px() {
@@ -124,8 +147,10 @@ class FaceLandmark {
     return (
       this.isAboveThreshold() &&
       this.isInsideFrame() &&
-      this.isGoodResolution() &&
-      this.isFaceCentered() &&
+      // this.isGoodResolution() &&
+      this.isXFaceCentered() &&
+      this.isYFaceCentered() &&
+      this.isTiltFaceCentered() &&
       this.isDistance120px()
     );
   }
