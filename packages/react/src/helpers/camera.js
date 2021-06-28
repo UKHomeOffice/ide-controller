@@ -42,6 +42,9 @@ export const loadModel = async () => {
       iouThreshold: 0,
       scoreThreshold: 0.95,
       // flipHorizontal: true,
+      modelUrl: './Model/facemesh/model.json',
+      irisModelUrl: './Model/iris/model.json',
+      detectorModelUrl: './Model/blaze/model.json',
     }
   );
 };
@@ -129,3 +132,61 @@ class FaceLandmark {
 }
 
 export default FaceLandmark;
+
+// const isEyesOpen = () => {
+//   const { mesh } = prediction;
+//   if (Math.abs(mesh[386][1] - mesh[374][1]) < 3) {
+//     // left
+//     return false;
+//   }
+//   if (Math.abs(mesh[159][1] - mesh[145][1]) < 3) {
+//     // right
+//     return false;
+//   }
+//   return true;
+// };
+//
+// const isEyeLookAtCamera = () => {
+//   const mesh = prediction.scaledMesh;
+//   const { annotations } = prediction;
+//   const [leftX] = annotations.leftEyeIris[0];
+//   const leftEyeL = Math.abs(leftX - mesh[263][0]);
+//   const leftEyeR = Math.abs(leftX - mesh[362][0]);
+//   const [rightX] = annotations.rightEyeIris[0];
+//   const error = 0.2;
+//   return leftEyeL / leftEyeR <= 1 + error && leftEyeL / leftEyeR >= 1 - error;
+//
+// };
+//
+// const isFaceStraight = () => {
+//   const keypoints = prediction.scaledMesh;
+//   const { annotations } = prediction;
+//   const [topX, topY, topZ] = annotations.midwayBetweenEyes[0];
+//   const [leftEyeX, leftEyeY, leftEyeZ] = annotations.leftEyeIris[0];
+//   const [rightEyeX, rightEyeY] = annotations.rightEyeIris[0];
+//   const [r1, r, noseTipZ] = annotations.noseTip[0];
+//   const ted = Math.abs(topX - leftEyeX) / Math.abs(topX - rightEyeX);
+//   const error = 0.2;
+//   let minZ = 9999;
+//   let maxZ = -9999;
+//   for (let i = 0; i < keypoints.length; i++) {
+//     const z = keypoints[i][2];
+//     minZ = Math.min(z, minZ);
+//     maxZ = Math.max(z, maxZ);
+//   }
+//   return (
+//     ted < 1 + error && ted > 1 - error && leftEyeZ >= minZ && noseTipZ <= maxZ
+//   );
+// };
+//
+// export const isEyeDistanceAcceptable = (prediction) => {
+//   const { annotations } = prediction;
+//   const [rightX] = annotations.rightEyeIris[0];
+//   const [leftX] = annotations.leftEyeIris[0];
+//   return Math.abs(rightX - leftX) >= 40;
+// };
+//
+// const isMouthClosed = () => {
+//   const { mesh } = prediction;
+//   return !(Math.abs(mesh[13][1] - mesh[14][1]) > 2.5);
+// };
