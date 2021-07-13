@@ -14,10 +14,15 @@ const { initWebCamDevices } = require('./util/ipcMain');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+const gotTheLock = app.requestSingleInstanceLock();
 const userStore = new Store();
 
 // Set application menu
 Menu.setApplicationMenu(buildIdeMenu());
+
+if (!gotTheLock) {
+  app.quit();
+}
 
 // Electron `app` is ready
 app.on('ready', () => {
