@@ -111,8 +111,11 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
-  const { CD_IMAGEPHOTO, croppedDocumentImage, CD_SCDG2_PHOTO } =
-    eventSourceContext;
+  const {
+    CD_IMAGEPHOTO,
+    croppedDocumentImage,
+    CD_SCDG2_PHOTO,
+  } = eventSourceContext;
   const { image } = livePhotoContext;
 
   useEffect(() => {
